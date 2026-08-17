@@ -16,6 +16,14 @@ import {
   optionLabel,
   storeLang,
 } from './i18n.js';
+import {
+  appendThumb,
+  initPreviews,
+  inlinePreviews,
+  modePreviewFile,
+  optionPreviewFile,
+  tagPreview,
+} from './previews.js';
 
 // OpenRouter answers browser preflight with access-control-allow-origin: *,
 // so the browser-direct enhance path is live. Flip to false to hide it.
@@ -93,6 +101,7 @@ function renderModes() {
     button.dataset.mode = mode.id;
     button.appendChild(make('span', 'name', mode.label));
     button.appendChild(make('span', 'hint', modeHint(state.lang, mode)));
+    tagPreview(button, modePreviewFile(mode.id), mode.label);
     button.addEventListener('click', () => selectMode(mode.id));
     el.modeList.appendChild(button);
   }
@@ -111,11 +120,15 @@ function renderControls() {
     const row = make('div', 'presetrow');
     row.setAttribute('role', 'radiogroup');
     row.setAttribute('aria-label', groupLabel);
+    let selectedLabel = '';
     for (const option of group.options) {
-      const button = make('button', 'preset', optionLabel(state.lang, controlId, option));
+      const label = optionLabel(state.lang, controlId, option);
+      const button = make('button', 'preset', label);
       button.type = 'button';
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', String(selections[controlId] === option.id));
+      tagPreview(button, optionPreviewFile(mode.id, controlId, option.id), label);
+      if (selections[controlId] === option.id) selectedLabel = label;
       button.addEventListener('click', () => {
         selections[controlId] = option.id;
         renderControls();
@@ -124,6 +137,10 @@ function renderControls() {
       row.appendChild(button);
     }
     field.appendChild(row);
+    // no hover on a touch screen, so the selected option shows its picture here
+    if (inlinePreviews()) {
+      appendThumb(field, optionPreviewFile(mode.id, controlId, selections[controlId]), selectedLabel);
+    }
     el.controlGroups.appendChild(field);
   }
 
@@ -383,6 +400,7 @@ async function init() {
     setLanguage(next);
   });
   wireEnhance();
+  initPreviews();
 
   setLanguage(detectLang());
   document.body.dataset.ready = 'true';

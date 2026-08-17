@@ -6,8 +6,9 @@ import { run as subjectsSuite } from './subjects.test.mjs';
 import { run as paritySuite } from './parity.test.mjs';
 import { run as enhanceSuite } from './enhance.test.mjs';
 import { run as i18nSuite } from './i18n.test.mjs';
+import { run as previewsSuite } from './previews.test.mjs';
 
-const suites = [assembleSuite, subjectsSuite, paritySuite, enhanceSuite, i18nSuite];
+const suites = [assembleSuite, subjectsSuite, paritySuite, enhanceSuite, i18nSuite, previewsSuite];
 
 let failed = 0;
 let checks = 0;

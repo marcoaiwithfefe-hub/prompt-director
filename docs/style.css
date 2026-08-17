@@ -123,6 +123,35 @@ textarea,input{font-family:inherit;color:inherit}
 .preset:hover{border-color:var(--muted)}
 .preset[aria-checked="true"]{border-color:var(--accent);color:var(--accent)}
 
+/* Hover card. Fixed to the viewport and parked on body so the left panel's own
+   scrollbox cannot clip it. Positions arrive from previews.js through the
+   CSSOM. */
+.previewpop{
+  position:fixed;top:0;left:0;z-index:60;display:none;pointer-events:none;
+  background:var(--surface);border:1px solid var(--accent);
+  border-radius:var(--radius);padding:4px;
+  box-shadow:0 16px 38px rgba(0,0,0,.6);
+}
+.previewpop.is-open{display:block}
+.previewpop img{display:block;width:320px;height:auto;border-radius:var(--radius-s)}
+.previewpop::after{
+  content:"";position:absolute;width:9px;height:9px;
+  left:var(--arrow-x,50%);margin-left:-5px;
+  background:var(--surface);transform:rotate(45deg);
+}
+.previewpop.is-above::after{
+  bottom:-5px;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);
+}
+.previewpop.is-below::after{
+  top:-5px;border-left:1px solid var(--accent);border-top:1px solid var(--accent);
+}
+
+/* Touch screens get the selected option's picture instead of a hover card. */
+.previewthumb{
+  display:block;margin-top:9px;width:120px;height:auto;
+  border:1px solid var(--line);border-radius:var(--radius-s);
+}
+
 .lockrow{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-s);
   padding:11px 12px;

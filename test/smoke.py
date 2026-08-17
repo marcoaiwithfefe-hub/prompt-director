@@ -17,8 +17,10 @@ import json
 import functools
 import socket
 import socketserver
+import struct
 import threading
 import sys
+import zlib
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -92,6 +94,244 @@ def check_enhance_wiring(page, name):
 
     page.click("#clearKeyBtn")
     check(f"{name}: clear key empties the field", page.input_value("#apiKey") == "")
+
+
+PREVIEW_GLOB = "**/previews/*.webp"
+MISSING_PREVIEW = "**/previews/detail--backdrop--moody.webp"
+
+
+def stub_picture(width, height, body, border, thickness=4):
+    """A flat placeholder PNG, built here so the suite needs no image files on disk.
+
+    The real previews are webp and land later; the browser decodes by
+    content-type, so a PNG served at a .webp url is preview enough to prove the
+    card, the thumbnail and the geometry.
+    """
+    raw = bytearray()
+    for y in range(height):
+        raw.append(0)  # per-scanline filter: none
+        for x in range(width):
+            edge = x < thickness or y < thickness or x >= width - thickness or y >= height - thickness
+            raw += bytes(border if edge else body)
+
+    def chunk(tag, data):
+        return (struct.pack(">I", len(data)) + tag + data
+                + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF))
+
+    header = struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0)
+    return (b"\x89PNG\r\n\x1a\n"
+            + chunk(b"IHDR", header)
+            + chunk(b"IDAT", zlib.compress(bytes(raw), 9))
+            + chunk(b"IEND", b""))
+
+
+STUB = stub_picture(320, 400, (31, 31, 35), (215, 245, 66))
+
+
+def serve_stub(route):
+    route.fulfill(status=200, content_type="image/png", body=STUB)
+
+
+def serve_missing(route):
+    route.fulfill(status=404, content_type="text/plain", body="not generated yet")
+
+
+def hover_fresh(page, target):
+    """Point somewhere neutral first: re-hovering what the pointer already sits
+    on fires no pointerover, and the card would never open."""
+    page.mouse.move(760, 120)
+    page.wait_for_timeout(40)
+    target.hover()
+
+
+def settle_fonts(page):
+    """The web font arrives late here and shifts the panel by ~45px when it does.
+    A screenshot waits for fonts, so an unsettled page moves the chip out from
+    under the pointer mid-capture and the card closes."""
+    page.evaluate("() => document.fonts.ready")
+    page.wait_for_timeout(60)
+
+
+def reopen(page):
+    """Reload into a known state: no remembered probes, subject typed in."""
+    page.mouse.move(760, 120)
+    page.reload(wait_until="domcontentloaded")
+    page.wait_for_selector('body[data-ready="true"]', timeout=10000)
+    page.fill("#subject", SUBJECT)
+    settle_fonts(page)
+
+
+def shoot_card(page, filename, tag):
+    """A screenshot is the proof, so prove the card was in it."""
+    page.screenshot(path=str(SHOTS / filename))
+    check(f"{tag}: the card is still open in the screenshot",
+          page.locator(".previewpop.is-open").count() == 1)
+
+
+def check_previews(page, presets, name):
+    """Hover previews on a pointer that can hover: card geometry, degradation,
+    and the alt text following the language."""
+    view = page.viewport_size
+
+    # each file is probed once per visit and the answer is remembered, so both
+    # halves of this check start from a fresh page
+    reopen(page)
+
+    # nothing has been generated yet, so the page must look exactly as before
+    hover_fresh(page, page.locator('.mode[data-mode="detail"]'))
+    page.wait_for_timeout(400)
+    check(f"{name}: a missing picture builds no card at all", page.locator(".previewpop").count() == 0)
+    check(f"{name}: a missing picture leaves no image node", page.locator("#controlGroups img").count() == 0)
+    check(f"{name}: a hovering pointer gets no inline thumbnail", page.locator(".previewthumb").count() == 0)
+
+    page.route(PREVIEW_GLOB, serve_stub)
+    page.route(MISSING_PREVIEW, serve_missing)  # later route wins, so this one 404s
+    reopen(page)
+    nav_bottom = page.evaluate("() => document.querySelector('.topnav').getBoundingClientRect().bottom")
+
+    flipped = 0
+    for mode in presets["modes"]:
+        mode_id = mode["id"]
+        page.click(f'.mode[data-mode="{mode_id}"]')
+        page.wait_for_timeout(60)
+
+        chip = page.locator("#controlGroups .presetrow").first.locator("button").first
+        label = chip.inner_text()
+        hover_fresh(page, chip)
+        page.wait_for_selector(".previewpop.is-open", timeout=4000)
+
+        card = page.locator(".previewpop")
+        box = card.bounding_box()
+        check(f"{name}/{mode_id}: first-row card is not clipped",
+              box["x"] >= 0 and box["y"] >= 0
+              and box["x"] + box["width"] <= view["width"]
+              and box["y"] + box["height"] <= view["height"], str(box))
+        check(f"{name}/{mode_id}: card clears the top nav", box["y"] >= nav_bottom,
+              f'y={box["y"]} nav={nav_bottom}')
+        check(f"{name}/{mode_id}: card shows the chip it belongs to",
+              page.get_attribute(".previewpop img", "alt") == label,
+              page.get_attribute(".previewpop img", "alt"))
+        if "is-below" in (card.get_attribute("class") or ""):
+            flipped += 1
+        shoot_card(page, f"preview-clip-{mode_id}.png", f"{name}/{mode_id}")
+
+    check(f"{name}: a first chip row has no room above and flips below", flipped > 0, f"{flipped} of 5")
+
+    # one absent file degrades on its own while its neighbours keep working
+    page.click('.mode[data-mode="detail"]')
+    page.wait_for_timeout(60)
+    hover_fresh(page, page.locator('[data-preview="detail--backdrop--moody.webp"]'))
+    page.wait_for_timeout(400)
+    check(f"{name}: one 404 among working pictures opens no card",
+          page.locator(".previewpop.is-open").count() == 0)
+
+    # mode buttons carry pictures too
+    page.click('.mode[data-mode="scene"]')
+    page.wait_for_timeout(60)
+    hover_fresh(page, page.locator('.mode[data-preview="scene.webp"]'))
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    check(f"{name}: mode card is named after the mode",
+          page.get_attribute(".previewpop img", "alt") == "Scene",
+          page.get_attribute(".previewpop img", "alt"))
+    shoot_card(page, "preview-popover-en.png", f"{name}/english card")
+
+    golden = '[data-preview="scene--lighting--golden.webp"]'
+    hover_fresh(page, page.locator(golden))
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    alt_en = page.get_attribute(".previewpop img", "alt")
+    check(f"{name}: card alt is the chip's own label", alt_en == page.inner_text(golden), alt_en)
+
+    # the language toggle rebuilds every control: one card node, alt follows
+    page.click("#langBtn")
+    page.wait_for_timeout(150)
+    check(f"{name}: switching language keeps exactly one card node",
+          page.locator(".previewpop").count() == 1, str(page.locator(".previewpop").count()))
+    hover_fresh(page, page.locator(golden))
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    alt_yue = page.get_attribute(".previewpop img", "alt")
+    check(f"{name}: card alt is the translated label", alt_yue == page.inner_text(golden), alt_yue)
+    check(f"{name}: card alt actually changed with the language", alt_yue != alt_en, f"{alt_en} / {alt_yue}")
+    shoot_card(page, "preview-popover-yue.png", f"{name}/translated card")
+
+    page.click("#langBtn")
+    page.wait_for_timeout(150)
+    check(f"{name}: switching back keeps exactly one card node",
+          page.locator(".previewpop").count() == 1, str(page.locator(".previewpop").count()))
+    hover_fresh(page, page.locator(golden))
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    check(f"{name}: card alt is English again",
+          page.get_attribute(".previewpop img", "alt") == alt_en,
+          page.get_attribute(".previewpop img", "alt"))
+
+    page.mouse.move(760, 120)
+    page.wait_for_timeout(60)
+    check(f"{name}: pointing away closes the card", page.locator(".previewpop.is-open").count() == 0)
+
+
+def check_phone_previews(browser, url, presets):
+    """A coarse pointer cannot hover, so the selected option shows inline."""
+    name = "touch"
+    context = browser.new_context(viewport={"width": 390, "height": 844}, has_touch=True, is_mobile=True)
+    problems = []
+    try:
+        bare = context.new_page()
+        bare.on("pageerror", lambda error: problems.append(f"pageerror: {error}"))
+        bare.goto(url, wait_until="domcontentloaded")
+        bare.wait_for_selector('body[data-ready="true"]', timeout=10000)
+        settle_fonts(bare)
+        check(f"{name}: emulation reports a coarse pointer",
+              bare.evaluate("() => matchMedia('(pointer: coarse)').matches"))
+        bare.wait_for_timeout(500)
+        check(f"{name}: missing pictures render no thumbnail", bare.locator(".previewthumb").count() == 0)
+        check(f"{name}: missing pictures leave no image node", bare.locator("#controlGroups img").count() == 0)
+        bare.close()
+
+        page = context.new_page()
+        page.on("pageerror", lambda error: problems.append(f"pageerror: {error}"))
+        page.route(PREVIEW_GLOB, serve_stub)
+        page.goto(url, wait_until="domcontentloaded")
+        page.wait_for_selector('body[data-ready="true"]', timeout=10000)
+        page.fill("#subject", SUBJECT)
+        settle_fonts(page)
+
+        for mode in presets["modes"]:
+            mode_id = mode["id"]
+            groups = len(mode.get("controls", {}))
+            page.click(f'.mode[data-mode="{mode_id}"]')
+            page.wait_for_function(
+                f"() => document.querySelectorAll('#controlGroups .previewthumb').length === {groups}",
+                timeout=5000)
+            check(f"{name}/{mode_id}: one thumbnail per control group",
+                  page.locator("#controlGroups .previewthumb").count() == groups)
+            check(f"{name}/{mode_id}: the mode list stays picture-free",
+                  page.locator("#modeList .previewthumb").count() == 0)
+            check(f"{name}/{mode_id}: thumbnail is visible",
+                  page.locator(".previewthumb").first.is_visible())
+            selected = page.locator("#controlGroups .presetrow").first.locator('button[aria-checked="true"]')
+            check(f"{name}/{mode_id}: thumbnail shows the selected option",
+                  page.locator(".previewthumb").first.get_attribute("alt") == selected.inner_text(),
+                  page.locator(".previewthumb").first.get_attribute("alt"))
+            check(f"{name}/{mode_id}: thumbnail sits under its chip row",
+                  page.locator("#controlGroups .field").first.locator(".previewthumb").count() == 1)
+
+        page.click('.mode[data-mode="scene"]')
+        page.wait_for_function(
+            "() => document.querySelectorAll('#controlGroups .previewthumb').length === 2", timeout=5000)
+        page.click('[data-preview="scene--lighting--golden.webp"]')
+        page.wait_for_function(
+            "() => { const t = document.querySelector('.previewthumb'); return t && t.src.includes('golden'); }",
+            timeout=5000)
+        check(f"{name}: picking an option swaps the thumbnail",
+              "scene--lighting--golden.webp" in page.locator(".previewthumb").first.get_attribute("src"))
+
+        # last thing this page does: a full-page shot drops Chromium's touch
+        # emulation for good, and every check above needs a coarse pointer
+        page.screenshot(path=str(SHOTS / "preview-thumb-phone.png"), full_page=True)
+        page.close()
+    finally:
+        context.close()
+
+    check(f"{name}: no page errors", not problems, "; ".join(problems))
 
 
 def free_port():
@@ -192,6 +432,8 @@ def run():
                     page.screenshot(path=str(SHOTS / f"{name}-{mode_id}.png"), full_page=(name == "phone"))
 
                 check_enhance_wiring(page, name)
+                if name == "desktop":
+                    check_previews(page, presets, name)
 
                 # empty it again and copy locks back up
                 page.fill("#subject", "   ")
@@ -204,6 +446,8 @@ def run():
                     print(f"  console noise ({name}): {problems}")
 
                 page.close()
+
+            check_phone_previews(browser, url, presets)
             browser.close()
     finally:
         httpd.shutdown()
