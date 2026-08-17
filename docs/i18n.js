@@ -98,7 +98,7 @@ export const LOCKED_NOTES_YUE = {
 // Control groups and options, keyed by control id then option id.
 export const CONTROLS_YUE = {
   baselineWardrobe: {
-    label: '底衫款',
+    label: '背心款',
     options: { camisole: '黑色吊帶背心', tank: '黑色羅紋背心' },
   },
   framing: {
