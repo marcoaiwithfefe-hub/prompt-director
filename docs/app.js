@@ -6,6 +6,16 @@
 
 import { assemble, defaultSelections, getMode, toParagraphs } from './assemble.js';
 import { ENHANCE_MODEL, requestEnhance } from './enhance.js';
+import {
+  applyStatic,
+  controlLabel,
+  detectLang,
+  lockedNote,
+  makeT,
+  modeHint,
+  optionLabel,
+  storeLang,
+} from './i18n.js';
 
 // OpenRouter answers browser preflight with access-control-allow-origin: *,
 // so the browser-direct enhance path is live. Flip to false to hide it.
@@ -34,6 +44,7 @@ const el = {
   enhancedCount: document.getElementById('enhancedCount'),
   enhancedCopyState: document.getElementById('enhancedCopyState'),
   copyEnhancedBtn: document.getElementById('copyEnhancedBtn'),
+  langBtn: document.getElementById('langBtn'),
 };
 
 const state = {
@@ -44,7 +55,10 @@ const state = {
   enhanced: null,
   sessionKey: '',
   controller: null,
+  lang: 'en',
 };
+
+let t = makeT('en');
 
 /* ---------- small DOM helpers ---------- */
 
@@ -78,7 +92,7 @@ function renderModes() {
     button.setAttribute('aria-checked', String(mode.id === state.modeId));
     button.dataset.mode = mode.id;
     button.appendChild(make('span', 'name', mode.label));
-    button.appendChild(make('span', 'hint', mode.hint));
+    button.appendChild(make('span', 'hint', modeHint(state.lang, mode)));
     button.addEventListener('click', () => selectMode(mode.id));
     el.modeList.appendChild(button);
   }
@@ -90,14 +104,15 @@ function renderControls() {
   clear(el.controlGroups);
 
   for (const [controlId, group] of Object.entries(mode.controls || {})) {
+    const groupLabel = controlLabel(state.lang, controlId, group);
     const field = make('div', 'field');
-    field.appendChild(make('span', 'microlabel', group.label));
+    field.appendChild(make('span', 'microlabel', groupLabel));
 
     const row = make('div', 'presetrow');
     row.setAttribute('role', 'radiogroup');
-    row.setAttribute('aria-label', group.label);
+    row.setAttribute('aria-label', groupLabel);
     for (const option of group.options) {
-      const button = make('button', 'preset', option.label);
+      const button = make('button', 'preset', optionLabel(state.lang, controlId, option));
       button.type = 'button';
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', String(selections[controlId] === option.id));
@@ -115,8 +130,8 @@ function renderControls() {
   if (mode.lockedNote) {
     const lock = make('div', 'field');
     const box = make('div', 'lockrow');
-    box.appendChild(make('span', 'microlabel', 'Locked by the grammar'));
-    box.appendChild(make('p', 'lockednote', mode.lockedNote));
+    box.appendChild(make('span', 'microlabel', t('locked.label')));
+    box.appendChild(make('p', 'lockednote', lockedNote(state.lang, mode)));
     lock.appendChild(box);
     el.controlGroups.appendChild(lock);
   }
@@ -125,7 +140,7 @@ function renderControls() {
 function renderRatioChip() {
   const mode = currentMode();
   clear(el.ratioChip);
-  el.ratioChip.appendChild(make('span', null, `Set ${mode.recommendedRatio} in your generator's UI`));
+  el.ratioChip.appendChild(make('span', null, t('ratio.chip', { ratio: mode.recommendedRatio })));
 }
 
 function renderPrompt() {
@@ -134,19 +149,17 @@ function renderPrompt() {
 
   clear(el.promptOut);
   if (!state.prompt) {
-    el.promptOut.appendChild(
-      make('p', 'placeholder', 'Type a subject on the left. The prompt builds itself as you pick.')
-    );
+    el.promptOut.appendChild(make('p', 'placeholder', t('prompt.empty')));
     el.charCount.textContent = '';
     el.copyBtn.disabled = true;
-    setCopyState('Type a subject to build the prompt.', true);
+    setCopyState(t('prompt.hint'), true);
     return;
   }
 
   for (const paragraph of toParagraphs(state.prompt)) {
     el.promptOut.appendChild(make('p', null, paragraph));
   }
-  el.charCount.textContent = `${state.prompt.length.toLocaleString('en-US')} characters`;
+  el.charCount.textContent = t('prompt.chars', { n: state.prompt.length.toLocaleString('en-US') });
   el.copyBtn.disabled = false;
   setCopyState('');
 }
@@ -181,7 +194,7 @@ async function copyText(text, stateNode) {
   if (navigator.clipboard && window.isSecureContext) {
     try {
       await navigator.clipboard.writeText(text);
-      report('Copied.');
+      report(t('copy.done'));
       return 'clipboard';
     } catch {
       // fall through to the older path
@@ -203,12 +216,12 @@ async function copyText(text, stateNode) {
   }
   document.body.removeChild(scratch);
   if (copied) {
-    report('Copied.');
+    report(t('copy.done'));
     return 'exec';
   }
 
   selectNodeText(el.promptOut);
-  report('Press and hold the highlighted text to copy.');
+  report(t('copy.manual'));
   return 'manual';
 }
 
@@ -248,18 +261,18 @@ function showEnhanceError(message) {
 function setEnhanceBusy(busy) {
   el.enhanceBtn.disabled = busy;
   el.cancelEnhanceBtn.hidden = !busy;
-  el.enhanceState.textContent = busy ? `Asking ${ENHANCE_MODEL}...` : '';
+  el.enhanceState.textContent = busy ? t('enhance.asking', { model: ENHANCE_MODEL }) : '';
 }
 
 async function runEnhance() {
   showEnhanceError('');
   if (!state.prompt) {
-    showEnhanceError('Type a subject first. Enhance rewrites the prompt you can already see.');
+    showEnhanceError(t('enhance.needSubject'));
     return;
   }
   const apiKey = el.apiKey.value.trim() || state.sessionKey;
   if (!apiKey) {
-    showEnhanceError('Paste your OpenRouter key first.');
+    showEnhanceError(t('enhance.needKey'));
     return;
   }
 
@@ -287,7 +300,7 @@ async function runEnhance() {
 
   if (!result.ok) {
     if (result.code !== 'cancelled') showEnhanceError(result.message);
-    else el.enhanceState.textContent = 'Cancelled.';
+    else el.enhanceState.textContent = t('enhance.cancelled');
     return;
   }
 
@@ -296,7 +309,7 @@ async function runEnhance() {
   for (const paragraph of toParagraphs(result.text)) {
     el.enhancedOut.appendChild(make('p', null, paragraph));
   }
-  el.enhancedCount.textContent = `${result.text.length.toLocaleString('en-US')} characters`;
+  el.enhancedCount.textContent = t('prompt.chars', { n: result.text.length.toLocaleString('en-US') });
   el.enhancedPanel.hidden = false;
 }
 
@@ -328,11 +341,25 @@ function wireEnhance() {
     state.sessionKey = '';
     writeStoredKey('');
     showEnhanceError('');
-    el.enhanceState.textContent = 'Key cleared.';
+    el.enhanceState.textContent = t('enhance.keyCleared');
   });
   el.copyEnhancedBtn.addEventListener('click', () => {
     if (state.enhanced) copyText(state.enhanced, el.enhancedCopyState);
   });
+}
+
+/* ---------- language ---------- */
+
+function setLanguage(lang) {
+  state.lang = lang;
+  t = makeT(lang);
+  applyStatic(lang);
+  // the button shows the language you would switch TO
+  el.langBtn.textContent = lang === 'yue' ? 'EN' : '粵';
+  renderModes();
+  renderControls();
+  renderRatioChip();
+  renderPrompt();
 }
 
 /* ---------- boot ---------- */
@@ -350,12 +377,14 @@ async function init() {
   el.copyBtn.addEventListener('click', () => {
     if (state.prompt) copyText(state.prompt, el.copyState);
   });
+  el.langBtn.addEventListener('click', () => {
+    const next = state.lang === 'yue' ? 'en' : 'yue';
+    storeLang(next);
+    setLanguage(next);
+  });
   wireEnhance();
 
-  renderModes();
-  renderControls();
-  renderRatioChip();
-  renderPrompt();
+  setLanguage(detectLang());
   document.body.dataset.ready = 'true';
 }
 

@@ -16,7 +16,7 @@ This repo writes those rules down once and gives you three ways to use them.
 
 **MARCO_PAGES_URL**
 
-Pick a mode, type a subject, copy the prompt. Works on a phone. Optional: paste your own [OpenRouter](https://openrouter.ai) key to run an AI pass over your subject. The key stays in your browser, goes only to OpenRouter, and the plain prompt is never overwritten.
+Pick a mode, type a subject, copy the prompt. Works on a phone. The interface speaks English and Cantonese (auto-detected from your browser, switchable in the header); the prompt itself always outputs in English. Optional: paste your own [OpenRouter](https://openrouter.ai) key to run an AI pass over your subject. The key stays in your browser, goes only to OpenRouter, and the plain prompt is never overwritten.
 
 Running it locally:
 
