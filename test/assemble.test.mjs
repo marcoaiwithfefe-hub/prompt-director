@@ -39,6 +39,22 @@ function combinations(mode) {
   return rows;
 }
 
+/** Everything a mode emits before its subject slot, at default selections. */
+function prefixBeforeSubject(mode) {
+  let emitted = '';
+  for (const part of mode.template) {
+    if (part.type === 'subject') return emitted;
+    if (part.type === 'text') emitted += part.value;
+    if (part.type === 'break') emitted += '\n\n';
+    if (part.type === 'block') emitted += presets.sharedBlocks[part.block];
+    if (part.type === 'control') {
+      const group = mode.controls[part.control];
+      emitted += group.options.find((candidate) => candidate.id === group.default).clause;
+    }
+  }
+  return emitted;
+}
+
 /** The strings this combination must contain, in the order the template lists them. */
 function landmarks(mode, selections, subject) {
   const out = [];
@@ -123,16 +139,37 @@ export async function run() {
     presets.modes.reduce((total, mode) => total + combinations(mode).length, 0) * SUBJECTS.length;
   suite.check('matrix ran every combination', combos === expected, `${combos} of ${expected}`);
 
-  // sentence case: the subject is capitalized where it opens a sentence and left
-  // alone where the template drops it mid-sentence
+  // Sentence case, derived from each mode's own template rather than a hardcoded
+  // list: a mode that opens on the subject capitalizes it, a mode that drops it
+  // mid-sentence leaves it alone. Rewriting a template moves this test with it.
   const lower = 'a woman in a long wool coat';
-  for (const modeId of ['face-lock', 'outfit-styling', 'char-sheet', 'detail']) {
-    const prompt = assemble(presets, modeId, null, lower);
-    suite.check(`${modeId} capitalizes a sentence-opening subject`, prompt.includes('A woman in a long wool coat'));
+  let opening = 0;
+  let midSentence = 0;
+  for (const mode of presets.modes) {
+    const opensSentence = startsSentence(prefixBeforeSubject(mode));
+    const expected = opensSentence ? capitalizeFirst(lower) : lower;
+    const prompt = assemble(presets, mode.id, null, lower);
+    suite.check(
+      `${mode.id} cases the subject the way its template implies`,
+      prompt.includes(expected),
+      `expected ${JSON.stringify(expected.slice(0, 24))}`
+    );
+    if (opensSentence) {
+      opening += 1;
+      suite.check(`${mode.id} leaves no lowercase sentence start`, !prompt.includes(`. ${lower}`));
+    } else {
+      midSentence += 1;
+      suite.check(
+        `${mode.id} does not capitalize mid-sentence`,
+        !prompt.includes(capitalizeFirst(lower))
+      );
+    }
   }
-  const scene = assemble(presets, 'scene', null, lower);
-  suite.check('scene keeps a mid-sentence subject lowercase', scene.includes('of a woman in a long wool coat'));
-  suite.check('scene does not capitalize mid-sentence', !scene.includes('of A woman'));
+  suite.check(
+    'both casing branches exercised',
+    opening > 0 && midSentence > 0,
+    `${opening} sentence-opening, ${midSentence} mid-sentence`
+  );
   return suite.finish();
 }
 

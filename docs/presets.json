@@ -112,20 +112,20 @@
         "framing": {
           "label": "Framing",
           "options": [
-            { "id": "wide", "label": "Wide establishing", "clause": "a wide establishing composition, the subject held small against the environment with generous lead room, the space doing the storytelling" },
-            { "id": "medium", "label": "Medium hero", "clause": "a medium hero composition anchored to one third of the frame, waist-up, the environment reading in soft depth behind" },
-            { "id": "close", "label": "Close intimate", "clause": "a close intimate composition, shoulders-up, shallow depth folding the environment into soft bokeh" },
-            { "id": "low-hero", "label": "Low-angle hero", "clause": "a low-angle hero composition, the camera slightly below the subject's eye line, the sky or ceiling filling the upper frame behind them" },
-            { "id": "ots", "label": "Over-the-shoulder", "clause": "an over-the-shoulder composition, the subject's back and shoulder filling the foreground, the focal anchor visible past them in the mid-ground" }
+            { "id": "wide", "label": "Wide establishing", "clause": "held small in a wide establishing composition against the environment with generous lead room in the direction of movement, the space doing the storytelling" },
+            { "id": "medium", "label": "Medium hero", "clause": "in a medium hero composition anchored to one third of the frame, waist-up, the environment reading in soft depth behind" },
+            { "id": "close", "label": "Close intimate", "clause": "in a close intimate composition, shoulders-up, shallow depth folding the environment into soft bokeh" },
+            { "id": "low-hero", "label": "Low-angle hero", "clause": "in a low-angle hero composition, the camera slightly below the eye line, the sky or ceiling filling the upper frame behind" },
+            { "id": "ots", "label": "Over-the-shoulder", "clause": "in an over-the-shoulder composition, the back and shoulder filling the foreground, the focal anchor visible past them in the mid-ground" }
           ],
           "default": "medium"
         }
       },
       "template": [
         { "type": "text", "value": "A cinematic anamorphic still photograph captured on a real cinema set — " },
-        { "type": "control", "control": "framing" },
-        { "type": "text", "value": " of " },
         { "type": "subject" },
+        { "type": "text", "value": ", " },
+        { "type": "control", "control": "framing" },
         { "type": "text", "value": "." },
         { "type": "break" },
         { "type": "control", "control": "lighting" },
