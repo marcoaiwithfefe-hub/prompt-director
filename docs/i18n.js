@@ -118,7 +118,7 @@ export const CONTROLS_YUE = {
   },
   headlessVariant: {
     label: '領口',
-    options: { ghost: '立體（隱形模特兒）', 'neck-cut': '開放（頸位平切）' },
+    options: { ghost: '隱形人效果', 'neck-cut': '頸位平切' },
   },
   lighting: {
     label: '燈光',
