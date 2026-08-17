@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://openrouter.ai; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<title>Prompt Director · free image prompt builder</title>
+<meta name="description" content="Type a subject, pick a mode, get a director-grade image prompt. Free, open source, runs entirely in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Archivo+Expanded:wght@500;700;900&display=swap">
+<!-- Repo links: confirm the owner/name at publish time, then update every href below. -->
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wordmark">Prompt<span class="dot">·</span>Director</div>
+  <nav class="links" aria-label="Repository">
+    <a href="https://github.com/marcoaiwithfefe-hub/prompt-director/tree/main/grammar">Grammar</a>
+    <a href="https://github.com/marcoaiwithfefe-hub/prompt-director/tree/main/skill/prompt-director">Use in your agent</a>
+    <a href="https://github.com/marcoaiwithfefe-hub/prompt-director/blob/main/PROMPT.md">ChatGPT version</a>
+    <a class="gh" href="https://github.com/marcoaiwithfefe-hub/prompt-director">GitHub</a>
+  </nav>
+</header>
+
+<main class="split">
+
+  <section class="form" aria-label="Prompt controls">
+    <div class="field">
+      <label class="microlabel" for="subject">Subject</label>
+      <textarea id="subject" rows="3" spellcheck="false" placeholder="East Asian man, navy suit, studio headshot"></textarea>
+    </div>
+
+    <div class="field">
+      <span class="microlabel" id="modeLabel">Mode</span>
+      <div class="modes" id="modeList" role="radiogroup" aria-labelledby="modeLabel"></div>
+    </div>
+
+    <div id="controlGroups"></div>
+  </section>
+
+  <section class="out" aria-label="Assembled prompt">
+    <div class="outhead">
+      <span class="microlabel">Prompt · assembles as you pick</span>
+      <span class="chip" id="ratioChip"></span>
+    </div>
+
+    <div class="prompt" id="promptOut" aria-live="polite"></div>
+
+    <div class="outfoot">
+      <span class="charcount" id="charCount"></span>
+      <span class="copystate" id="copyState" role="status"></span>
+      <button class="btn-accent" id="copyBtn" type="button">Copy prompt</button>
+    </div>
+
+    <details class="enhance" id="enhanceBox">
+      <summary>AI enhance · your own OpenRouter key</summary>
+      <div class="enhancebody">
+        <p class="note">Optional. Your key goes straight from this page to OpenRouter and nowhere else. Leave the box below unticked and the key is gone the moment you close the tab.</p>
+
+        <div class="field">
+          <label class="microlabel" for="apiKey">OpenRouter key</label>
+          <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-v1-...">
+        </div>
+
+        <label class="checkrow"><input id="rememberKey" type="checkbox"> Remember this key on this device</label>
+
+        <div class="btnrow">
+          <button class="btn-line" id="enhanceBtn" type="button">Enhance</button>
+          <button class="btn-line" id="cancelEnhanceBtn" type="button" hidden>Cancel</button>
+          <button class="btn-line" id="clearKeyBtn" type="button">Clear key</button>
+          <span class="enhancestate" id="enhanceState" role="status"></span>
+        </div>
+
+        <p class="error" id="enhanceError" role="alert" hidden></p>
+        <p class="note">Model is pinned to google/gemini-2.5-flash. One call, no retries, 30 second limit. The prompt above is never overwritten.</p>
+      </div>
+    </details>
+
+    <section class="enhanced" id="enhancedPanel" aria-label="Enhanced prompt" hidden>
+      <div class="outhead">
+        <span class="microlabel">Enhanced · from your OpenRouter key</span>
+      </div>
+      <div class="prompt" id="enhancedOut"></div>
+      <div class="outfoot">
+        <span class="charcount" id="enhancedCount"></span>
+        <span class="copystate" id="enhancedCopyState" role="status"></span>
+        <button class="btn-line" id="copyEnhancedBtn" type="button">Copy enhanced</button>
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<footer class="sitefoot">
+  <p>Built by Marco — IG <a href="https://instagram.com/marcoaiwithfefe">@marcoaiwithfefe</a> · YT <a href="https://youtube.com/@marcorefusestocode">@marcorefusestocode</a></p>
+  <p>MIT licensed, free to use and fork. <a href="https://github.com/marcoaiwithfefe-hub/prompt-director#readme">Read the README</a>.</p>
+</footer>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
