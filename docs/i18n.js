@@ -53,12 +53,12 @@ export const STRINGS = {
     'out.head': 'Prompt · 一路揀一路砌',
     'out.copy': '複製 prompt',
     'enhance.summary': 'AI 加強 · 用你自己嘅 OpenRouter key',
-    'enhance.note1': '可用可不用。你個 key 由呢頁直接送去 OpenRouter，唔會經其他地方。下面個格唔剔，閂咗個 tab 個 key 就冇咗。',
+    'enhance.note1': '用唔用都得。你個 key 由呢頁直接送去 OpenRouter，唔會經其他地方。下面個格唔剔，閂咗個 tab 個 key 就冇咗。',
     'enhance.remember': '喺呢部機記住個 key',
     'enhance.btn': '加強',
     'enhance.cancel': '取消',
     'enhance.clear': '清除 key',
-    'enhance.note2': '型號鎖定 google/gemini-2.5-flash。一次過叫，唔會重試，上限 30 秒。上面個 prompt 唔會被覆蓋。',
+    'enhance.note2': '型號鎖定 google/gemini-2.5-flash。淨係 call 一次，唔重試，上限 30 秒。上面個 prompt 唔會郁。',
     'enhanced.head': '加強版 · 嚟自你嘅 OpenRouter key',
     'enhanced.copy': '複製加強版',
     'foot.built': 'Marco 整嘅',
@@ -82,7 +82,7 @@ export const STRINGS = {
 // Mode names stay in English in both locales — they are the tool's terms of
 // art. Only the hint line under each name translates.
 export const MODE_HINTS_YUE = {
-  'face-lock': '新角色嘅官方面部參考',
+  'face-lock': '新角色嘅標準面部參考',
   'outfit-styling': '角色全身造型，由頭到腳',
   'char-sheet': '一張圖，三個角度嘅角色參考',
   'scene': '電影感場景，有人冇人都得',
