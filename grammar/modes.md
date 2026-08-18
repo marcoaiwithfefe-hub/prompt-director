@@ -1,6 +1,6 @@
-# The Five Modes
+# The Image Modes
 
-Every image job is one of five modes. Picking the right mode before writing a single word is most of the craft: each mode has its own goal, its own framing defaults, and its own closing block. Mixing them is the #1 reason AI portraits come out plastic and scenes come out flat.
+Every image job is one of eight modes. Picking the right mode before writing a single word is most of the craft: each mode has its own goal, its own framing defaults, and its own closing block. Mixing them is the #1 reason AI portraits come out plastic and scenes come out flat.
 
 | Mode | Job | Closes with |
 |------|-----|-------------|
@@ -9,8 +9,11 @@ Every image job is one of five modes. Picking the right mode before writing a si
 | **Character Sheet** | One 3-panel multi-angle reference image | Flat grade, stated per-panel |
 | **Scene** | Cinematic plate, with or without characters | Cinema-prose paragraph (see `cinema-stack.md`) |
 | **Detail** | Tight chest-up / face close-up, maximum skin fidelity | Cinema stack |
+| **Product Shot** | The product looks premium and real | Cinema stack, speculars intentional |
+| **9:16 Ad** | Vertical ad still with clean headline space | Cinema stack or phone register |
+| **Poster** | Composition-led key visual with dominant negative space | Cinema stack |
 
-Character modes (Face Lock, Outfit, Sheet) are **reference builders**: their output feeds later generations, so they carry zero lighting information. Scene and Detail are **finished frames**: they're the only modes where directional light lives.
+Character modes (Face Lock, Outfit, Sheet) are **reference builders**: their output feeds later generations, so they carry zero lighting information. Scene and Detail are **finished frames**: they're the only modes where directional light lives. The three **ad modes** (Product Shot, 9:16 Ad, Poster) are finished frames too, with one extra discipline: they never render text — type gets added afterward in a design tool, so the composition reserves clean space for it instead.
 
 ---
 
@@ -83,6 +86,36 @@ Tight chest-up or face-only shot where skin fidelity is the entire point.
 - Lighting: classical beauty — soft key from slightly above and camera-left at 35 degrees, soft fill at chest level from camera-right, subtle hair light defining the crown, soft underlight bounce lifting the eye sockets.
 - Fidelity paragraph: visible pores, fine peach fuzz along the jawline and upper lip, subsurface scattering on the nose bridge and ears, individual lash detail, visible iris pattern with real moisture, real lip texture, strand-by-strand hair at the hairline, fabric weave at the collar.
 - Close with the full cinema stack.
+
+## Mode: Product Shot
+
+The product is the only subject. Unlike every human mode, speculars here are the point: chrome, glass, liquid, and polished surfaces are supposed to shine, and the craft is controlling that shine per surface instead of killing it.
+
+- Subject: the product's material, finish, and scale cues stated plainly ("brushed aluminum body, matte black cap, 12cm tall"). If a product reference image is attached, the reference carries identity and the prompt only stages it.
+- Two surface registers, pick one: **studio seamless** (color stated, gentle floor reflection) or **real context** (marble counter, wood table, cafe window light — one plain surface, not a styled set).
+- Light: one large soft key shaping the form, a named highlight per reflective material ("a single clean specular line down the bottle shoulder"), controlled falloff.
+- Composition: product anchored slightly off-center, generous breathing room, background quiet enough that nothing competes.
+- Close with the cinema stack, amended: intentional highlight bloom on the product's reflective surfaces stays.
+- Never render text: no label typography invented beyond what a reference carries, no floating words.
+
+## Mode: 9:16 Ad
+
+A vertical ad still built for the phone screen. The frame is a layout, not just a photo: the subject holds the lower two-thirds, and the upper third stays clean for a headline that gets added later in a design tool.
+
+- Subject placement: low-center or lower-third anchor, whether the subject is a product, a person, or both.
+- The negative-space zone is written as a visible fact: "the upper third of the frame is clean, even, uncluttered background with soft falloff, free of detail."
+- Two registers, pick one: **cinema** (the full stack, editorial polish) or **phone-shot** (smartphone main-lens register — mild wide-angle character, found room or window light, mild digital compression, natural saturation — the fake-UGC still that reads like a customer took it).
+- No rendered text, no typography, no logos beyond what a reference carries. The ratio itself is set in the generator's UI, never written into the prompt.
+
+## Mode: Poster
+
+The key-visual register: one dominant image, one dramatic light choice, and negative space doing half the composition's work.
+
+- One subject, one idea. The composition states where the subject sits and where the empty field is ("subject anchored on the right third, the left half of the frame falling into clean deep shadow").
+- Light is a single dramatic decision, named plainly: one hard side light, a silhouette against a bright doorway, a single overhead pool.
+- The negative-space zone is stated as clean and even, reserved for type added later.
+- Palette: two or three colors, each tied to a surface or light source, never a bare color list.
+- Close with the cinema stack. No rendered text, no typography.
 
 ## Bonus: Outfit Replacement (two references)
 

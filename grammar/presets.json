@@ -1,12 +1,24 @@
 {
-  "schemaVersion": 1,
-  "_reservedFutureAxes": ["format", "targetModel", "mediaType"],
+  "schemaVersion": 2,
+  "_reservedFutureAxes": [
+    "format"
+  ],
   "sharedBlocks": {
     "FLAT_GRADE": "Background is an even 18% neutral gray seamless, completely flat — one single uniform value corner to corner, no seam line, no gradient, no hotspot, no vignette, no falloff to lighter or darker anywhere in the frame. Relight from scratch overriding any reference lighting: completely flat shadowless illumination — one enormous soft frontal source at camera position wrapping the subject evenly, matched equal fill from camera-left and camera-right at identical intensity, matched fill from above and below, so both sides of the face read at exactly the same brightness. No key-and-fill ratio, no modelling, no shadow side, no cheek triangle, no nose shadow, no under-chin shadow, no rim light, no hair light, no kicker, no specular hotspot. Zero shadow cast onto the background — the backdrop stays clean flat gray behind the entire figure. No contact shadow, no drop shadow, no ambient occlusion anywhere in the frame. Extremely low contrast, even, milky, catalogue-flat. Form is described by bone structure, hair strands, and fabric folds alone, not by light and shadow. Skin reads matte and velvety — zero shine on forehead, nose bridge, cheekbones, temples, and chin, no oily T-zone. Skin renders at its true natural skin tone and wardrobe at its true natural color, warmth preserved and natural against the neutral gray, never pale or washed-out or cool-shifted by the background. Real peach fuzz at the jaw and hairline, real soft fine even pore texture, subsurface scattering reading as semi-translucent biology, never plastic, never waxy AI render, never glass-skin, never harsh — fine flattering texture that keeps the face looking good, no acne, no blemishes, no rough pores. Photographed on a 50mm prime, even sharpness, soft natural film grain. Photographed not generated.",
     "FLAT_GRADE_SHEET_SUFFIX": "The identical flat gray value, the identical shadowless illumination, and zero cast shadow apply uniformly across every panel. Skin renders at its true natural skin tone, identical in value and hue across the face, arms, and body in every panel, never darkened, never tanned, never pale or washed-out or cool-shifted by the background. The wardrobe colors render true and consistent across all panels.",
     "CINEMA_STACK": "Real human skin captured on a real cinema camera — refined and real, peach fuzz catching light along the jawline and hairline, real natural pore texture soft fine and even, subsurface scattering at ear edges, nostrils, and around the eye sockets with warm undertone bleed reading as semi-translucent biology never opaque plastic. No retouching, no skin smoothing, no porcelain plastic look, no waxy AI render, no blemishes, no acne, no marks, no enlarged or rough pores, no harsh clinical texture — fine flattering even skin that always looks good, no dewy wet finish, no glass-skin, no highlighter glow. Hair rendered strand by strand with realistic flyaways and baby hairs at the hairline. Fabric with real weave detail, real weight, real drape. Captured with a wide-latitude cinema look on a clean fast normal prime around a 50mm full-frame field of view at a wide aperture, natural round bokeh, even sharpness. Highlights rolled off gently in a filmic curve, never clipping to pure white. Lifted blacks that stay open and never crush to pure black — wide dynamic range with full detail held in both shadows and highlights. Color-negative motion-picture film look baked in with fine theatrical 35mm film grain across the entire frame including skin, fabric, and backdrop. No HDR overprocessing, no digital oversharpening, no plastic skin rendering — photographed not generated, captured on a real camera by a real cinematographer on a real set.",
     "CINEMA_PROSE_CLOSE": "Captured with a wide-latitude cinema look and a vintage 55mm-equivalent 2x anamorphic character at a wide aperture, a light diffusion bloom softening the highlights, color-negative film rendition, in a cinematic narrative register. Real anamorphic optical character with oval bokeh on the deeper elements, subtle frame-edge falloff. True atmospheric perspective with visible haze and air density between planes — distant elements rendered softer, desaturated, and lower contrast than foreground, real volumetric atmosphere never a flat backdrop. Theatrical fine 35mm film grain across the entire frame. Shadows lifted gently never crushed, highlights rolled off softly never blown. Real photographic frame captured on a real cinema camera, real anamorphic lens, real fabric, real human subject, real atmosphere — no CGI, no rendered look, no digital cleanliness, no plastic surfaces, no AI smoothness, no skin smoothing, no glossy highlights.",
-    "DETAIL_FIDELITY": "Extreme face fidelity. Real skin texture with visible pores, fine peach fuzz catching light along the jawline and upper lip, subtle subsurface scattering on the nose bridge cheeks and ears, micro-expression detail in the eyes and mouth corners, individual lash detail, real moisture and reflection in the iris with visible iris pattern, real lip texture with subtle natural lip lines, hair rendered strand by strand at the hairline with visible baby hairs and flyaways, fabric weave visible at the collar and shoulder."
+    "DETAIL_FIDELITY": "Extreme face fidelity. Real skin texture with visible pores, fine peach fuzz catching light along the jawline and upper lip, subtle subsurface scattering on the nose bridge cheeks and ears, micro-expression detail in the eyes and mouth corners, individual lash detail, real moisture and reflection in the iris with visible iris pattern, real lip texture with subtle natural lip lines, hair rendered strand by strand at the hairline with visible baby hairs and flyaways, fabric weave visible at the collar and shoulder.",
+    "PRODUCT_STACK": "Materials render true — brushed metal reads brushed not plastic, glass carries real refraction and edge highlights, liquid holds weight and meniscus, matte surfaces stay matte while polished surfaces carry one controlled specular line each, never a blown white blob. Fine natural film grain, even sharpness across the product, real contact shadow grounding it on the surface. No rendered text, no typography, no invented label copy beyond what a reference carries. Photographed not generated.",
+    "PHONE_STILL_REGISTER": "Shot in the smartphone main-lens register — mild wide-angle character, found window or room light, mild digital compression, natural saturation, the slightly imperfect framing of a real customer photo, soft handheld sharpness. No rendered text, no typography.",
+    "VIDEO_ONER": "One uninterrupted shot, no internal cuts, the camera never breaks the take.",
+    "VIDEO_TEXT_SUPPRESSION": "No on-screen text, no captions, no signage typography, no rendered text in the frame.",
+    "VIDEO_LOCKDOWN_PERSON": "Face, hair, wardrobe, and silhouette stay identical throughout the runtime.",
+    "VIDEO_LOCKDOWN_PRODUCT": "The product's shape, materials, label, and finish stay identical throughout the runtime.",
+    "VIDEO_LOCKDOWN_ENVIRONMENT": "The environment's structure, weather, and light stay consistent throughout the runtime.",
+    "CAPTURE_REALISM_PERSON": "The subject sits inside real depth — light atmosphere suspended in the air between camera, subject, and the far background, the background rendered softer, desaturated, and lower-contrast than the foreground so the figure sits within the air rather than pasted on a flat plane. Skin reads true cinematic matte — zero shine on forehead, nose bridge, cheekbones, temples, chin, and collarbones, real peach fuzz catching light at the jaw and hairline, real soft fine even pore texture, light absorbed like true subsurface scattering, warmth preserved and natural, never plastic, never doll-skin, never AI-rendered, and never harsh — no acne, no blemishes, no enlarged or rough pores, fine flattering texture that keeps the face looking good. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. All specular highlights surgically removed from skin, hair, fabric, and surrounding surfaces, every pixel reading matte and diffuse. Slightly desaturated grade with warmth preserved.",
+    "CAPTURE_REALISM_PRODUCT": "The product sits inside real depth — thin studio atmosphere between camera, product, and backdrop, the backdrop rendered softer and lower-contrast so the object holds the foreground plane. Speculars here are intentional and controlled — one clean highlight line per reflective material, chrome, glass, and liquid allowed to bloom softly, matte materials staying fully matte. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. Saturated but never garish, warmth retained in the blacks.",
+    "CAPTURE_REALISM_ENVIRONMENT": "The frame holds real depth — atmosphere suspended in the air between camera and the far planes, distance rendered softer, desaturated, and lower-contrast, weathered material detail reading true up close. Surfaces stay matte and diffuse — wet concrete, metal, and glass mute and deepen without a single blown specular. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. Slightly desaturated grade with warmth preserved."
   },
   "modes": [
     {
@@ -19,21 +31,50 @@
         "baselineWardrobe": {
           "label": "Baseline top",
           "options": [
-            { "id": "camisole", "label": "Black camisole", "clause": "She wears a plain black thin-strap camisole, no jewelry, no logos, no graphics." },
-            { "id": "tank", "label": "Black ribbed tank", "clause": "He wears a plain black ribbed tank, no jewelry, no logos, no graphics." }
+            {
+              "id": "camisole",
+              "label": "Black camisole",
+              "clause": "She wears a plain black thin-strap camisole, no jewelry, no logos, no graphics."
+            },
+            {
+              "id": "tank",
+              "label": "Black ribbed tank",
+              "clause": "He wears a plain black ribbed tank, no jewelry, no logos, no graphics."
+            }
           ],
           "default": "camisole"
         }
       },
       "template": [
-        { "type": "text", "value": "A clean cinema-character-reference 3:4 headshot, framed from forehead to upper chest with the face filling most of the frame. " },
-        { "type": "subject" },
-        { "type": "text", "value": ". " },
-        { "type": "control", "control": "baselineWardrobe" },
-        { "type": "text", "value": " Body squared to camera, head level, neutral relaxed expression, eyes to camera, lips closed and relaxed, subtle controlled energy." },
-        { "type": "break" },
-        { "type": "block", "block": "FLAT_GRADE" }
-      ]
+        {
+          "type": "text",
+          "value": "A clean cinema-character-reference 3:4 headshot, framed from forehead to upper chest with the face filling most of the frame. "
+        },
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": ". "
+        },
+        {
+          "type": "control",
+          "control": "baselineWardrobe"
+        },
+        {
+          "type": "text",
+          "value": " Body squared to camera, head level, neutral relaxed expression, eyes to camera, lips closed and relaxed, subtle controlled energy."
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "FLAT_GRADE"
+        }
+      ],
+      "mediaType": "image",
+      "targetModel": "banana-image"
     },
     {
       "id": "outfit-styling",
@@ -45,19 +86,42 @@
         "framing": {
           "label": "Framing",
           "options": [
-            { "id": "full-body", "label": "Full body", "clause": "Full body framing from head to just below the footwear." },
-            { "id": "waist-up", "label": "Waist up", "clause": "Waist-up framing." }
+            {
+              "id": "full-body",
+              "label": "Full body",
+              "clause": "Full body framing from head to just below the footwear."
+            },
+            {
+              "id": "waist-up",
+              "label": "Waist up",
+              "clause": "Waist-up framing."
+            }
           ],
           "default": "full-body"
         }
       },
       "template": [
-        { "type": "subject" },
-        { "type": "text", "value": ". Standing with weight shifted onto one hip, body angled about 20 degrees from camera, chin level, model face-card neutral expression with at most a slight closed-lip smirk, eyes to camera. " },
-        { "type": "control", "control": "framing" },
-        { "type": "break" },
-        { "type": "block", "block": "FLAT_GRADE" }
-      ]
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": ". Standing with weight shifted onto one hip, body angled about 20 degrees from camera, chin level, model face-card neutral expression with at most a slight closed-lip smirk, eyes to camera. "
+        },
+        {
+          "type": "control",
+          "control": "framing"
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "FLAT_GRADE"
+        }
+      ],
+      "mediaType": "image",
+      "targetModel": "banana-image"
     },
     {
       "id": "char-sheet",
@@ -69,27 +133,71 @@
         "headlessVariant": {
           "label": "Neckline",
           "options": [
-            { "id": "ghost", "label": "Structured (ghost mannequin)", "clause": "LEFT PANEL — full body front view, no head, no neck, and no hair. The body stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. Nothing rises above the shoulder line, and no hair falls across the chest or shoulders. The collar of the garment holds its own shape at the top of the garment and its opening is an empty dark hollow looking down into the inside of the garment, with the inner back of the fabric faintly visible inside the opening. The garment reads as if worn by an invisible body — full three-dimensional shape, natural drape, real fabric tension across the chest and shoulders, but nothing emerging from the neckline. No stump, no skin, no cut edge, no anatomy, no blood, no fade, no blur, no ghosting, no transparency in the body. The panel keeps full headroom, generous empty mid-gray backdrop above the shoulders, so the figure sits at the same scale and position in the frame as a normal full-body portrait." },
-            { "id": "neck-cut", "label": "Open (clean neck cut)", "clause": "LEFT PANEL — full body front view, headless. The full figure stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. There is no head and no hair — no hair falls across the chest or shoulders. The neck rises a short way from the shoulders and terminates in a clean, flat, sharply defined horizontal edge at the base of the throat, exactly like a headless dress-form mannequin — a crisp sculptural cut with a clean visible edge, not blurred, not faded, not dissolving, no wisps, no smoke, no ghosting, no transparency, no blood, no anatomy detail at the cut. Above that clean edge there is only empty mid-gray backdrop. The panel keeps full headroom — generous empty space above the shoulders where the head would be — so the figure sits in the frame at the same scale and position as a normal full-body portrait." }
+            {
+              "id": "ghost",
+              "label": "Structured (ghost mannequin)",
+              "clause": "LEFT PANEL — full body front view, no head, no neck, and no hair. The body stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. Nothing rises above the shoulder line, and no hair falls across the chest or shoulders. The collar of the garment holds its own shape at the top of the garment and its opening is an empty dark hollow looking down into the inside of the garment, with the inner back of the fabric faintly visible inside the opening. The garment reads as if worn by an invisible body — full three-dimensional shape, natural drape, real fabric tension across the chest and shoulders, but nothing emerging from the neckline. No stump, no skin, no cut edge, no anatomy, no blood, no fade, no blur, no ghosting, no transparency in the body. The panel keeps full headroom, generous empty mid-gray backdrop above the shoulders, so the figure sits at the same scale and position in the frame as a normal full-body portrait."
+            },
+            {
+              "id": "neck-cut",
+              "label": "Open (clean neck cut)",
+              "clause": "LEFT PANEL — full body front view, headless. The full figure stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. There is no head and no hair — no hair falls across the chest or shoulders. The neck rises a short way from the shoulders and terminates in a clean, flat, sharply defined horizontal edge at the base of the throat, exactly like a headless dress-form mannequin — a crisp sculptural cut with a clean visible edge, not blurred, not faded, not dissolving, no wisps, no smoke, no ghosting, no transparency, no blood, no anatomy detail at the cut. Above that clean edge there is only empty mid-gray backdrop. The panel keeps full headroom — generous empty space above the shoulders where the head would be — so the figure sits in the frame at the same scale and position as a normal full-body portrait."
+            }
           ],
           "default": "ghost"
         }
       },
       "template": [
-        { "type": "text", "value": "A three-panel character reference sheet composed as one horizontal frame, divided into three equal vertical panels side by side, thin clean separation between panels, the same figure and the same outfit rendered identically across all three. " },
-        { "type": "subject" },
-        { "type": "text", "value": ". The identity and wardrobe described here apply identically to all three panels." },
-        { "type": "break" },
-        { "type": "control", "control": "headlessVariant" },
-        { "type": "break" },
-        { "type": "text", "value": "CENTER PANEL — full body rear view, head attached. The same figure photographed from directly behind, standing straight, hair fall readable from behind, the garment back construction, hem, and footwear readable, arms relaxed at the sides, weight even across both feet." },
-        { "type": "break" },
-        { "type": "text", "value": "RIGHT PANEL — tight chest-up portrait, identity lock. The same figure framed from just above the top of the head down to the collarbones and the very top of the garment only, the face filling most of the panel, a true close-up. Body squared to camera, head level, eyes directly to camera, lips closed and relaxed, neutral controlled expression. Hair, brows, lashes, lip texture, and key identity markers all clearly readable at close range." },
-        { "type": "break" },
-        { "type": "block", "block": "FLAT_GRADE" },
-        { "type": "text", "value": " " },
-        { "type": "block", "block": "FLAT_GRADE_SHEET_SUFFIX" }
-      ]
+        {
+          "type": "text",
+          "value": "A three-panel character reference sheet composed as one horizontal frame, divided into three equal vertical panels side by side, thin clean separation between panels, the same figure and the same outfit rendered identically across all three. "
+        },
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": ". The identity and wardrobe described here apply identically to all three panels."
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "control",
+          "control": "headlessVariant"
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "text",
+          "value": "CENTER PANEL — full body rear view, head attached. The same figure photographed from directly behind, standing straight, hair fall readable from behind, the garment back construction, hem, and footwear readable, arms relaxed at the sides, weight even across both feet."
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "text",
+          "value": "RIGHT PANEL — tight chest-up portrait, identity lock. The same figure framed from just above the top of the head down to the collarbones and the very top of the garment only, the face filling most of the panel, a true close-up. Body squared to camera, head level, eyes directly to camera, lips closed and relaxed, neutral controlled expression. Hair, brows, lashes, lip texture, and key identity markers all clearly readable at close range."
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "FLAT_GRADE"
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "block",
+          "block": "FLAT_GRADE_SHEET_SUFFIX"
+        }
+      ],
+      "mediaType": "image",
+      "targetModel": "banana-image"
     },
     {
       "id": "scene",
@@ -100,38 +208,108 @@
         "lighting": {
           "label": "Light",
           "options": [
-            { "id": "daylight", "label": "Natural daylight", "clause": "Natural daylight drives the frame — soft directional sun with real shadow wrap, light atmospheric haze giving the air physical body, distant planes softer and desaturated." },
-            { "id": "golden", "label": "Golden hour", "clause": "Low warm golden-hour light rakes across the frame, long soft shadows, the horizon glow warm and dimensional, atmospheric haze catching the warmth between planes, cool ambient sky light wrapping the shadow sides." },
-            { "id": "overcast", "label": "Overcast soft", "clause": "Soft overcast sky light, one enormous diffuse source overhead, gentle open shadows, muted contrast, atmospheric haze holding the deeper planes soft and desaturated." },
-            { "id": "studio", "label": "Studio editorial", "clause": "Controlled studio lighting in an editorial register — a large soft key with deliberate falloff, clean fill, a subtle rim separating the subject from the set, the backdrop graded and intentional." },
-            { "id": "night-open", "label": "Night — remote", "clause": "Night, remote and open — light comes exclusively from practical sources in the scene, headlights, brake lights, dash glow, a faint distant glow at the horizon. The sky and surroundings commit to deep crushed near-black darkness. Atmospheric haze catches the practical beams as visible warm volumetric cones. Everything outside the practical throws falls into deep near-black shadow, subjects reading as silhouettes with lit edges." },
-            { "id": "night-urban", "label": "Night — urban", "clause": "Urban night driven by practicals — sodium-vapor lamps, fluorescents, neon signs, dash glow. A motivated teal-amber split where the sources justify it, deep cinematic contrast with shadows holding information, atmospheric haze giving every light volumetric body, subjects defined against the dark by rim light from the practicals." }
+            {
+              "id": "daylight",
+              "label": "Natural daylight",
+              "clause": "Natural daylight drives the frame — soft directional sun with real shadow wrap, light atmospheric haze giving the air physical body, distant planes softer and desaturated."
+            },
+            {
+              "id": "golden",
+              "label": "Golden hour",
+              "clause": "Low warm golden-hour light rakes across the frame, long soft shadows, the horizon glow warm and dimensional, atmospheric haze catching the warmth between planes, cool ambient sky light wrapping the shadow sides."
+            },
+            {
+              "id": "overcast",
+              "label": "Overcast soft",
+              "clause": "Soft overcast sky light, one enormous diffuse source overhead, gentle open shadows, muted contrast, atmospheric haze holding the deeper planes soft and desaturated."
+            },
+            {
+              "id": "studio",
+              "label": "Studio editorial",
+              "clause": "Controlled studio lighting in an editorial register — a large soft key with deliberate falloff, clean fill, a subtle rim separating the subject from the set, the backdrop graded and intentional."
+            },
+            {
+              "id": "night-open",
+              "label": "Night — remote",
+              "clause": "Night, remote and open — light comes exclusively from practical sources in the scene, headlights, brake lights, dash glow, a faint distant glow at the horizon. The sky and surroundings commit to deep crushed near-black darkness. Atmospheric haze catches the practical beams as visible warm volumetric cones. Everything outside the practical throws falls into deep near-black shadow, subjects reading as silhouettes with lit edges."
+            },
+            {
+              "id": "night-urban",
+              "label": "Night — urban",
+              "clause": "Urban night driven by practicals — sodium-vapor lamps, fluorescents, neon signs, dash glow. A motivated teal-amber split where the sources justify it, deep cinematic contrast with shadows holding information, atmospheric haze giving every light volumetric body, subjects defined against the dark by rim light from the practicals."
+            }
           ],
           "default": "daylight"
         },
         "framing": {
           "label": "Framing",
           "options": [
-            { "id": "wide", "label": "Wide establishing", "clause": "held small in a wide establishing composition against the environment with generous lead room in the direction of movement, the space doing the storytelling" },
-            { "id": "medium", "label": "Medium hero", "clause": "in a medium hero composition anchored to one third of the frame, waist-up, the environment reading in soft depth behind" },
-            { "id": "close", "label": "Close intimate", "clause": "in a close intimate composition, shoulders-up, shallow depth folding the environment into soft bokeh" },
-            { "id": "low-hero", "label": "Low-angle hero", "clause": "in a low-angle hero composition, the camera slightly below the eye line, the sky or ceiling filling the upper frame behind" },
-            { "id": "ots", "label": "Over-the-shoulder", "clause": "in an over-the-shoulder composition, the back and shoulder filling the foreground, the focal anchor visible past them in the mid-ground" }
+            {
+              "id": "wide",
+              "label": "Wide establishing",
+              "clause": "held small in a wide establishing composition against the environment with generous lead room in the direction of movement, the space doing the storytelling"
+            },
+            {
+              "id": "medium",
+              "label": "Medium hero",
+              "clause": "in a medium hero composition anchored to one third of the frame, waist-up, the environment reading in soft depth behind"
+            },
+            {
+              "id": "close",
+              "label": "Close intimate",
+              "clause": "in a close intimate composition, shoulders-up, shallow depth folding the environment into soft bokeh"
+            },
+            {
+              "id": "low-hero",
+              "label": "Low-angle hero",
+              "clause": "in a low-angle hero composition, the camera slightly below the eye line, the sky or ceiling filling the upper frame behind"
+            },
+            {
+              "id": "ots",
+              "label": "Over-the-shoulder",
+              "clause": "in an over-the-shoulder composition, the back and shoulder filling the foreground, the focal anchor visible past them in the mid-ground"
+            }
           ],
           "default": "medium"
         }
       },
       "template": [
-        { "type": "text", "value": "A cinematic anamorphic still photograph captured on a real cinema set — " },
-        { "type": "subject" },
-        { "type": "text", "value": ", " },
-        { "type": "control", "control": "framing" },
-        { "type": "text", "value": "." },
-        { "type": "break" },
-        { "type": "control", "control": "lighting" },
-        { "type": "break" },
-        { "type": "block", "block": "CINEMA_PROSE_CLOSE" }
-      ]
+        {
+          "type": "text",
+          "value": "A cinematic anamorphic still photograph captured on a real cinema set — "
+        },
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": ", "
+        },
+        {
+          "type": "control",
+          "control": "framing"
+        },
+        {
+          "type": "text",
+          "value": "."
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "control",
+          "control": "lighting"
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "CINEMA_PROSE_CLOSE"
+        }
+      ],
+      "mediaType": "image",
+      "targetModel": "banana-image"
     },
     {
       "id": "detail",
@@ -142,32 +320,1384 @@
         "backdrop": {
           "label": "Backdrop",
           "options": [
-            { "id": "gray", "label": "Gray seamless", "clause": "Mid-gray seamless studio background, even neutral mid-gray, no seam line, no gradient, no falloff to black or white." },
-            { "id": "moody", "label": "Soft moody", "clause": "A soft moody studio backdrop falling away into gentle darkness behind the subject, deep and unobtrusive, the subject cleanly separated from it." }
+            {
+              "id": "gray",
+              "label": "Gray seamless",
+              "clause": "Mid-gray seamless studio background, even neutral mid-gray, no seam line, no gradient, no falloff to black or white."
+            },
+            {
+              "id": "moody",
+              "label": "Soft moody",
+              "clause": "A soft moody studio backdrop falling away into gentle darkness behind the subject, deep and unobtrusive, the subject cleanly separated from it."
+            }
           ],
           "default": "gray"
         },
         "framing": {
           "label": "Framing",
           "options": [
-            { "id": "chest-up", "label": "Chest up", "clause": "Chest-up portrait framing." },
-            { "id": "shoulders-up", "label": "Shoulders up", "clause": "Shoulders-up portrait framing." },
-            { "id": "face-only", "label": "Face only", "clause": "Face-only framing, forehead to collarbone." }
+            {
+              "id": "chest-up",
+              "label": "Chest up",
+              "clause": "Chest-up portrait framing."
+            },
+            {
+              "id": "shoulders-up",
+              "label": "Shoulders up",
+              "clause": "Shoulders-up portrait framing."
+            },
+            {
+              "id": "face-only",
+              "label": "Face only",
+              "clause": "Face-only framing, forehead to collarbone."
+            }
           ],
           "default": "chest-up"
         }
       },
       "template": [
-        { "type": "subject" },
-        { "type": "text", "value": ". " },
-        { "type": "control", "control": "backdrop" },
-        { "type": "text", "value": " Classical beauty lighting — soft key from slightly above and camera-left at 35 degrees, soft fill at chest level from camera-right, subtle hair light behind defining the crown, soft underlight bounce lifting the eye sockets. " },
-        { "type": "control", "control": "framing" },
-        { "type": "break" },
-        { "type": "block", "block": "DETAIL_FIDELITY" },
-        { "type": "break" },
-        { "type": "block", "block": "CINEMA_STACK" }
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": ". "
+        },
+        {
+          "type": "control",
+          "control": "backdrop"
+        },
+        {
+          "type": "text",
+          "value": " Classical beauty lighting — soft key from slightly above and camera-left at 35 degrees, soft fill at chest level from camera-right, subtle hair light behind defining the crown, soft underlight bounce lifting the eye sockets. "
+        },
+        {
+          "type": "control",
+          "control": "framing"
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "DETAIL_FIDELITY"
+        },
+        {
+          "type": "break"
+        },
+        {
+          "type": "block",
+          "block": "CINEMA_STACK"
+        }
+      ],
+      "mediaType": "image",
+      "targetModel": "banana-image"
+    },
+    {
+      "id": "product-shot",
+      "label": "Product Shot",
+      "hint": "your product looks premium and real",
+      "mediaType": "image",
+      "targetModel": "banana-image",
+      "recommendedRatio": "3:4 or 1:1",
+      "controls": {
+        "surface": {
+          "label": "Surface",
+          "options": [
+            {
+              "id": "seamless",
+              "label": "Studio seamless",
+              "clause": "set on a seamless studio sweep in a clean neutral color, a gentle floor reflection grounding it"
+            },
+            {
+              "id": "context",
+              "label": "Real surface",
+              "clause": "set on a real context surface — marble counter or warm wood table — with soft window-light geometry"
+            }
+          ],
+          "default": "seamless"
+        }
+      },
+      "registers": {
+        "default": "cinema",
+        "toggleLabel": "Phone-shot style",
+        "markers": {
+          "cinema": {
+            "required": [
+              "captured on a real cinema camera"
+            ],
+            "forbidden": [
+              "smartphone main-lens"
+            ]
+          },
+          "phone": {
+            "required": [
+              "smartphone main-lens"
+            ],
+            "forbidden": [
+              "captured on a real cinema camera"
+            ]
+          }
+        },
+        "templates": {
+          "cinema": [
+            {
+              "type": "text",
+              "value": "A premium product photograph captured on a real cinema camera — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": " as the only subject, anchored slightly off-center with generous breathing room, "
+            },
+            {
+              "type": "control",
+              "control": "surface"
+            },
+            {
+              "type": "text",
+              "value": ". One large soft key shapes the form, a single clean specular line runs each reflective surface with controlled falloff, and the background stays quiet enough that nothing competes. "
+            },
+            {
+              "type": "block",
+              "block": "PRODUCT_STACK"
+            }
+          ],
+          "phone": [
+            {
+              "type": "text",
+              "value": "A casual real-customer photo of "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "control",
+              "control": "surface"
+            },
+            {
+              "type": "text",
+              "value": ". "
+            },
+            {
+              "type": "block",
+              "block": "PHONE_STILL_REGISTER"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ad-916",
+      "label": "9:16 Ad",
+      "hint": "vertical ad still with clean headline space",
+      "mediaType": "image",
+      "targetModel": "banana-image",
+      "recommendedRatio": "9:16",
+      "controls": {},
+      "registers": {
+        "default": "cinema",
+        "toggleLabel": "Phone-shot style",
+        "markers": {
+          "cinema": {
+            "required": [
+              "captured on a real cinema camera"
+            ],
+            "forbidden": [
+              "smartphone main-lens"
+            ]
+          },
+          "phone": {
+            "required": [
+              "smartphone main-lens"
+            ],
+            "forbidden": [
+              "captured on a real cinema camera"
+            ]
+          }
+        },
+        "templates": {
+          "cinema": [
+            {
+              "type": "text",
+              "value": "A vertical ad photograph captured on a real cinema camera — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": " anchored in the lower two-thirds of the frame, editorial polish, one soft directional key with controlled falloff. The upper third of the frame is clean, even, uncluttered background with soft falloff, free of detail, reserved for a headline added later. No rendered text, no typography. Fine natural film grain, photographed not generated."
+            }
+          ],
+          "phone": [
+            {
+              "type": "text",
+              "value": "A vertical phone-shot ad photo — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": " anchored in the lower two-thirds of the frame. The upper third stays clean, even, uncluttered background, free of detail, reserved for a headline added later. "
+            },
+            {
+              "type": "block",
+              "block": "PHONE_STILL_REGISTER"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "poster",
+      "label": "Poster",
+      "hint": "composition-led key visual, negative space does the work",
+      "mediaType": "image",
+      "targetModel": "banana-image",
+      "recommendedRatio": "3:4 or 2:3",
+      "controls": {
+        "lighting": {
+          "label": "Light",
+          "options": [
+            {
+              "id": "side",
+              "label": "Hard side light",
+              "clause": "one hard side light carving the subject out of darkness, the shadow side falling clean away"
+            },
+            {
+              "id": "silhouette",
+              "label": "Doorway silhouette",
+              "clause": "the subject silhouetted against a bright doorway, edges burning, the interior falling into deep shadow"
+            },
+            {
+              "id": "pool",
+              "label": "Overhead pool",
+              "clause": "a single overhead pool of light isolating the subject, everything beyond its edge dissolving to black"
+            }
+          ],
+          "default": "side"
+        }
+      },
+      "template": [
+        {
+          "type": "text",
+          "value": "A poster key visual captured on a real cinema camera — one subject, one idea: "
+        },
+        {
+          "type": "subject"
+        },
+        {
+          "type": "text",
+          "value": " anchored on the right third of the frame, "
+        },
+        {
+          "type": "control",
+          "control": "lighting"
+        },
+        {
+          "type": "text",
+          "value": ". The remaining field holds clean deep negative space, even and empty, reserved for type added later. Two or three colors only, each tied to a surface or a light source. No rendered text, no typography. Fine natural film grain, photographed not generated."
+        }
       ]
+    },
+    {
+      "id": "video-product-ad",
+      "label": "Product Ad",
+      "hint": "your product looks premium in motion",
+      "mediaType": "video",
+      "targetModel": "seedance",
+      "recommendedRatio": "9:16 or 16:9",
+      "defaultAction": "The product performs a slow presentation turn, a single unhurried reveal across the runtime.",
+      "controls": {
+        "runtime": {
+          "label": "Length",
+          "options": [
+            {
+              "id": "5s",
+              "label": "Quick beat — 5s",
+              "clause": "5s"
+            },
+            {
+              "id": "8s",
+              "label": "Standard — 8s",
+              "clause": "8s"
+            },
+            {
+              "id": "12s",
+              "label": "Long hold — 12s",
+              "clause": "12s"
+            }
+          ],
+          "default": "8s"
+        },
+        "lens": {
+          "label": "Lens",
+          "options": [
+            {
+              "id": "47",
+              "label": "Eye-level 47° (50mm)",
+              "clause": "47° (50mm) eye-level neutral"
+            },
+            {
+              "id": "29",
+              "label": "Compressed 29° (85mm)",
+              "clause": "29° (75–85mm) portrait compression"
+            },
+            {
+              "id": "12",
+              "label": "Macro detail 12° (200mm)",
+              "clause": "12° (180–200mm) tele detail"
+            }
+          ],
+          "default": "47"
+        },
+        "surface": {
+          "label": "Surface",
+          "options": [
+            {
+              "id": "seamless",
+              "label": "Studio seamless",
+              "clause": "a seamless studio sweep in a clean neutral color, a gentle floor reflection under the product"
+            },
+            {
+              "id": "context",
+              "label": "Real surface",
+              "clause": "a real context surface — marble counter or warm wood table — with soft window-light geometry"
+            }
+          ],
+          "default": "seamless"
+        },
+        "atmosphere": {
+          "label": "Air",
+          "options": [
+            {
+              "id": "clear",
+              "label": "Clear air",
+              "clause": "clean clear air, full clarity through every plane"
+            },
+            {
+              "id": "light",
+              "label": "Light haze",
+              "clause": "light haze at 15% density, readable to 30 meters, the deeper planes softening"
+            },
+            {
+              "id": "heavy",
+              "label": "Heavy atmosphere",
+              "clause": "heavy suspended haze at 40% density, readable to 12 meters, the background dissolving soft"
+            }
+          ],
+          "default": "light"
+        },
+        "sound": {
+          "label": "Sound",
+          "options": [
+            {
+              "id": "room",
+              "label": "Studio room tone",
+              "clause": "quiet studio room tone, the soft presence of a treated space"
+            },
+            {
+              "id": "handling",
+              "label": "Product handling",
+              "clause": "the small precise sounds of the product being handled — glass set on stone, a cap turning, fabric brushing"
+            },
+            {
+              "id": "retail",
+              "label": "Soft retail ambience",
+              "clause": "soft retail ambience, distant murmur and footsteps on a polished floor"
+            }
+          ],
+          "default": "handling"
+        },
+        "camera": {
+          "label": "Camera",
+          "options": [
+            {
+              "id": "tripod",
+              "label": "Tripod push-in",
+              "clause": "tripod-mounted with a slow push-in"
+            }
+          ],
+          "default": "tripod",
+          "locked": true,
+          "why": "The studio register locks the camera: tripod-mounted with a slow push-in."
+        }
+      },
+      "blocks": [
+        {
+          "id": "scene",
+          "label": "Scene & Mood",
+          "template": [
+            {
+              "type": "text",
+              "value": "A premium product moment — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": " presented as the single hero object, staged deliberate and confident."
+            }
+          ]
+        },
+        {
+          "id": "subject-lock",
+          "label": "Subject Lock",
+          "template": [
+            {
+              "type": "text",
+              "value": "The product anchors the frame — true materials, finish, and proportions reading clean, its resting contact with the surface planted and stable. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_LOCKDOWN_PRODUCT"
+            }
+          ]
+        },
+        {
+          "id": "movement",
+          "label": "Movement",
+          "template": [
+            {
+              "type": "action"
+            },
+            {
+              "type": "text",
+              "value": " Micro-motion stays honest — light shifting across the surfaces as the camera eases in; nothing else in the frame moves. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_ONER"
+            }
+          ]
+        },
+        {
+          "id": "last-frame",
+          "label": "Last Frame",
+          "template": [
+            {
+              "type": "text",
+              "value": "The product holds the final frame slightly off-center at its most flattering angle, highlight lines settled, surface and backdrop quiet. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_TEXT_SUPPRESSION"
+            }
+          ]
+        },
+        {
+          "id": "world-plate",
+          "label": "World Plate",
+          "template": [
+            {
+              "type": "text",
+              "value": "A controlled minimal set — "
+            },
+            {
+              "type": "control",
+              "control": "surface"
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "control",
+              "control": "atmosphere"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        },
+        {
+          "id": "sound-bed",
+          "label": "Sound Bed",
+          "template": [
+            {
+              "type": "text",
+              "value": "Diegetic only — "
+            },
+            {
+              "type": "control",
+              "control": "sound"
+            },
+            {
+              "type": "text",
+              "value": ", no music, no score, no lyrics."
+            }
+          ]
+        },
+        {
+          "id": "capture-realism",
+          "label": "Capture Realism",
+          "template": [
+            {
+              "type": "block",
+              "block": "CAPTURE_REALISM_PRODUCT"
+            }
+          ]
+        },
+        {
+          "id": "camera-capture",
+          "label": "Camera Capture",
+          "template": [
+            {
+              "type": "text",
+              "value": "wide-latitude cinema capture, "
+            },
+            {
+              "type": "control",
+              "control": "lens"
+            },
+            {
+              "type": "text",
+              "value": " clean spherical character at a wide aperture — natural round bokeh, even sharpness — mild diffusion bloom, "
+            },
+            {
+              "type": "control",
+              "control": "camera"
+            },
+            {
+              "type": "text",
+              "value": ", saturated editorial grade, fine grain, warm-retained blacks, intentional highlight bloom on the product's reflective surfaces, 24fps 180° shutter, "
+            },
+            {
+              "type": "control",
+              "control": "runtime"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "refs": [
+        {
+          "id": "product_ref",
+          "tag": "@product_ref",
+          "label": "I have a product photo",
+          "filename": "product_ref",
+          "segments": [
+            {
+              "block": "subject-lock",
+              "text": " Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-ugc",
+      "label": "UGC",
+      "hint": "fake phone-shot testimonial, person talks to camera",
+      "mediaType": "video",
+      "targetModel": "seedance",
+      "recommendedRatio": "9:16",
+      "defaultAction": "The speaker talks to camera with natural hand gestures, making one clear point across the runtime.",
+      "controls": {
+        "runtime": {
+          "label": "Length",
+          "options": [
+            {
+              "id": "5s",
+              "label": "Quick beat — 5s",
+              "clause": "5s"
+            },
+            {
+              "id": "8s",
+              "label": "Standard — 8s",
+              "clause": "8s"
+            },
+            {
+              "id": "12s",
+              "label": "Long hold — 12s",
+              "clause": "12s"
+            }
+          ],
+          "default": "8s"
+        },
+        "framing": {
+          "label": "Framing",
+          "options": [
+            {
+              "id": "selfie",
+              "label": "Selfie arm",
+              "clause": "handheld at arm's length with natural hand sway"
+            },
+            {
+              "id": "propped",
+              "label": "Propped phone",
+              "clause": "phone propped static at counter height, zero operator movement"
+            }
+          ],
+          "default": "selfie"
+        },
+        "lens": {
+          "label": "Lens",
+          "options": [
+            {
+              "id": "63",
+              "label": "Phone main lens 63° (28mm)",
+              "clause": "63° (28mm equivalent) with mild wide-angle character"
+            }
+          ],
+          "default": "63",
+          "locked": true,
+          "why": "The phone register locks the lens: a phone's main camera is a mild wide."
+        },
+        "sound": {
+          "label": "Sound",
+          "options": [
+            {
+              "id": "room",
+              "label": "Quiet room",
+              "clause": "quiet room tone under the voice, the small sounds of the space"
+            },
+            {
+              "id": "street",
+              "label": "Street outside",
+              "clause": "street ambience bleeding in under the voice — passing cars, distant voices"
+            },
+            {
+              "id": "cafe",
+              "label": "Cafe",
+              "clause": "cafe ambience under the voice — cups, low murmur, an espresso machine somewhere behind"
+            }
+          ],
+          "default": "room"
+        }
+      },
+      "blocks": [
+        {
+          "id": "scene",
+          "label": "Scene & Mood",
+          "template": [
+            {
+              "type": "text",
+              "value": "An honest phone-shot moment — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": " talking directly to camera, casual and unstaged."
+            }
+          ]
+        },
+        {
+          "id": "subject-lock",
+          "label": "Subject Lock",
+          "template": [
+            {
+              "type": "text",
+              "value": "The speaker holds the frame chest-up, eyes to the lens, relaxed natural energy, a real gesture rhythm. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_LOCKDOWN_PERSON"
+            }
+          ]
+        },
+        {
+          "id": "movement",
+          "label": "Movement",
+          "template": [
+            {
+              "type": "action"
+            },
+            {
+              "type": "text",
+              "value": " Micro-motion carries the realism — breath, blinks, small head tilts, the tiny natural instability of a real phone. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_ONER"
+            }
+          ]
+        },
+        {
+          "id": "last-frame",
+          "label": "Last Frame",
+          "template": [
+            {
+              "type": "text",
+              "value": "The speaker lands the final beat looking straight into the lens, a small natural smile settling. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_TEXT_SUPPRESSION"
+            }
+          ]
+        },
+        {
+          "id": "world-plate",
+          "label": "World Plate",
+          "template": [
+            {
+              "type": "text",
+              "value": "An ordinary real room in found light — window daylight or plain room light, the space readable but soft behind the speaker, thin everyday atmosphere."
+            }
+          ]
+        },
+        {
+          "id": "sound-bed",
+          "label": "Sound Bed",
+          "template": [
+            {
+              "type": "text",
+              "value": "Diegetic only — the speaker's voice carries the clip, "
+            },
+            {
+              "type": "control",
+              "control": "sound"
+            },
+            {
+              "type": "text",
+              "value": ", no music, no score, no lyrics."
+            }
+          ]
+        },
+        {
+          "id": "capture-realism",
+          "label": "Capture Realism",
+          "template": [
+            {
+              "type": "block",
+              "block": "CAPTURE_REALISM_PERSON"
+            }
+          ]
+        },
+        {
+          "id": "camera-capture",
+          "label": "Camera Capture",
+          "template": [
+            {
+              "type": "text",
+              "value": "smartphone main-lens capture, "
+            },
+            {
+              "type": "control",
+              "control": "lens"
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "control",
+              "control": "framing"
+            },
+            {
+              "type": "text",
+              "value": ", found room light, mild digital compression, natural saturation, 30fps, "
+            },
+            {
+              "type": "control",
+              "control": "runtime"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the speaker",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "block": "subject-lock",
+              "text": " Identity carries from @person_ref; the prompt only describes what the reference can't show."
+            }
+          ]
+        },
+        {
+          "id": "product_ref",
+          "tag": "@product_ref",
+          "label": "I have a product photo",
+          "filename": "product_ref",
+          "segments": [
+            {
+              "block": "movement",
+              "text": " The product from @product_ref stays in hand, label turned toward the lens at the natural moments."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-narrative",
+      "label": "Narrative",
+      "hint": "a story moment, character doing something",
+      "mediaType": "video",
+      "targetModel": "seedance",
+      "recommendedRatio": "16:9 or 21:9",
+      "defaultAction": "The subject walks a few steps and pauses, gaze shifting off-frame as the thought lands.",
+      "controls": {
+        "runtime": {
+          "label": "Length",
+          "options": [
+            {
+              "id": "5s",
+              "label": "Quick beat — 5s",
+              "clause": "5s"
+            },
+            {
+              "id": "8s",
+              "label": "Standard — 8s",
+              "clause": "8s"
+            },
+            {
+              "id": "12s",
+              "label": "Long hold — 12s",
+              "clause": "12s"
+            }
+          ],
+          "default": "8s"
+        },
+        "lens": {
+          "label": "Lens",
+          "options": [
+            {
+              "id": "84",
+              "label": "Wide 84° (24mm)",
+              "clause": "84° (20–24mm) wide"
+            },
+            {
+              "id": "63",
+              "label": "Reportage 63° (35mm)",
+              "clause": "63° (28–35mm) reportage wide"
+            },
+            {
+              "id": "47",
+              "label": "Eye-level 47° (50mm)",
+              "clause": "47° (40–50mm) eye-level neutral"
+            },
+            {
+              "id": "29",
+              "label": "Portrait 29° (85mm)",
+              "clause": "29° (75–85mm) portrait compression"
+            }
+          ],
+          "default": "47"
+        },
+        "atmosphere": {
+          "label": "Air",
+          "options": [
+            {
+              "id": "clear",
+              "label": "Clear air",
+              "clause": "clean clear air, full clarity through every plane"
+            },
+            {
+              "id": "light",
+              "label": "Light haze",
+              "clause": "light haze at 15% density, readable to 30 meters, the deeper planes softening"
+            },
+            {
+              "id": "heavy",
+              "label": "Heavy atmosphere",
+              "clause": "heavy suspended haze at 40% density, readable to 12 meters, the background dissolving soft"
+            }
+          ],
+          "default": "light"
+        },
+        "sound": {
+          "label": "Sound",
+          "options": [
+            {
+              "id": "interior",
+              "label": "Interior ambient",
+              "clause": "close interior ambience — room tone, small object sounds, fabric moving"
+            },
+            {
+              "id": "street",
+              "label": "Street ambient",
+              "clause": "street ambience — footsteps on pavement, passing traffic, air moving between buildings"
+            },
+            {
+              "id": "weather",
+              "label": "Weather ambient",
+              "clause": "weather carrying the scene — wind pressing, rain ticking on surfaces, distant thunder rolling"
+            }
+          ],
+          "default": "street"
+        },
+        "camera": {
+          "label": "Camera",
+          "options": [
+            {
+              "id": "handheld",
+              "label": "Handheld breath",
+              "clause": "handheld with natural operator breath"
+            }
+          ],
+          "default": "handheld",
+          "locked": true,
+          "why": "The narrative register locks the camera: handheld with a lived-in operator presence."
+        }
+      },
+      "blocks": [
+        {
+          "id": "scene",
+          "label": "Scene & Mood",
+          "template": [
+            {
+              "type": "text",
+              "value": "A lived-in dramatic moment — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": ", the drama carried entirely in observable action."
+            }
+          ]
+        },
+        {
+          "id": "subject-lock",
+          "label": "Subject Lock",
+          "template": [
+            {
+              "type": "text",
+              "value": "The subject anchors the frame — body orientation, pose, and gaze pinned, contact points planted on real surfaces. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_LOCKDOWN_PERSON"
+            }
+          ]
+        },
+        {
+          "id": "movement",
+          "label": "Movement",
+          "template": [
+            {
+              "type": "action"
+            },
+            {
+              "type": "text",
+              "value": " Micro-motion layers underneath — breath, hair, fabric responding. The environment keeps its own honest motion around the action. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_ONER"
+            }
+          ]
+        },
+        {
+          "id": "last-frame",
+          "label": "Last Frame",
+          "template": [
+            {
+              "type": "text",
+              "value": "The subject holds the closing composition, gaze landing where the story points, the frame settling still. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_TEXT_SUPPRESSION"
+            }
+          ]
+        },
+        {
+          "id": "world-plate",
+          "label": "World Plate",
+          "template": [
+            {
+              "type": "text",
+              "value": "A real lived-in location, its time of day and weather stated by what the light actually does, "
+            },
+            {
+              "type": "control",
+              "control": "atmosphere"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        },
+        {
+          "id": "sound-bed",
+          "label": "Sound Bed",
+          "template": [
+            {
+              "type": "text",
+              "value": "Diegetic only — "
+            },
+            {
+              "type": "control",
+              "control": "sound"
+            },
+            {
+              "type": "text",
+              "value": ", no music, no score, no lyrics."
+            }
+          ]
+        },
+        {
+          "id": "capture-realism",
+          "label": "Capture Realism",
+          "template": [
+            {
+              "type": "block",
+              "block": "CAPTURE_REALISM_PERSON"
+            }
+          ]
+        },
+        {
+          "id": "camera-capture",
+          "label": "Camera Capture",
+          "template": [
+            {
+              "type": "text",
+              "value": "wide-latitude cinema capture, "
+            },
+            {
+              "type": "control",
+              "control": "lens"
+            },
+            {
+              "type": "text",
+              "value": " vintage 2x anamorphic character at a wide aperture — oval bokeh, soft frame-edge falloff — light diffusion bloom softening highlights, "
+            },
+            {
+              "type": "control",
+              "control": "camera"
+            },
+            {
+              "type": "text",
+              "value": ", color-negative daylight film rendition with fine 35mm grain, teal-amber grade, shallow depth of field, 24fps 180° shutter, "
+            },
+            {
+              "type": "control",
+              "control": "runtime"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the character",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "block": "subject-lock",
+              "text": " Identity carries from @person_ref; the prompt only describes what the reference can't show."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "video-atmospheric",
+      "label": "Atmospheric",
+      "hint": "location and mood only, no people — b-roll plates",
+      "mediaType": "video",
+      "targetModel": "seedance",
+      "recommendedRatio": "16:9 or 21:9",
+      "defaultAction": "Environmental motion only — what the wind, water, and light do across the runtime; nothing is staged.",
+      "controls": {
+        "runtime": {
+          "label": "Length",
+          "options": [
+            {
+              "id": "5s",
+              "label": "Quick beat — 5s",
+              "clause": "5s"
+            },
+            {
+              "id": "8s",
+              "label": "Standard — 8s",
+              "clause": "8s"
+            },
+            {
+              "id": "12s",
+              "label": "Long hold — 12s",
+              "clause": "12s"
+            }
+          ],
+          "default": "8s"
+        },
+        "lens": {
+          "label": "Lens",
+          "options": [
+            {
+              "id": "107",
+              "label": "Ultra-wide 107° (16mm)",
+              "clause": "107° (14–16mm) architectural ultra-wide"
+            },
+            {
+              "id": "84",
+              "label": "Wide 84° (24mm)",
+              "clause": "84° (20–24mm) wide"
+            },
+            {
+              "id": "29",
+              "label": "Compressed 29° (85mm)",
+              "clause": "29° (75–85mm) portrait compression"
+            }
+          ],
+          "default": "84"
+        },
+        "energy": {
+          "label": "Camera",
+          "options": [
+            {
+              "id": "static",
+              "label": "Locked-off static",
+              "clause": "locked-off static frame, zero operator drift, frame edges rock-steady"
+            },
+            {
+              "id": "push",
+              "label": "Slow push-in",
+              "clause": "an extremely slow push-in, barely perceptible across the runtime"
+            }
+          ],
+          "default": "static"
+        },
+        "timeofday": {
+          "label": "Time",
+          "options": [
+            {
+              "id": "dawn",
+              "label": "Pre-dawn blue",
+              "clause": "pre-dawn blue hour, the sky barely lifting, practicals still burning"
+            },
+            {
+              "id": "golden",
+              "label": "Golden hour",
+              "clause": "low golden-hour light raking long shadows across the surfaces"
+            },
+            {
+              "id": "overcast",
+              "label": "Overcast midday",
+              "clause": "flat overcast midday, one enormous soft source overhead, muted contrast"
+            },
+            {
+              "id": "night",
+              "label": "Night practicals",
+              "clause": "night driven by practical sources — sodium lamps, lit windows, signs — the dark still holding detail"
+            }
+          ],
+          "default": "golden"
+        },
+        "atmosphere": {
+          "label": "Air",
+          "options": [
+            {
+              "id": "clear",
+              "label": "Clear air",
+              "clause": "clean clear air, full clarity through every plane"
+            },
+            {
+              "id": "light",
+              "label": "Light haze",
+              "clause": "light haze at 15% density, readable to 30 meters, the deeper planes softening"
+            },
+            {
+              "id": "heavy",
+              "label": "Heavy atmosphere",
+              "clause": "heavy suspended haze at 40% density, readable to 12 meters, the background dissolving soft"
+            }
+          ],
+          "default": "light"
+        },
+        "sound": {
+          "label": "Sound",
+          "options": [
+            {
+              "id": "wind",
+              "label": "Wind + distance",
+              "clause": "wind moving through the space, distant traffic far below the frame"
+            },
+            {
+              "id": "rain",
+              "label": "Rain on surfaces",
+              "clause": "rain ticking on surfaces, water finding drains, the air washed clean"
+            },
+            {
+              "id": "hum",
+              "label": "Interior hum",
+              "clause": "room tone and low electrical hum, a building breathing"
+            }
+          ],
+          "default": "wind"
+        }
+      },
+      "blocks": [
+        {
+          "id": "scene",
+          "label": "Scene & Mood",
+          "template": [
+            {
+              "type": "text",
+              "value": "The place is the subject — "
+            },
+            {
+              "type": "subject"
+            },
+            {
+              "type": "text",
+              "value": ", empty of people, holding its own mood."
+            }
+          ]
+        },
+        {
+          "id": "subject-lock",
+          "label": "Subject Lock",
+          "template": [
+            {
+              "type": "text",
+              "value": "The environment locks as the single subject — its dominant element pinned in state, structure and scale readable. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_LOCKDOWN_ENVIRONMENT"
+            }
+          ]
+        },
+        {
+          "id": "movement",
+          "label": "Movement",
+          "template": [
+            {
+              "type": "action"
+            },
+            {
+              "type": "text",
+              "value": " "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_ONER"
+            }
+          ]
+        },
+        {
+          "id": "last-frame",
+          "label": "Last Frame",
+          "template": [
+            {
+              "type": "text",
+              "value": "The frame closes on the same composition it opened, the environmental motion mid-breath, negative space intact. "
+            },
+            {
+              "type": "block",
+              "block": "VIDEO_TEXT_SUPPRESSION"
+            }
+          ]
+        },
+        {
+          "id": "world-plate",
+          "label": "World Plate",
+          "template": [
+            {
+              "type": "control",
+              "control": "timeofday"
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "control",
+              "control": "atmosphere"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
+        },
+        {
+          "id": "sound-bed",
+          "label": "Sound Bed",
+          "template": [
+            {
+              "type": "text",
+              "value": "Diegetic only — "
+            },
+            {
+              "type": "control",
+              "control": "sound"
+            },
+            {
+              "type": "text",
+              "value": ", no music, no score, no lyrics."
+            }
+          ]
+        },
+        {
+          "id": "capture-realism",
+          "label": "Capture Realism",
+          "template": [
+            {
+              "type": "block",
+              "block": "CAPTURE_REALISM_ENVIRONMENT"
+            }
+          ]
+        },
+        {
+          "id": "camera-capture",
+          "label": "Camera Capture",
+          "template": [
+            {
+              "type": "text",
+              "value": "wide-latitude cinema capture, "
+            },
+            {
+              "type": "control",
+              "control": "lens"
+            },
+            {
+              "type": "text",
+              "value": " vintage 2x anamorphic character at a wide aperture — oval bokeh, soft edge falloff — light diffusion bloom softening highlights, "
+            },
+            {
+              "type": "control",
+              "control": "energy"
+            },
+            {
+              "type": "text",
+              "value": ", color-negative film rendition with fine grain, palette-driven grade with every color tied to a surface or light source, atmospheric haze, weathered material detail, 24fps 180° shutter, "
+            },
+            {
+              "type": "control",
+              "control": "runtime"
+            },
+            {
+              "type": "text",
+              "value": ". The environment is the subject."
+            }
+          ]
+        }
+      ],
+      "refs": []
     }
   ]
 }

@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "_reservedFutureAxes": ["format", "targetModel", "mediaType"],
+  "sharedBlocks": {
+    "FLAT_GRADE": "Background is an even 18% neutral gray seamless, completely flat — one single uniform value corner to corner, no seam line, no gradient, no hotspot, no vignette, no falloff to lighter or darker anywhere in the frame. Relight from scratch overriding any reference lighting: completely flat shadowless illumination — one enormous soft frontal source at camera position wrapping the subject evenly, matched equal fill from camera-left and camera-right at identical intensity, matched fill from above and below, so both sides of the face read at exactly the same brightness. No key-and-fill ratio, no modelling, no shadow side, no cheek triangle, no nose shadow, no under-chin shadow, no rim light, no hair light, no kicker, no specular hotspot. Zero shadow cast onto the background — the backdrop stays clean flat gray behind the entire figure. No contact shadow, no drop shadow, no ambient occlusion anywhere in the frame. Extremely low contrast, even, milky, catalogue-flat. Form is described by bone structure, hair strands, and fabric folds alone, not by light and shadow. Skin reads matte and velvety — zero shine on forehead, nose bridge, cheekbones, temples, and chin, no oily T-zone. Skin renders at its true natural skin tone and wardrobe at its true natural color, warmth preserved and natural against the neutral gray, never pale or washed-out or cool-shifted by the background. Real peach fuzz at the jaw and hairline, real soft fine even pore texture, subsurface scattering reading as semi-translucent biology, never plastic, never waxy AI render, never glass-skin, never harsh — fine flattering texture that keeps the face looking good, no acne, no blemishes, no rough pores. Photographed on a 50mm prime, even sharpness, soft natural film grain. Photographed not generated.",
+    "FLAT_GRADE_SHEET_SUFFIX": "The identical flat gray value, the identical shadowless illumination, and zero cast shadow apply uniformly across every panel. Skin renders at its true natural skin tone, identical in value and hue across the face, arms, and body in every panel, never darkened, never tanned, never pale or washed-out or cool-shifted by the background. The wardrobe colors render true and consistent across all panels.",
+    "CINEMA_STACK": "Real human skin captured on a real cinema camera — refined and real, peach fuzz catching light along the jawline and hairline, real natural pore texture soft fine and even, subsurface scattering at ear edges, nostrils, and around the eye sockets with warm undertone bleed reading as semi-translucent biology never opaque plastic. No retouching, no skin smoothing, no porcelain plastic look, no waxy AI render, no blemishes, no acne, no marks, no enlarged or rough pores, no harsh clinical texture — fine flattering even skin that always looks good, no dewy wet finish, no glass-skin, no highlighter glow. Hair rendered strand by strand with realistic flyaways and baby hairs at the hairline. Fabric with real weave detail, real weight, real drape. Captured with a wide-latitude cinema look on a clean fast normal prime around a 50mm full-frame field of view at a wide aperture, natural round bokeh, even sharpness. Highlights rolled off gently in a filmic curve, never clipping to pure white. Lifted blacks that stay open and never crush to pure black — wide dynamic range with full detail held in both shadows and highlights. Color-negative motion-picture film look baked in with fine theatrical 35mm film grain across the entire frame including skin, fabric, and backdrop. No HDR overprocessing, no digital oversharpening, no plastic skin rendering — photographed not generated, captured on a real camera by a real cinematographer on a real set.",
+    "CINEMA_PROSE_CLOSE": "Captured with a wide-latitude cinema look and a vintage 55mm-equivalent 2x anamorphic character at a wide aperture, a light diffusion bloom softening the highlights, color-negative film rendition, in a cinematic narrative register. Real anamorphic optical character with oval bokeh on the deeper elements, subtle frame-edge falloff. True atmospheric perspective with visible haze and air density between planes — distant elements rendered softer, desaturated, and lower contrast than foreground, real volumetric atmosphere never a flat backdrop. Theatrical fine 35mm film grain across the entire frame. Shadows lifted gently never crushed, highlights rolled off softly never blown. Real photographic frame captured on a real cinema camera, real anamorphic lens, real fabric, real human subject, real atmosphere — no CGI, no rendered look, no digital cleanliness, no plastic surfaces, no AI smoothness, no skin smoothing, no glossy highlights.",
+    "DETAIL_FIDELITY": "Extreme face fidelity. Real skin texture with visible pores, fine peach fuzz catching light along the jawline and upper lip, subtle subsurface scattering on the nose bridge cheeks and ears, micro-expression detail in the eyes and mouth corners, individual lash detail, real moisture and reflection in the iris with visible iris pattern, real lip texture with subtle natural lip lines, hair rendered strand by strand at the hairline with visible baby hairs and flyaways, fabric weave visible at the collar and shoulder."
+  },
+  "modes": [
+    {
+      "id": "face-lock",
+      "label": "Face Lock",
+      "hint": "new character's canonical face reference",
+      "recommendedRatio": "3:4",
+      "lockedNote": "Lighting and lens are locked by the grammar: reference plates carry zero lighting information.",
+      "controls": {
+        "baselineWardrobe": {
+          "label": "Baseline top",
+          "options": [
+            { "id": "camisole", "label": "Black camisole", "clause": "She wears a plain black thin-strap camisole, no jewelry, no logos, no graphics." },
+            { "id": "tank", "label": "Black ribbed tank", "clause": "He wears a plain black ribbed tank, no jewelry, no logos, no graphics." }
+          ],
+          "default": "camisole"
+        }
+      },
+      "template": [
+        { "type": "text", "value": "A clean cinema-character-reference 3:4 headshot, framed from forehead to upper chest with the face filling most of the frame. " },
+        { "type": "subject" },
+        { "type": "text", "value": ". " },
+        { "type": "control", "control": "baselineWardrobe" },
+        { "type": "text", "value": " Body squared to camera, head level, neutral relaxed expression, eyes to camera, lips closed and relaxed, subtle controlled energy." },
+        { "type": "break" },
+        { "type": "block", "block": "FLAT_GRADE" }
+      ]
+    },
+    {
+      "id": "outfit-styling",
+      "label": "Outfit Styling",
+      "hint": "full styling on a character, head to toe",
+      "recommendedRatio": "3:4 or 9:16",
+      "lockedNote": "Lighting and lens are locked by the grammar: reference plates carry zero lighting information.",
+      "controls": {
+        "framing": {
+          "label": "Framing",
+          "options": [
+            { "id": "full-body", "label": "Full body", "clause": "Full body framing from head to just below the footwear." },
+            { "id": "waist-up", "label": "Waist up", "clause": "Waist-up framing." }
+          ],
+          "default": "full-body"
+        }
+      },
+      "template": [
+        { "type": "subject" },
+        { "type": "text", "value": ". Standing with weight shifted onto one hip, body angled about 20 degrees from camera, chin level, model face-card neutral expression with at most a slight closed-lip smirk, eyes to camera. " },
+        { "type": "control", "control": "framing" },
+        { "type": "break" },
+        { "type": "block", "block": "FLAT_GRADE" }
+      ]
+    },
+    {
+      "id": "char-sheet",
+      "label": "Character Sheet",
+      "hint": "3-panel multi-angle reference, one image",
+      "recommendedRatio": "16:9",
+      "lockedNote": "Layout, lighting, and lens are locked by the grammar. Panel structure is the product.",
+      "controls": {
+        "headlessVariant": {
+          "label": "Neckline",
+          "options": [
+            { "id": "ghost", "label": "Structured (ghost mannequin)", "clause": "LEFT PANEL — full body front view, no head, no neck, and no hair. The body stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. Nothing rises above the shoulder line, and no hair falls across the chest or shoulders. The collar of the garment holds its own shape at the top of the garment and its opening is an empty dark hollow looking down into the inside of the garment, with the inner back of the fabric faintly visible inside the opening. The garment reads as if worn by an invisible body — full three-dimensional shape, natural drape, real fabric tension across the chest and shoulders, but nothing emerging from the neckline. No stump, no skin, no cut edge, no anatomy, no blood, no fade, no blur, no ghosting, no transparency in the body. The panel keeps full headroom, generous empty mid-gray backdrop above the shoulders, so the figure sits at the same scale and position in the frame as a normal full-body portrait." },
+            { "id": "neck-cut", "label": "Open (clean neck cut)", "clause": "LEFT PANEL — full body front view, headless. The full figure stands squared to camera from the shoulders down, arms relaxed at the sides, hands open and loose, weight even across both feet. There is no head and no hair — no hair falls across the chest or shoulders. The neck rises a short way from the shoulders and terminates in a clean, flat, sharply defined horizontal edge at the base of the throat, exactly like a headless dress-form mannequin — a crisp sculptural cut with a clean visible edge, not blurred, not faded, not dissolving, no wisps, no smoke, no ghosting, no transparency, no blood, no anatomy detail at the cut. Above that clean edge there is only empty mid-gray backdrop. The panel keeps full headroom — generous empty space above the shoulders where the head would be — so the figure sits in the frame at the same scale and position as a normal full-body portrait." }
+          ],
+          "default": "ghost"
+        }
+      },
+      "template": [
+        { "type": "text", "value": "A three-panel character reference sheet composed as one horizontal frame, divided into three equal vertical panels side by side, thin clean separation between panels, the same figure and the same outfit rendered identically across all three. " },
+        { "type": "subject" },
+        { "type": "text", "value": ". The identity and wardrobe described here apply identically to all three panels." },
+        { "type": "break" },
+        { "type": "control", "control": "headlessVariant" },
+        { "type": "break" },
+        { "type": "text", "value": "CENTER PANEL — full body rear view, head attached. The same figure photographed from directly behind, standing straight, hair fall readable from behind, the garment back construction, hem, and footwear readable, arms relaxed at the sides, weight even across both feet." },
+        { "type": "break" },
+        { "type": "text", "value": "RIGHT PANEL — tight chest-up portrait, identity lock. The same figure framed from just above the top of the head down to the collarbones and the very top of the garment only, the face filling most of the panel, a true close-up. Body squared to camera, head level, eyes directly to camera, lips closed and relaxed, neutral controlled expression. Hair, brows, lashes, lip texture, and key identity markers all clearly readable at close range." },
+        { "type": "break" },
+        { "type": "block", "block": "FLAT_GRADE" },
+        { "type": "text", "value": " " },
+        { "type": "block", "block": "FLAT_GRADE_SHEET_SUFFIX" }
+      ]
+    },
+    {
+      "id": "scene",
+      "label": "Scene",
+      "hint": "cinematic plate, with or without characters",
+      "recommendedRatio": "21:9 or 16:9",
+      "controls": {
+        "lighting": {
+          "label": "Light",
+          "options": [
+            { "id": "daylight", "label": "Natural daylight", "clause": "Natural daylight drives the frame — soft directional sun with real shadow wrap, light atmospheric haze giving the air physical body, distant planes softer and desaturated." },
+            { "id": "golden", "label": "Golden hour", "clause": "Low warm golden-hour light rakes across the frame, long soft shadows, the horizon glow warm and dimensional, atmospheric haze catching the warmth between planes, cool ambient sky light wrapping the shadow sides." },
+            { "id": "overcast", "label": "Overcast soft", "clause": "Soft overcast sky light, one enormous diffuse source overhead, gentle open shadows, muted contrast, atmospheric haze holding the deeper planes soft and desaturated." },
+            { "id": "studio", "label": "Studio editorial", "clause": "Controlled studio lighting in an editorial register — a large soft key with deliberate falloff, clean fill, a subtle rim separating the subject from the set, the backdrop graded and intentional." },
+            { "id": "night-open", "label": "Night — remote", "clause": "Night, remote and open — light comes exclusively from practical sources in the scene, headlights, brake lights, dash glow, a faint distant glow at the horizon. The sky and surroundings commit to deep crushed near-black darkness. Atmospheric haze catches the practical beams as visible warm volumetric cones. Everything outside the practical throws falls into deep near-black shadow, subjects reading as silhouettes with lit edges." },
+            { "id": "night-urban", "label": "Night — urban", "clause": "Urban night driven by practicals — sodium-vapor lamps, fluorescents, neon signs, dash glow. A motivated teal-amber split where the sources justify it, deep cinematic contrast with shadows holding information, atmospheric haze giving every light volumetric body, subjects defined against the dark by rim light from the practicals." }
+          ],
+          "default": "daylight"
+        },
+        "framing": {
+          "label": "Framing",
+          "options": [
+            { "id": "wide", "label": "Wide establishing", "clause": "held small in a wide establishing composition against the environment with generous lead room in the direction of movement, the space doing the storytelling" },
+            { "id": "medium", "label": "Medium hero", "clause": "in a medium hero composition anchored to one third of the frame, waist-up, the environment reading in soft depth behind" },
+            { "id": "close", "label": "Close intimate", "clause": "in a close intimate composition, shoulders-up, shallow depth folding the environment into soft bokeh" },
+            { "id": "low-hero", "label": "Low-angle hero", "clause": "in a low-angle hero composition, the camera slightly below the eye line, the sky or ceiling filling the upper frame behind" },
+            { "id": "ots", "label": "Over-the-shoulder", "clause": "in an over-the-shoulder composition, the back and shoulder filling the foreground, the focal anchor visible past them in the mid-ground" }
+          ],
+          "default": "medium"
+        }
+      },
+      "template": [
+        { "type": "text", "value": "A cinematic anamorphic still photograph captured on a real cinema set — " },
+        { "type": "subject" },
+        { "type": "text", "value": ", " },
+        { "type": "control", "control": "framing" },
+        { "type": "text", "value": "." },
+        { "type": "break" },
+        { "type": "control", "control": "lighting" },
+        { "type": "break" },
+        { "type": "block", "block": "CINEMA_PROSE_CLOSE" }
+      ]
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "hint": "tight face close-up, maximum skin fidelity",
+      "recommendedRatio": "4:5 or 1:1",
+      "controls": {
+        "backdrop": {
+          "label": "Backdrop",
+          "options": [
+            { "id": "gray", "label": "Gray seamless", "clause": "Mid-gray seamless studio background, even neutral mid-gray, no seam line, no gradient, no falloff to black or white." },
+            { "id": "moody", "label": "Soft moody", "clause": "A soft moody studio backdrop falling away into gentle darkness behind the subject, deep and unobtrusive, the subject cleanly separated from it." }
+          ],
+          "default": "gray"
+        },
+        "framing": {
+          "label": "Framing",
+          "options": [
+            { "id": "chest-up", "label": "Chest up", "clause": "Chest-up portrait framing." },
+            { "id": "shoulders-up", "label": "Shoulders up", "clause": "Shoulders-up portrait framing." },
+            { "id": "face-only", "label": "Face only", "clause": "Face-only framing, forehead to collarbone." }
+          ],
+          "default": "chest-up"
+        }
+      },
+      "template": [
+        { "type": "subject" },
+        { "type": "text", "value": ". " },
+        { "type": "control", "control": "backdrop" },
+        { "type": "text", "value": " Classical beauty lighting — soft key from slightly above and camera-left at 35 degrees, soft fill at chest level from camera-right, subtle hair light behind defining the crown, soft underlight bounce lifting the eye sockets. " },
+        { "type": "control", "control": "framing" },
+        { "type": "break" },
+        { "type": "block", "block": "DETAIL_FIDELITY" },
+        { "type": "break" },
+        { "type": "block", "block": "CINEMA_STACK" }
+      ]
+    }
+  ]
+}
