@@ -7,6 +7,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
+  NON_VISUAL_CONTROLS,
   PREVIEW_ALIASES,
   PREVIEW_DIR,
   modePreviewFile,
@@ -89,18 +90,24 @@ export async function run() {
     suite.check(`${tag} resolves to one filename`, typeof file === 'string' && FILENAME.test(file), file);
     suite.equal(`${tag} resolution is stable`, optionPreviewFile(modeId, controlId, optionId), file);
 
-    if (isDefault) {
-      suite.equal(`${tag} is the default, so it borrows the mode picture`, file, modePreviewFile(modeId));
+    const nonVisual = NON_VISUAL_CONTROLS.has(controlId);
+    if (isDefault || nonVisual) {
+      suite.equal(
+        `${tag} ${nonVisual ? 'is non-visual' : 'is the default'}, so it borrows the mode picture`,
+        file,
+        modePreviewFile(modeId)
+      );
     } else {
       suite.equal(`${tag} gets its own picture`, file, `${optionKey(modeId, controlId, optionId)}.webp`);
       suite.check(`${tag} never borrows a mode picture`, !modeFiles.has(file), file);
     }
 
     const owner = owners.get(file);
-    // two options may share a file only by both being the same mode's default
+    // two options may share a file only within one mode, and only as its
+    // default or as members of a non-visual group
     suite.check(
       `${tag} does not collide with ${owner || 'anything'}`,
-      !owner || (isDefault && owner.startsWith(`${modeId}/`)),
+      !owner || ((isDefault || nonVisual) && owner.startsWith(`${modeId}/`)),
       file
     );
     if (!owner) owners.set(file, tag);
@@ -108,9 +115,10 @@ export async function run() {
 
   const uniqueFiles = new Set([...modeFiles, ...owners.keys()]);
   suite.equal(
-    'one file per mode plus one per non-default option',
+    'one file per mode plus one per non-default visual option',
     uniqueFiles.size,
-    modeIds.length + all.filter((combo) => !combo.isDefault).length
+    modeIds.length +
+      all.filter((combo) => !combo.isDefault && !NON_VISUAL_CONTROLS.has(combo.controlId)).length
   );
 
   // the alias table itself

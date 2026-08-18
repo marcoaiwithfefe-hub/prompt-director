@@ -53,6 +53,13 @@ export const PREVIEW_ALIASES = {
   'video-atmospheric--sound--wind': 'video-atmospheric.webp',
 };
 
+/**
+ * Controls whose options a still picture cannot tell apart — clip length and
+ * the sound bed. Every option in these groups shows the mode's own picture, so
+ * none of them ever waits on a fired file of its own.
+ */
+export const NON_VISUAL_CONTROLS = new Set(['runtime', 'sound']);
+
 export function optionKey(modeId, controlId, optionId) {
   return `${modeId}--${controlId}--${optionId}`;
 }
@@ -62,6 +69,7 @@ export function modePreviewFile(modeId) {
 }
 
 export function optionPreviewFile(modeId, controlId, optionId) {
+  if (NON_VISUAL_CONTROLS.has(controlId)) return modePreviewFile(modeId);
   const key = optionKey(modeId, controlId, optionId);
   return PREVIEW_ALIASES[key] || `${key}.webp`;
 }
