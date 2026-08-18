@@ -10,7 +10,6 @@ export const LANG_KEY = 'promptDirector.lang';
 
 export const STRINGS = {
   en: {
-    'nav.grammar': 'Grammar',
     'nav.agent': 'Use in your agent',
     'nav.chatgpt': 'ChatGPT version',
     'label.subject': 'Subject',
@@ -44,7 +43,6 @@ export const STRINGS = {
     'enhance.needKey': 'Paste your OpenRouter key first.',
   },
   yue: {
-    'nav.grammar': '文法',
     'nav.agent': '俾 agent 用',
     'nav.chatgpt': 'ChatGPT 版',
     'label.subject': '主題',
