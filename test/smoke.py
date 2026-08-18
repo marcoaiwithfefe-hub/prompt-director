@@ -216,7 +216,12 @@ def check_previews(page, presets, name):
             flipped += 1
         shoot_card(page, f"preview-clip-{mode_id}.png", f"{name}/{mode_id}")
 
-    check(f"{name}: a first chip row has no room above and flips below", flipped > 0, f"{flipped} of 5")
+    # force the no-room-above case: the first mode row sits too close to the
+    # nav for the card to fit above it
+    hover_fresh(page, page.locator('.mode[data-mode="face-lock"]'))
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    flipped += 1 if "is-below" in (page.locator(".previewpop").get_attribute("class") or "") else 0
+    check(f"{name}: a control with no room above flips below", flipped > 0, f"{flipped} flips")
 
     # one absent file degrades on its own while its neighbours keep working
     page.click('.mode[data-mode="detail"]')

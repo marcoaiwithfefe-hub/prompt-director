@@ -133,7 +133,7 @@ textarea,input{font-family:inherit;color:inherit}
   box-shadow:0 16px 38px rgba(0,0,0,.6);
 }
 .previewpop.is-open{display:block}
-.previewpop img{display:block;width:320px;height:auto;border-radius:var(--radius-s)}
+.previewpop img{display:block;width:220px;height:auto;border-radius:var(--radius-s)}
 .previewpop::after{
   content:"";position:absolute;width:9px;height:9px;
   left:var(--arrow-x,50%);margin-left:-5px;

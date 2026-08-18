@@ -49,7 +49,7 @@ export function previewUrl(file) {
 
 /* ---------- everything below this line touches the DOM ---------- */
 
-const PICTURE_WIDTH = 320;
+const PICTURE_WIDTH = 220;
 const GAP = 10;
 const EDGE = 8;
 const ARROW_INSET = 14;
