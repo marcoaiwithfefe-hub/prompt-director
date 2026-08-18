@@ -27,7 +27,7 @@ State what happens, not what shouldn't. Negative language weakens the signal: th
 - ❌ "the camera doesn't shake" → ✅ "locked-off tripod, zero operator drift, frame edges rock-steady"
 - ❌ "no other people" → ✅ "the only figure in frame is the subject, the surrounding street reads empty"
 
-Three sanctioned exceptions, kept because they suppress known failure modes: the on-screen text suppression line closing Last Frame, the anti-plastic phrasings inside Capture Realism, and the "no music" line inside Sound Bed. Everything else ships positive.
+Four sanctioned exceptions, kept because they suppress known failure modes: the on-screen text suppression line closing Last Frame, the anti-plastic phrasings inside Capture Realism, the "no music" line inside Sound Bed, and the "no internal cuts" half of the one-shot clause closing Movement. Everything else ships positive.
 
 ## The block order
 
