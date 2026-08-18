@@ -175,9 +175,10 @@ def check_previews(page, presets, name):
 
     # each file is probed once per visit and the answer is remembered, so both
     # halves of this check start from a fresh page
+    page.route(PREVIEW_GLOB, serve_missing)  # real files may exist on disk now
     reopen(page)
 
-    # nothing has been generated yet, so the page must look exactly as before
+    # with every picture missing, the page must look exactly as before
     hover_fresh(page, page.locator('.mode[data-mode="detail"]'))
     page.wait_for_timeout(400)
     check(f"{name}: a missing picture builds no card at all", page.locator(".previewpop").count() == 0)
@@ -276,6 +277,7 @@ def check_phone_previews(browser, url, presets):
     try:
         bare = context.new_page()
         bare.on("pageerror", lambda error: problems.append(f"pageerror: {error}"))
+        bare.route(PREVIEW_GLOB, serve_missing)  # real files may exist on disk now
         bare.goto(url, wait_until="domcontentloaded")
         bare.wait_for_selector('body[data-ready="true"]', timeout=10000)
         settle_fonts(bare)
