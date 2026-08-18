@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   NON_VISUAL_CONTROLS,
+  NO_PREVIEW_CONTROLS,
   PREVIEW_ALIASES,
   PREVIEW_DIR,
   modePreviewFile,
@@ -35,23 +36,19 @@ const EXPECTED_ALIAS_KEYS = [
   'video-atmospheric--energy--static',
   'video-atmospheric--lens--84',
   'video-atmospheric--runtime--8s',
-  'video-atmospheric--sound--wind',
   'video-atmospheric--timeofday--golden',
   'video-narrative--atmosphere--light',
   'video-narrative--camera--handheld',
   'video-narrative--lens--47',
   'video-narrative--runtime--8s',
-  'video-narrative--sound--street',
   'video-product-ad--atmosphere--light',
   'video-product-ad--camera--tripod',
   'video-product-ad--lens--47',
   'video-product-ad--runtime--8s',
-  'video-product-ad--sound--handling',
   'video-product-ad--surface--seamless',
   'video-ugc--framing--selfie',
   'video-ugc--lens--63',
   'video-ugc--runtime--8s',
-  'video-ugc--sound--room',
 ];
 
 function combos() {
@@ -87,6 +84,11 @@ export async function run() {
   for (const { modeId, controlId, optionId, isDefault } of all) {
     const tag = `${modeId}/${controlId}/${optionId}`;
     const file = optionPreviewFile(modeId, controlId, optionId);
+    if (NO_PREVIEW_CONTROLS.has(controlId)) {
+      suite.equal(`${tag} shows no picture at all`, file, null);
+      suite.equal(`${tag} resolution is stable`, optionPreviewFile(modeId, controlId, optionId), null);
+      continue;
+    }
     suite.check(`${tag} resolves to one filename`, typeof file === 'string' && FILENAME.test(file), file);
     suite.equal(`${tag} resolution is stable`, optionPreviewFile(modeId, controlId, optionId), file);
 
@@ -118,7 +120,12 @@ export async function run() {
     'one file per mode plus one per non-default visual option',
     uniqueFiles.size,
     modeIds.length +
-      all.filter((combo) => !combo.isDefault && !NON_VISUAL_CONTROLS.has(combo.controlId)).length
+      all.filter(
+        (combo) =>
+          !combo.isDefault &&
+          !NON_VISUAL_CONTROLS.has(combo.controlId) &&
+          !NO_PREVIEW_CONTROLS.has(combo.controlId)
+      ).length
   );
 
   // the alias table itself
@@ -140,7 +147,11 @@ export async function run() {
     suite.check(`alias ${key} resolves to a real mode picture`, modeFiles.has(value), value);
     suite.equal(`alias ${key} belongs to its own mode`, value, `${key.split('--')[0]}.webp`);
   }
-  suite.equal('every default option is aliased', aliasKeys.length, defaultCombos.size);
+  suite.equal(
+    'every default option with a picture is aliased',
+    aliasKeys.length,
+    all.filter((combo) => combo.isDefault && !NO_PREVIEW_CONTROLS.has(combo.controlId)).length
+  );
 
   // url shape: relative, so a project page under a subpath still finds the files
   suite.equal('pictures live under docs/previews/', PREVIEW_DIR, './previews/');

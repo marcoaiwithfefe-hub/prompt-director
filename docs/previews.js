@@ -34,32 +34,34 @@ export const PREVIEW_ALIASES = {
   'video-product-ad--lens--47': 'video-product-ad.webp',
   'video-product-ad--surface--seamless': 'video-product-ad.webp',
   'video-product-ad--atmosphere--light': 'video-product-ad.webp',
-  'video-product-ad--sound--handling': 'video-product-ad.webp',
   'video-product-ad--camera--tripod': 'video-product-ad.webp',
   'video-ugc--runtime--8s': 'video-ugc.webp',
   'video-ugc--framing--selfie': 'video-ugc.webp',
   'video-ugc--lens--63': 'video-ugc.webp',
-  'video-ugc--sound--room': 'video-ugc.webp',
   'video-narrative--runtime--8s': 'video-narrative.webp',
   'video-narrative--lens--47': 'video-narrative.webp',
   'video-narrative--atmosphere--light': 'video-narrative.webp',
-  'video-narrative--sound--street': 'video-narrative.webp',
   'video-narrative--camera--handheld': 'video-narrative.webp',
   'video-atmospheric--runtime--8s': 'video-atmospheric.webp',
   'video-atmospheric--lens--84': 'video-atmospheric.webp',
   'video-atmospheric--energy--static': 'video-atmospheric.webp',
   'video-atmospheric--timeofday--golden': 'video-atmospheric.webp',
   'video-atmospheric--atmosphere--light': 'video-atmospheric.webp',
-  'video-atmospheric--sound--wind': 'video-atmospheric.webp',
 };
 
 /**
- * Controls whose options a still picture cannot tell apart — clip length, the
- * sound bed, and camera energy (motion). Every option in these groups shows
- * the mode's own picture, so none of them ever waits on a fired file of its
- * own.
+ * Controls whose options a still picture cannot tell apart — clip length and
+ * camera energy (motion). Every option in these groups shows the mode's own
+ * picture, so none of them ever waits on a fired file of its own.
  */
-export const NON_VISUAL_CONTROLS = new Set(['runtime', 'sound', 'energy']);
+export const NON_VISUAL_CONTROLS = new Set(['runtime', 'energy']);
+
+/**
+ * Controls that show no picture at all. A sound bed has nothing to look at,
+ * and borrowing the mode picture there taught nothing — so these render bare:
+ * no hover card, no inline thumb.
+ */
+export const NO_PREVIEW_CONTROLS = new Set(['sound']);
 
 export function optionKey(modeId, controlId, optionId) {
   return `${modeId}--${controlId}--${optionId}`;
@@ -70,6 +72,7 @@ export function modePreviewFile(modeId) {
 }
 
 export function optionPreviewFile(modeId, controlId, optionId) {
+  if (NO_PREVIEW_CONTROLS.has(controlId)) return null;
   if (NON_VISUAL_CONTROLS.has(controlId)) return modePreviewFile(modeId);
   const key = optionKey(modeId, controlId, optionId);
   return PREVIEW_ALIASES[key] || `${key}.webp`;
@@ -242,12 +245,14 @@ export function initPreviews() {
 
 /** Name the picture and the alt text a control should show. */
 export function tagPreview(element, file, label) {
+  if (!file) return;
   element.dataset.preview = file;
   element.dataset.previewLabel = label;
 }
 
 /** Inline picture of the selected option, appended once the file answers. */
 export function appendThumb(parent, file, label) {
+  if (!file) return;
   probe(file).then((result) => {
     if (!result.ok || !parent.isConnected) return;
     const picture = document.createElement('img');

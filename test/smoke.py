@@ -130,6 +130,8 @@ def check_enhance_wiring(page, name):
 
 PREVIEW_GLOB = "**/previews/*.webp"
 MISSING_PREVIEW = "**/previews/detail--backdrop--moody.webp"
+# mirrors NO_PREVIEW_CONTROLS in docs/previews.js: sound chips render bare
+NO_PREVIEW_CONTROLS = {"sound"}
 
 
 def stub_picture(width, height, body, border, thickness=4):
@@ -342,12 +344,13 @@ def check_phone_previews(browser, url, presets):
 
         for mode in presets["modes"]:
             mode_id = mode["id"]
-            groups = len(mode.get("controls", {}))
+            controls = mode.get("controls", {})
+            groups = len([c for c in controls if c not in NO_PREVIEW_CONTROLS])
             select_mode(page, mode)
             page.wait_for_function(
                 f"() => document.querySelectorAll('#controlGroups .previewthumb').length === {groups}",
                 timeout=5000)
-            check(f"{name}/{mode_id}: one thumbnail per control group",
+            check(f"{name}/{mode_id}: one thumbnail per control group with a picture",
                   page.locator("#controlGroups .previewthumb").count() == groups)
             check(f"{name}/{mode_id}: the mode list stays picture-free",
                   page.locator("#modeList .previewthumb").count() == 0)
