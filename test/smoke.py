@@ -31,6 +31,17 @@ SHOTS = ROOT / "test" / "screenshots"
 VIEWPORTS = [("desktop", 1440, 900), ("phone", 390, 844)]
 CHARACTER_MODES = {"face-lock", "outfit-styling", "char-sheet"}
 SUBJECT = "a woman with jet black hair in a cropped white ribbed tank"
+ACTION = "she lifts the bottle and turns it toward the lens"
+VIDEO_BLOCK_LABELS = [
+    "Scene & Mood",
+    "Subject Lock",
+    "Movement",
+    "Last Frame",
+    "World Plate",
+    "Sound Bed",
+    "Capture Realism",
+    "Camera Capture",
+]
 
 failures = []
 checks = 0
@@ -48,6 +59,22 @@ def carries_subject(text, subject):
     return subject in text or subject[0].upper() + subject[1:] in text
 
 
+def select_mode(page, mode):
+    """The media toggle owns the mode list, so a mode is reached through it."""
+    page.click(f'.segment[data-media="{mode["mediaType"]}"]')
+    page.wait_for_timeout(40)
+    page.click(f'.mode[data-mode="{mode["id"]}"]')
+    page.wait_for_timeout(60)
+
+
+def locked_groups(mode):
+    return [cid for cid, group in mode.get("controls", {}).items() if group.get("locked")]
+
+
+def open_chip_groups(mode):
+    return [cid for cid, group in mode.get("controls", {}).items() if not group.get("locked")]
+
+
 ENHANCE_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
@@ -63,8 +90,13 @@ def check_enhance_wiring(page, name):
             route.fulfill(status=status, content_type="application/json", body=body)
         return handler
 
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(40)
+    page.click('.mode[data-mode="face-lock"]')
+    page.wait_for_timeout(60)
     page.fill("#subject", SUBJECT)
-    page.click("#enhanceBox summary")
+    if not page.locator("#enhanceBox[open]").count():
+        page.click("#enhanceBox summary")
     page.fill("#apiKey", "sk-or-v1-fake-key")
     before = page.inner_text("#promptOut")
 
@@ -193,8 +225,9 @@ def check_previews(page, presets, name):
     flipped = 0
     for mode in presets["modes"]:
         mode_id = mode["id"]
-        page.click(f'.mode[data-mode="{mode_id}"]')
-        page.wait_for_timeout(60)
+        if not mode.get("controls"):
+            continue
+        select_mode(page, mode)
 
         chip = page.locator("#controlGroups .presetrow").first.locator("button").first
         label = chip.inner_text()
@@ -218,12 +251,16 @@ def check_previews(page, presets, name):
 
     # force the no-room-above case: the first mode row sits too close to the
     # nav for the card to fit above it
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(60)
     hover_fresh(page, page.locator('.mode[data-mode="face-lock"]'))
     page.wait_for_selector(".previewpop.is-open", timeout=4000)
     flipped += 1 if "is-below" in (page.locator(".previewpop").get_attribute("class") or "") else 0
     check(f"{name}: a control with no room above flips below", flipped > 0, f"{flipped} flips")
 
     # one absent file degrades on its own while its neighbours keep working
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(60)
     page.click('.mode[data-mode="detail"]')
     page.wait_for_timeout(60)
     hover_fresh(page, page.locator('[data-preview="detail--backdrop--moody.webp"]'))
@@ -232,6 +269,8 @@ def check_previews(page, presets, name):
           page.locator(".previewpop.is-open").count() == 0)
 
     # mode buttons carry pictures too
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(60)
     page.click('.mode[data-mode="scene"]')
     page.wait_for_timeout(60)
     hover_fresh(page, page.locator('.mode[data-preview="scene.webp"]'))
@@ -304,7 +343,7 @@ def check_phone_previews(browser, url, presets):
         for mode in presets["modes"]:
             mode_id = mode["id"]
             groups = len(mode.get("controls", {}))
-            page.click(f'.mode[data-mode="{mode_id}"]')
+            select_mode(page, mode)
             page.wait_for_function(
                 f"() => document.querySelectorAll('#controlGroups .previewthumb').length === {groups}",
                 timeout=5000)
@@ -312,6 +351,8 @@ def check_phone_previews(browser, url, presets):
                   page.locator("#controlGroups .previewthumb").count() == groups)
             check(f"{name}/{mode_id}: the mode list stays picture-free",
                   page.locator("#modeList .previewthumb").count() == 0)
+            if not groups:
+                continue
             check(f"{name}/{mode_id}: thumbnail is visible",
                   page.locator(".previewthumb").first.is_visible())
             selected = page.locator("#controlGroups .presetrow").first.locator('button[aria-checked="true"]')
@@ -321,6 +362,8 @@ def check_phone_previews(browser, url, presets):
             check(f"{name}/{mode_id}: thumbnail sits under its chip row",
                   page.locator("#controlGroups .field").first.locator(".previewthumb").count() == 1)
 
+        page.click('.segment[data-media="image"]')
+        page.wait_for_timeout(60)
         page.click('.mode[data-mode="scene"]')
         page.wait_for_function(
             "() => document.querySelectorAll('#controlGroups .previewthumb').length === 2", timeout=5000)
@@ -339,6 +382,212 @@ def check_phone_previews(browser, url, presets):
         context.close()
 
     check(f"{name}: no page errors", not problems, "; ".join(problems))
+
+
+def check_media_toggle(page, presets, name):
+    """The toggle is the target picker: it filters the list and remembers where
+    you were, while the two text boxes belong to the whole session."""
+    image_modes = [m["id"] for m in presets["modes"] if m["mediaType"] == "image"]
+    video_modes = [m["id"] for m in presets["modes"] if m["mediaType"] == "video"]
+
+    page.fill("#subject", SUBJECT)
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(60)
+    listed = page.locator("#modeList .mode").evaluate_all("nodes => nodes.map(n => n.dataset.mode)")
+    check(f"{name}: image lists only image modes", listed == image_modes, str(listed))
+    check(f"{name}: the action box is hidden on image", page.locator("#actionField").is_hidden())
+
+    page.click('.mode[data-mode="detail"]')
+    page.wait_for_timeout(60)
+
+    page.click('.segment[data-media="video"]')
+    page.wait_for_timeout(60)
+    listed = page.locator("#modeList .mode").evaluate_all("nodes => nodes.map(n => n.dataset.mode)")
+    check(f"{name}: video lists only video modes", listed == video_modes, str(listed))
+    check(f"{name}: video opens on Product Ad",
+          page.get_attribute('.mode[data-mode="video-product-ad"]', "aria-checked") == "true")
+    check(f"{name}: the action box appears on video", page.locator("#actionField").is_visible())
+    check(f"{name}: the subject survived the switch", page.input_value("#subject") == SUBJECT)
+    check(f"{name}: video modes carry the Seedance badge",
+          page.locator('.mode[data-mode="video-ugc"] .badge').count() == 1)
+    check(f"{name}: image modes carry no badge",
+          page.locator("#modeList .badge").count() == len(video_modes))
+
+    page.fill("#action", ACTION)
+    page.wait_for_timeout(60)
+    page.click('.mode[data-mode="video-narrative"]')
+    page.wait_for_timeout(60)
+
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(60)
+    check(f"{name}: image comes back where you left it",
+          page.get_attribute('.mode[data-mode="detail"]', "aria-checked") == "true")
+
+    page.click('.segment[data-media="video"]')
+    page.wait_for_timeout(60)
+    check(f"{name}: video comes back where you left it",
+          page.get_attribute('.mode[data-mode="video-narrative"]', "aria-checked") == "true")
+    check(f"{name}: the action survived both switches", page.input_value("#action") == ACTION)
+
+
+def check_video_blocks(page, mode, name):
+    """Eight labelled blocks, in grammar order, assembled live."""
+    text = page.inner_text("#promptOut")
+    cursor = -1
+    ordered = True
+    for label in VIDEO_BLOCK_LABELS:
+        at = text.find(f"{label}: ", cursor + 1)
+        if at <= cursor:
+            ordered = False
+            break
+        cursor = at
+    check(f"{name}/{mode['id']}: eight blocks in grammar order", ordered, text[:120])
+    check(f"{name}/{mode['id']}: paragraphs match blocks",
+          page.locator("#promptOut p").count() == len(VIDEO_BLOCK_LABELS),
+          str(page.locator("#promptOut p").count()))
+    check(f"{name}/{mode['id']}: the one-shot clause closes Movement",
+          "no internal cuts" in text)
+    check(f"{name}/{mode['id']}: Sound Bed opens diegetic", "Diegetic only" in text)
+
+    # the action box drives the Movement block
+    page.fill("#action", "")
+    page.wait_for_timeout(60)
+    default_text = page.inner_text("#promptOut")
+    check(f"{name}/{mode['id']}: an empty action fires the mode default",
+          mode["defaultAction"] in default_text)
+    check(f"{name}/{mode['id']}: an empty action still enables copy", page.is_enabled("#copyBtn"))
+    page.fill("#action", ACTION)
+    page.wait_for_timeout(60)
+    typed_text = page.inner_text("#promptOut")
+    check(f"{name}/{mode['id']}: a typed action replaces the default",
+          mode["defaultAction"] not in typed_text and "turns it toward the lens" in typed_text)
+
+
+def check_locked_chips(page, mode, name):
+    groups = locked_groups(mode)
+    check(f"{name}/{mode['id']}: one why line per locked group",
+          page.locator("#controlGroups .whynote").count() == len(groups),
+          str(page.locator("#controlGroups .whynote").count()))
+    for control_id in groups:
+        group = mode["controls"][control_id]
+        check(f"{name}/{mode['id']}/{control_id}: the why line is shown",
+              group["why"] in page.inner_text("#controlGroups"))
+    check(f"{name}/{mode['id']}: locked chips cannot be clicked",
+          page.locator("#controlGroups .preset.is-locked").count() == len(groups))
+
+
+def check_refs(page, mode, name):
+    refs = mode.get("refs", [])
+    boxes = page.locator("#refGroup input[type=checkbox]")
+    check(f"{name}/{mode['id']}: one checkbox per reference", boxes.count() == len(refs),
+          str(boxes.count()))
+    if not refs:
+        check(f"{name}/{mode['id']}: no reference block at all",
+              page.locator("#refGroup .field").count() == 0)
+        return
+
+    before = page.inner_text("#promptOut")
+    check(f"{name}/{mode['id']}: no tag before a box is ticked", "@" not in before)
+    check(f"{name}/{mode['id']}: no upload line before a box is ticked",
+          page.locator("#refGroup .note").count() == 0)
+
+    for ref in refs:
+        page.check(f'#refGroup input[data-ref="{ref["id"]}"]')
+        page.wait_for_timeout(60)
+        text = page.inner_text("#promptOut")
+        check(f"{name}/{mode['id']}: {ref['id']} adds its sentence",
+              ref["segments"][0]["text"].strip() in text)
+        check(f"{name}/{mode['id']}: {ref['id']} names its file",
+              ref["filename"] in page.inner_text("#refGroup .note"))
+
+    for ref in refs:
+        page.uncheck(f'#refGroup input[data-ref="{ref["id"]}"]')
+        page.wait_for_timeout(60)
+    check(f"{name}/{mode['id']}: unticking removes every tag",
+          "@" not in page.inner_text("#promptOut"))
+    check(f"{name}/{mode['id']}: unticking removes the upload line",
+          page.locator("#refGroup .note").count() == 0)
+
+
+def check_register(page, mode, name):
+    if not mode.get("registers"):
+        check(f"{name}/{mode['id']}: no register toggle", page.locator("#registerToggle").count() == 0)
+        return
+    check(f"{name}/{mode['id']}: register toggle rendered", page.locator("#registerToggle").count() == 1)
+    check(f"{name}/{mode['id']}: register toggle starts off", not page.is_checked("#registerToggle"))
+    cinema = page.inner_text("#promptOut")
+    page.check("#registerToggle")
+    page.wait_for_timeout(60)
+    phone = page.inner_text("#promptOut")
+    check(f"{name}/{mode['id']}: the phone register changes the prompt", phone != cinema)
+    check(f"{name}/{mode['id']}: the phone register says so",
+          "smartphone main-lens register" in phone)
+    page.uncheck("#registerToggle")
+    page.wait_for_timeout(60)
+    check(f"{name}/{mode['id']}: toggling back restores the same bytes",
+          page.inner_text("#promptOut") == cinema)
+
+
+def check_enhanced_invalidation(page, presets, name):
+    """A changed control makes an enhanced panel a lie, so it goes away."""
+    video = next(m for m in presets["modes"] if m["id"] == "video-product-ad")
+    select_mode(page, video)
+    page.fill("#subject", SUBJECT)
+    page.fill("#action", ACTION)
+    page.wait_for_timeout(60)
+
+    body = ('{"choices":[{"message":{"content":"{\\"scene\\":\\"A quiet counter.\\",'
+            '\\"subjectLock\\":\\"The bottle sits square to camera.\\",'
+            '\\"movement\\":\\"It turns a slow quarter rotation.\\",'
+            '\\"worldPlate\\":\\"A minimal set in soft window light.\\"}"}}]}')
+
+    def handler(route):
+        route.fulfill(status=200, content_type="application/json", body=body)
+
+    page.route(ENHANCE_URL, handler)
+    if not page.locator("#enhanceBox[open]").count():
+        page.click("#enhanceBox summary")
+    page.fill("#apiKey", "sk-or-v1-fake-key")
+    deterministic = page.inner_text("#promptOut")
+    page.click("#enhanceBtn")
+    page.wait_for_selector("#enhancedPanel:not([hidden])", timeout=5000)
+    enhanced = page.inner_text("#enhancedOut")
+    check(f"{name}: the video rebuild keeps the client's locked blocks",
+          "no internal cuts" in enhanced and "Diegetic only" in enhanced)
+    check(f"{name}: the video rebuild keeps all eight labels",
+          all(f"{label}: " in enhanced for label in VIDEO_BLOCK_LABELS))
+    check(f"{name}: the model's own words are in there", "A quiet counter." in enhanced)
+    check(f"{name}: the deterministic prompt is untouched",
+          page.inner_text("#promptOut") == deterministic)
+
+    page.locator("#controlGroups .presetrow").first.locator("button").nth(1).click()
+    page.wait_for_timeout(80)
+    check(f"{name}: a changed chip clears the enhanced panel",
+          page.locator("#enhancedPanel").is_hidden())
+
+    page.click("#enhanceBtn")
+    page.wait_for_selector("#enhancedPanel:not([hidden])", timeout=5000)
+    page.fill("#action", f"{ACTION} slowly")
+    page.wait_for_timeout(80)
+    check(f"{name}: a changed action clears the enhanced panel",
+          page.locator("#enhancedPanel").is_hidden())
+
+    page.click("#enhanceBtn")
+    page.wait_for_selector("#enhancedPanel:not([hidden])", timeout=5000)
+    page.click('.segment[data-media="image"]')
+    page.wait_for_timeout(80)
+    check(f"{name}: a media switch clears the enhanced panel",
+          page.locator("#enhancedPanel").is_hidden())
+
+    page.unroute(ENHANCE_URL)
+    page.click("#clearKeyBtn")
+
+
+def check_copy(page, name):
+    page.click("#copyBtn")
+    page.wait_for_timeout(120)
+    state = page.inner_text("#copyState")
+    check(f"{name}: copy reports back", state != "", state)
 
 
 def free_port():
@@ -397,10 +646,14 @@ def run():
                       "characters" in page.inner_text("#charCount"),
                       page.inner_text("#charCount"))
 
+                check_media_toggle(page, presets, name)
+
                 for mode in presets["modes"]:
                     mode_id = mode["id"]
-                    page.click(f'.mode[data-mode="{mode_id}"]')
-                    page.wait_for_timeout(60)
+                    select_mode(page, mode)
+                    if mode["mediaType"] == "video":
+                        page.fill("#action", ACTION)
+                        page.wait_for_timeout(60)
 
                     check(f"{name}/{mode_id}: mode selected",
                           page.get_attribute(f'.mode[data-mode="{mode_id}"]', "aria-checked") == "true")
@@ -425,20 +678,34 @@ def run():
                     else:
                         check(f"{name}/{mode_id}: no locked row", locked == 0)
 
+                    if mode["mediaType"] == "video":
+                        check_video_blocks(page, mode, name)
+                    check_locked_chips(page, mode, name)
+                    check_refs(page, mode, name)
+                    check_register(page, mode, name)
+                    check_copy(page, f"{name}/{mode_id}")
+
                     # live assembly: flip the first control and the prompt must move
-                    presets_buttons = page.locator("#controlGroups .presetrow").first.locator("button")
-                    if presets_buttons.count() > 1:
+                    # flip to an option that is not already selected: a video
+                    # mode's first group defaults to its middle chip
+                    presets_row = page.locator("#controlGroups .presetrow").first
+                    unpicked = presets_row.locator('button[aria-checked="false"]:not([disabled])')
+                    if unpicked.count():
                         before = page.inner_text("#promptOut")
-                        presets_buttons.nth(1).click()
+                        picked_label = presets_row.locator('button[aria-checked="true"]').inner_text()
+                        unpicked.first.click()
                         page.wait_for_timeout(60)
                         after = page.inner_text("#promptOut")
                         check(f"{name}/{mode_id}: prompt updates live", before != after)
-                        presets_buttons.nth(0).click()
+                        presets_row.locator("button", has_text=picked_label).first.click()
                         page.wait_for_timeout(60)
+                        check(f"{name}/{mode_id}: flipping back restores the prompt",
+                              page.inner_text("#promptOut") == before)
 
                     page.screenshot(path=str(SHOTS / f"{name}-{mode_id}.png"), full_page=(name == "phone"))
 
                 check_enhance_wiring(page, name)
+                check_enhanced_invalidation(page, presets, name)
                 if name == "desktop":
                     check_previews(page, presets, name)
 

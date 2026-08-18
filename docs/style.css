@@ -118,15 +118,15 @@ textarea,input{font-family:inherit;color:inherit}
 
 .modes{display:flex;flex-direction:column;gap:6px}
 .mode{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-s);
   padding:10px 12px;font-size:13px;color:var(--text);width:100%;
 }
 .mode:hover{border-color:var(--muted)}
 .mode[aria-checked="true"]{border-color:var(--accent)}
 .mode[aria-checked="true"] .name{color:var(--accent)}
-.mode .hint{color:var(--muted);font-size:11px;text-align:right}
-.modehead{display:flex;align-items:center;gap:7px;min-width:0}
+.mode .hint{color:var(--muted);font-size:11px;text-align:right;line-height:1.45}
+.modehead{display:flex;align-items:center;gap:7px;flex:0 0 auto}
 .mode .badge{
   border:1px solid var(--line);border-radius:4px;padding:1px 5px;
   font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
