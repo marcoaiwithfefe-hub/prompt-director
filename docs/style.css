@@ -104,6 +104,18 @@ textarea,input{font-family:inherit;color:inherit}
 .form textarea::placeholder{color:var(--muted)}
 .form textarea:focus{border-color:var(--accent)}
 
+/* Image / Video. The same control picks the mode list and the generator the
+   prompt is written for, so it sits above everything it changes. */
+.segmented{display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden}
+.segment{
+  background:var(--surface);border:none;color:var(--muted);
+  padding:10px 12px;font-size:13px;font-weight:600;
+}
+.segment+.segment{border-left:1px solid var(--line)}
+.segment:hover{color:var(--text)}
+.segment[aria-checked="true"]{background:var(--accent);color:var(--accent-ink)}
+
 .modes{display:flex;flex-direction:column;gap:6px}
 .mode{
   display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;
@@ -114,6 +126,11 @@ textarea,input{font-family:inherit;color:inherit}
 .mode[aria-checked="true"]{border-color:var(--accent)}
 .mode[aria-checked="true"] .name{color:var(--accent)}
 .mode .hint{color:var(--muted);font-size:11px;text-align:right}
+.modehead{display:flex;align-items:center;gap:7px;min-width:0}
+.mode .badge{
+  border:1px solid var(--line);border-radius:4px;padding:1px 5px;
+  font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+}
 
 .presetrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .preset{
@@ -122,6 +139,13 @@ textarea,input{font-family:inherit;color:inherit}
 }
 .preset:hover{border-color:var(--muted)}
 .preset[aria-checked="true"]{border-color:var(--accent);color:var(--accent)}
+/* A locked group still shows its one chip: the visitor sees what the grammar
+   chose, and reads underneath why it is not theirs to change. */
+.preset.is-locked{cursor:default;opacity:.9}
+.preset.is-locked:hover{border-color:var(--accent)}
+.whynote{color:var(--muted);font-size:11px;line-height:1.5;margin-top:7px}
+#refGroup .checkrow,#registerGroup .checkrow{margin-top:7px;color:var(--text)}
+#refGroup .note{margin-top:9px}
 
 /* Hover card. Fixed to the viewport and parked on body so the left panel's own
    scrollbox cannot clip it. Positions arrive from previews.js through the

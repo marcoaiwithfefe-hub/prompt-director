@@ -1,0 +1,93 @@
+[
+  {
+    "file": "product-shot--cinema.txt",
+    "mode": "product-shot",
+    "register": "cinema",
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "product-shot--phone.txt",
+    "mode": "product-shot",
+    "register": "phone",
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "ad-916--cinema.txt",
+    "mode": "ad-916",
+    "register": "cinema",
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "ad-916--phone.txt",
+    "mode": "ad-916",
+    "register": "phone",
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "poster.txt",
+    "mode": "poster",
+    "register": null,
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "video-product-ad--default-action.txt",
+    "mode": "video-product-ad",
+    "register": null,
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": ""
+  },
+  {
+    "file": "video-product-ad--typed-action.txt",
+    "mode": "video-product-ad",
+    "register": null,
+    "subject": "a frosted glass serum bottle with a brushed aluminium cap",
+    "action": "the bottle turns a slow quarter rotation"
+  },
+  {
+    "file": "video-ugc--default-action.txt",
+    "mode": "video-ugc",
+    "register": null,
+    "subject": "a woman in a grey hoodie at a kitchen counter",
+    "action": ""
+  },
+  {
+    "file": "video-ugc--typed-action.txt",
+    "mode": "video-ugc",
+    "register": null,
+    "subject": "a woman in a grey hoodie at a kitchen counter",
+    "action": "she holds the bottle up beside her face and keeps talking"
+  },
+  {
+    "file": "video-narrative--default-action.txt",
+    "mode": "video-narrative",
+    "register": null,
+    "subject": "a woman in a grey hoodie at a kitchen counter",
+    "action": ""
+  },
+  {
+    "file": "video-narrative--typed-action.txt",
+    "mode": "video-narrative",
+    "register": null,
+    "subject": "a woman in a grey hoodie at a kitchen counter",
+    "action": "she sets the mug down and looks toward the window"
+  },
+  {
+    "file": "video-atmospheric--default-action.txt",
+    "mode": "video-atmospheric",
+    "register": null,
+    "subject": "a wet rooftop above a harbour",
+    "action": ""
+  },
+  {
+    "file": "video-atmospheric--typed-action.txt",
+    "mode": "video-atmospheric",
+    "register": null,
+    "subject": "a wet rooftop above a harbour",
+    "action": "rain moves across the rooftops from screen-left"
+  }
+]

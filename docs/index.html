@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://openrouter.ai; img-src 'self' data:; base-uri 'none'; form-action 'none'">
-<title>Prompt Director · free image prompt builder</title>
-<meta name="description" content="Type a subject, pick a mode, get a director-grade image prompt. Free, open source, runs entirely in your browser.">
+<title>Prompt Director · free image and video prompt builder</title>
+<meta name="description" content="Type a subject, pick a mode, get a director-grade image or Seedance video prompt. Free, open source, runs entirely in your browser.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Archivo+Expanded:wght@500;700;900&display=swap">
@@ -28,8 +28,18 @@
 
   <section class="form" aria-label="Prompt controls">
     <div class="field">
+      <span class="microlabel" id="mediaLabel" data-i18n="label.media">Make</span>
+      <div class="segmented" id="mediaToggle" role="radiogroup" aria-labelledby="mediaLabel"></div>
+    </div>
+
+    <div class="field">
       <label class="microlabel" for="subject" data-i18n="label.subject">Subject</label>
       <textarea id="subject" rows="3" spellcheck="false" data-i18n-placeholder="subject.placeholder" placeholder="East Asian man, navy suit, studio headshot"></textarea>
+    </div>
+
+    <div class="field" id="actionField" hidden>
+      <label class="microlabel" for="action" data-i18n="field.action.label">What happens</label>
+      <textarea id="action" rows="2" spellcheck="false" data-i18n-placeholder="field.action.placeholder" placeholder="the bottle turns slowly, light sweeping across the label"></textarea>
     </div>
 
     <div class="field">
@@ -37,7 +47,9 @@
       <div class="modes" id="modeList" role="radiogroup" aria-labelledby="modeLabel"></div>
     </div>
 
+    <div id="registerGroup"></div>
     <div id="controlGroups"></div>
+    <div id="refGroup"></div>
   </section>
 
   <section class="out" aria-label="Assembled prompt">
@@ -60,7 +72,7 @@
         <p class="note" data-i18n="enhance.note1">Optional. Your key goes straight from this page to OpenRouter and nowhere else. Leave the box below unticked and the key is gone the moment you close the tab.</p>
 
         <div class="field">
-          <label class="microlabel" for="apiKey">OpenRouter key</label>
+          <label class="microlabel" for="apiKey" data-i18n="label.apiKey">OpenRouter key</label>
           <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-v1-...">
         </div>
 

@@ -1,0 +1,15 @@
+Scene & Mood: A lived-in dramatic moment — a woman in a grey hoodie at a kitchen counter, the drama carried entirely in observable action.
+
+Subject Lock: The subject anchors the frame — body orientation, pose, and gaze pinned, contact points planted on real surfaces. Face, hair, wardrobe, and silhouette stay identical throughout the runtime.
+
+Movement: She sets the mug down and looks toward the window. Micro-motion layers underneath — breath, hair, fabric responding. The environment keeps its own honest motion around the action. One uninterrupted shot, no internal cuts, the camera never breaks the take.
+
+Last Frame: The subject holds the closing composition, gaze landing where the story points, the frame settling still. No on-screen text, no captions, no signage typography, no rendered text in the frame.
+
+World Plate: A real lived-in location, its time of day and weather stated by what the light actually does, light haze at 15% density, readable to 30 meters, the deeper planes softening.
+
+Sound Bed: Diegetic only — street ambience — footsteps on pavement, passing traffic, air moving between buildings, no music, no score, no lyrics.
+
+Capture Realism: The subject sits inside real depth — light atmosphere suspended in the air between camera, subject, and the far background, the background rendered softer, desaturated, and lower-contrast than the foreground so the figure sits within the air rather than pasted on a flat plane. Skin reads true cinematic matte — zero shine on forehead, nose bridge, cheekbones, temples, chin, and collarbones, real peach fuzz catching light at the jaw and hairline, real soft fine even pore texture, light absorbed like true subsurface scattering, warmth preserved and natural, never plastic, never doll-skin, never AI-rendered, and never harsh — no acne, no blemishes, no enlarged or rough pores, fine flattering texture that keeps the face looking good. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. All specular highlights surgically removed from skin, hair, fabric, and surrounding surfaces, every pixel reading matte and diffuse. Slightly desaturated grade with warmth preserved.
+
+Camera Capture: wide-latitude cinema capture, 47° (40–50mm) eye-level neutral vintage 2x anamorphic character at a wide aperture — oval bokeh, soft frame-edge falloff — light diffusion bloom softening highlights, handheld with natural operator breath, color-negative daylight film rendition with fine 35mm grain, teal-amber grade, shallow depth of field, 24fps 180° shutter, 8s.

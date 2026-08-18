@@ -26,8 +26,31 @@ const EXPECTED_ALIAS_KEYS = [
   'detail--framing--chest-up',
   'face-lock--baselineWardrobe--camisole',
   'outfit-styling--framing--full-body',
+  'poster--lighting--side',
+  'product-shot--surface--seamless',
   'scene--framing--medium',
   'scene--lighting--daylight',
+  'video-atmospheric--atmosphere--light',
+  'video-atmospheric--energy--static',
+  'video-atmospheric--lens--84',
+  'video-atmospheric--runtime--8s',
+  'video-atmospheric--sound--wind',
+  'video-atmospheric--timeofday--golden',
+  'video-narrative--atmosphere--light',
+  'video-narrative--camera--handheld',
+  'video-narrative--lens--47',
+  'video-narrative--runtime--8s',
+  'video-narrative--sound--street',
+  'video-product-ad--atmosphere--light',
+  'video-product-ad--camera--tripod',
+  'video-product-ad--lens--47',
+  'video-product-ad--runtime--8s',
+  'video-product-ad--sound--handling',
+  'video-product-ad--surface--seamless',
+  'video-ugc--framing--selfie',
+  'video-ugc--lens--63',
+  'video-ugc--runtime--8s',
+  'video-ugc--sound--room',
 ];
 
 function combos() {
@@ -92,7 +115,11 @@ export async function run() {
 
   // the alias table itself
   const aliasKeys = Object.keys(PREVIEW_ALIASES).sort();
-  suite.equal('alias table holds exactly the seven defaults', aliasKeys.join(','), EXPECTED_ALIAS_KEYS.join(','));
+  suite.equal(
+    'alias table holds exactly one entry per default option',
+    aliasKeys.join(','),
+    EXPECTED_ALIAS_KEYS.join(',')
+  );
 
   const realCombos = new Set(all.map((combo) => optionKey(combo.modeId, combo.controlId, combo.optionId)));
   const defaultCombos = new Set(

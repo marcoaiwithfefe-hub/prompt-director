@@ -1,0 +1,15 @@
+Scene & Mood: The place is the subject — a wet rooftop above a harbour, empty of people, holding its own mood.
+
+Subject Lock: The environment locks as the single subject — its dominant element pinned in state, structure and scale readable. The environment's structure, weather, and light stay consistent throughout the runtime.
+
+Movement: Environmental motion only — what the wind, water, and light do across the runtime; nothing is staged. One uninterrupted shot, no internal cuts, the camera never breaks the take.
+
+Last Frame: The frame closes on the same composition it opened, the environmental motion mid-breath, negative space intact. No on-screen text, no captions, no signage typography, no rendered text in the frame.
+
+World Plate: low golden-hour light raking long shadows across the surfaces, light haze at 15% density, readable to 30 meters, the deeper planes softening.
+
+Sound Bed: Diegetic only — wind moving through the space, distant traffic far below the frame, no music, no score, no lyrics.
+
+Capture Realism: The frame holds real depth — atmosphere suspended in the air between camera and the far planes, distance rendered softer, desaturated, and lower-contrast, weathered material detail reading true up close. Surfaces stay matte and diffuse — wet concrete, metal, and glass mute and deepen without a single blown specular. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. Slightly desaturated grade with warmth preserved.
+
+Camera Capture: wide-latitude cinema capture, 84° (20–24mm) wide vintage 2x anamorphic character at a wide aperture — oval bokeh, soft edge falloff — light diffusion bloom softening highlights, locked-off static frame, zero operator drift, frame edges rock-steady, color-negative film rendition with fine grain, palette-driven grade with every color tied to a surface or light source, atmospheric haze, weathered material detail, 24fps 180° shutter, 8s. The environment is the subject.

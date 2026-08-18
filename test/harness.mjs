@@ -12,6 +12,10 @@ export const paths = {
   promptMd: join(ROOT, 'PROMPT.md'),
   assemble: join(ROOT, 'docs', 'assemble.js'),
   enhance: join(ROOT, 'docs', 'enhance.js'),
+  skillMd: join(ROOT, 'skill', 'prompt-director', 'SKILL.md'),
+  indexHtml: join(ROOT, 'docs', 'index.html'),
+  fixtures: join(ROOT, 'test', 'fixtures'),
+  i18nManifest: join(ROOT, 'test', 'i18n-required-keys.json'),
 };
 
 export function createSuite(name) {

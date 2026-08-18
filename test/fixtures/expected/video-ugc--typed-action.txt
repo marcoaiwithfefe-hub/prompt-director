@@ -1,0 +1,15 @@
+Scene & Mood: An honest phone-shot moment — a woman in a grey hoodie at a kitchen counter talking directly to camera, casual and unstaged.
+
+Subject Lock: The speaker holds the frame chest-up, eyes to the lens, relaxed natural energy, a real gesture rhythm. Face, hair, wardrobe, and silhouette stay identical throughout the runtime.
+
+Movement: She holds the bottle up beside her face and keeps talking. Micro-motion carries the realism — breath, blinks, small head tilts, the tiny natural instability of a real phone. One uninterrupted shot, no internal cuts, the camera never breaks the take.
+
+Last Frame: The speaker lands the final beat looking straight into the lens, a small natural smile settling. No on-screen text, no captions, no signage typography, no rendered text in the frame.
+
+World Plate: An ordinary real room in found light — window daylight or plain room light, the space readable but soft behind the speaker, thin everyday atmosphere.
+
+Sound Bed: Diegetic only — the speaker's voice carries the clip, quiet room tone under the voice, the small sounds of the space, no music, no score, no lyrics.
+
+Capture Realism: The subject sits inside real depth — light atmosphere suspended in the air between camera, subject, and the far background, the background rendered softer, desaturated, and lower-contrast than the foreground so the figure sits within the air rather than pasted on a flat plane. Skin reads true cinematic matte — zero shine on forehead, nose bridge, cheekbones, temples, chin, and collarbones, real peach fuzz catching light at the jaw and hairline, real soft fine even pore texture, light absorbed like true subsurface scattering, warmth preserved and natural, never plastic, never doll-skin, never AI-rendered, and never harsh — no acne, no blemishes, no enlarged or rough pores, fine flattering texture that keeps the face looking good. Low-contrast curve — shadows lifted gently holding texture, highlights rolled off softly never clipping to white, nothing crushed to black. All specular highlights surgically removed from skin, hair, fabric, and surrounding surfaces, every pixel reading matte and diffuse. Slightly desaturated grade with warmth preserved.
+
+Camera Capture: smartphone main-lens capture, 63° (28mm equivalent) with mild wide-angle character, handheld at arm's length with natural hand sway, found room light, mild digital compression, natural saturation, 30fps, 8s.

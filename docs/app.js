@@ -3,17 +3,24 @@
 // Everything the visitor types is written into the page with textContent and
 // created nodes only. There is no HTML interpolation anywhere in this file, and
 // test/subjects.test.mjs fails the build if that ever changes.
+//
+// The page holds no prompt string of its own. Every change recomputes the
+// output from docs/state.js, so switching mode or media can never redisplay a
+// stale prompt: the controls come back, the text is rebuilt.
 
-import { assemble, defaultSelections, getMode, toParagraphs } from './assemble.js';
-import { ENHANCE_MODEL, requestEnhance } from './enhance.js';
+import { assembleParts, refFilenames, renderParts, toParagraphs } from './assemble.js';
+import { ENHANCE_MODEL, enhanceVideo, requestEnhance } from './enhance.js';
 import {
   applyStatic,
   controlLabel,
   detectLang,
   lockedNote,
+  lockedWhy,
   makeT,
   modeHint,
   optionLabel,
+  refLabel,
+  registerToggleLabel,
   storeLang,
 } from './i18n.js';
 import {
@@ -24,16 +31,43 @@ import {
   optionPreviewFile,
   tagPreview,
 } from './previews.js';
+import {
+  MEDIA,
+  createState,
+  currentMode,
+  generationId,
+  modeState,
+  modesForMedia,
+  promptState,
+  selectMedia,
+  selectMode,
+  setRegister,
+  setSelection,
+  toggleRef,
+} from './state.js';
 
 // OpenRouter answers browser preflight with access-control-allow-origin: *,
 // so the browser-direct enhance path is live. Flip to false to hide it.
 const ENHANCE_ENABLED = true;
 const STORAGE_KEY = 'promptDirector.openrouterKey';
 
+/** Video contract failures get their own translated line; transport errors keep v1's. */
+const ENHANCE_ERROR_KEYS = {
+  'bad-json': 'enhance.err.badJson',
+  'bad-keys': 'enhance.err.badKeys',
+  'empty-value': 'enhance.err.emptyValue',
+  'off-contract': 'enhance.err.offContract',
+};
+
 const el = {
+  mediaToggle: document.getElementById('mediaToggle'),
   subject: document.getElementById('subject'),
+  actionField: document.getElementById('actionField'),
+  action: document.getElementById('action'),
   modeList: document.getElementById('modeList'),
+  registerGroup: document.getElementById('registerGroup'),
   controlGroups: document.getElementById('controlGroups'),
+  refGroup: document.getElementById('refGroup'),
   ratioChip: document.getElementById('ratioChip'),
   promptOut: document.getElementById('promptOut'),
   charCount: document.getElementById('charCount'),
@@ -50,15 +84,14 @@ const el = {
   enhancedPanel: document.getElementById('enhancedPanel'),
   enhancedOut: document.getElementById('enhancedOut'),
   enhancedCount: document.getElementById('enhancedCount'),
-  enhancedCopyState: document.getElementById('enhancedCopyState'),
   copyEnhancedBtn: document.getElementById('copyEnhancedBtn'),
+  enhancedCopyState: document.getElementById('enhancedCopyState'),
   langBtn: document.getElementById('langBtn'),
 };
 
-const state = {
-  presets: null,
-  modeId: null,
-  selectionsByMode: {},
+const page = {
+  state: null,
+  parts: null,
   prompt: null,
   enhanced: null,
   sessionKey: '',
@@ -81,39 +114,93 @@ function make(tag, className, text) {
   return node;
 }
 
-function currentMode() {
-  return getMode(state.presets, state.modeId);
+function mode() {
+  return currentMode(page.state);
 }
 
-function currentSelections() {
-  return state.selectionsByMode[state.modeId];
+function held() {
+  return modeState(page.state, page.state.modeId);
 }
 
 /* ---------- rendering ---------- */
 
+function renderMedia() {
+  clear(el.mediaToggle);
+  for (const media of MEDIA) {
+    const button = make('button', 'segment', t(`media.${media}`));
+    button.type = 'button';
+    button.setAttribute('role', 'radio');
+    button.setAttribute('aria-checked', String(media === page.state.media));
+    button.dataset.media = media;
+    button.addEventListener('click', () => {
+      if (media === page.state.media) return;
+      selectMedia(page.state, media);
+      renderAll();
+    });
+    el.mediaToggle.appendChild(button);
+  }
+}
+
 function renderModes() {
   clear(el.modeList);
-  for (const mode of state.presets.modes) {
+  for (const entry of modesForMedia(page.state.presets, page.state.media)) {
     const button = make('button', 'mode');
     button.type = 'button';
     button.setAttribute('role', 'radio');
-    button.setAttribute('aria-checked', String(mode.id === state.modeId));
-    button.dataset.mode = mode.id;
-    button.appendChild(make('span', 'name', mode.label));
-    button.appendChild(make('span', 'hint', modeHint(state.lang, mode)));
-    tagPreview(button, modePreviewFile(mode.id), mode.label);
-    button.addEventListener('click', () => selectMode(mode.id));
+    button.setAttribute('aria-checked', String(entry.id === page.state.modeId));
+    button.dataset.mode = entry.id;
+
+    const head = make('span', 'modehead');
+    head.appendChild(make('span', 'name', entry.label));
+    if (entry.mediaType === 'video') {
+      head.appendChild(make('span', 'badge', t('media.seedanceBadge')));
+    }
+    button.appendChild(head);
+    button.appendChild(make('span', 'hint', modeHint(page.lang, entry)));
+    tagPreview(button, modePreviewFile(entry.id), entry.label);
+    button.addEventListener('click', () => {
+      selectMode(page.state, entry.id);
+      renderAll();
+    });
     el.modeList.appendChild(button);
   }
 }
 
+function renderActionField() {
+  const video = mode().mediaType === 'video';
+  el.actionField.hidden = !video;
+}
+
+function renderRegister() {
+  clear(el.registerGroup);
+  const registers = mode().registers;
+  if (!registers) return;
+
+  const field = make('div', 'field');
+  field.appendChild(make('span', 'microlabel', t('register.label')));
+  const row = make('label', 'checkrow');
+  const box = document.createElement('input');
+  box.type = 'checkbox';
+  box.id = 'registerToggle';
+  box.checked = held().register !== registers.default;
+  box.addEventListener('change', () => {
+    const other = Object.keys(registers.templates).find((name) => name !== registers.default);
+    setRegister(page.state, box.checked ? other : registers.default);
+    renderPrompt();
+  });
+  row.appendChild(box);
+  row.appendChild(make('span', null, registerToggleLabel(page.lang, mode())));
+  field.appendChild(row);
+  el.registerGroup.appendChild(field);
+}
+
 function renderControls() {
-  const mode = currentMode();
-  const selections = currentSelections();
+  const current = mode();
+  const selections = held().selections;
   clear(el.controlGroups);
 
-  for (const [controlId, group] of Object.entries(mode.controls || {})) {
-    const groupLabel = controlLabel(state.lang, controlId, group);
+  for (const [controlId, group] of Object.entries(current.controls || {})) {
+    const groupLabel = controlLabel(page.lang, current.id, controlId, group);
     const field = make('div', 'field');
     field.appendChild(make('span', 'microlabel', groupLabel));
 
@@ -122,79 +209,121 @@ function renderControls() {
     row.setAttribute('aria-label', groupLabel);
     let selectedLabel = '';
     for (const option of group.options) {
-      const label = optionLabel(state.lang, controlId, option);
+      const label = optionLabel(page.lang, current.id, controlId, option);
       const button = make('button', 'preset', label);
       button.type = 'button';
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', String(selections[controlId] === option.id));
-      tagPreview(button, optionPreviewFile(mode.id, controlId, option.id), label);
+      tagPreview(button, optionPreviewFile(current.id, controlId, option.id), label);
       if (selections[controlId] === option.id) selectedLabel = label;
-      button.addEventListener('click', () => {
-        selections[controlId] = option.id;
-        renderControls();
-        renderPrompt();
-      });
+      if (group.locked) {
+        button.disabled = true;
+        button.classList.add('is-locked');
+      } else {
+        button.addEventListener('click', () => {
+          setSelection(page.state, controlId, option.id);
+          renderControls();
+          renderPrompt();
+        });
+      }
       row.appendChild(button);
     }
     field.appendChild(row);
+    if (group.locked && group.why) {
+      field.appendChild(make('p', 'whynote', lockedWhy(page.lang, current.id, controlId, group)));
+    }
     // no hover on a touch screen, so the selected option shows its picture here
     if (inlinePreviews()) {
-      appendThumb(field, optionPreviewFile(mode.id, controlId, selections[controlId]), selectedLabel);
+      appendThumb(field, optionPreviewFile(current.id, controlId, selections[controlId]), selectedLabel);
     }
     el.controlGroups.appendChild(field);
   }
 
-  if (mode.lockedNote) {
+  if (current.lockedNote) {
     const lock = make('div', 'field');
     const box = make('div', 'lockrow');
     box.appendChild(make('span', 'microlabel', t('locked.label')));
-    box.appendChild(make('p', 'lockednote', lockedNote(state.lang, mode)));
+    box.appendChild(make('p', 'lockednote', lockedNote(page.lang, current)));
     lock.appendChild(box);
     el.controlGroups.appendChild(lock);
   }
 }
 
+function renderRefs() {
+  clear(el.refGroup);
+  const current = mode();
+  if (!current.refs || !current.refs.length) return;
+
+  const chosen = held().refs;
+  const field = make('div', 'field');
+  field.appendChild(make('span', 'microlabel', t('refs.label')));
+
+  for (const ref of current.refs) {
+    const row = make('label', 'checkrow');
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.dataset.ref = ref.id;
+    box.checked = chosen.includes(ref.id);
+    box.addEventListener('change', () => {
+      toggleRef(page.state, ref.id, box.checked);
+      renderRefs();
+      renderPrompt();
+    });
+    row.appendChild(box);
+    row.appendChild(make('span', null, refLabel(page.lang, current.id, ref)));
+    field.appendChild(row);
+  }
+
+  const files = refFilenames(current, chosen);
+  if (files.length) {
+    field.appendChild(make('p', 'note', t('refs.instruction', { files: files.join(', ') })));
+  }
+  el.refGroup.appendChild(field);
+}
+
 function renderRatioChip() {
-  const mode = currentMode();
   clear(el.ratioChip);
-  el.ratioChip.appendChild(make('span', null, t('ratio.chip', { ratio: mode.recommendedRatio })));
+  el.ratioChip.appendChild(make('span', null, t('ratio.hint', { ratio: mode().recommendedRatio })));
 }
 
 function renderPrompt() {
-  const mode = currentMode();
-  state.prompt = assemble(state.presets, mode.id, currentSelections(), el.subject.value);
+  page.state.subject = el.subject.value;
+  page.state.action = el.action.value;
+  page.parts = assembleParts(page.state.presets, page.state.modeId, promptState(page.state));
+  page.prompt = renderParts(page.parts);
+  invalidateEnhanced();
 
   clear(el.promptOut);
-  if (!state.prompt) {
+  if (!page.prompt) {
     el.promptOut.appendChild(make('p', 'placeholder', t('prompt.empty')));
     el.charCount.textContent = '';
     el.copyBtn.disabled = true;
-    setCopyState(t('prompt.hint'), true);
+    setCopyState(t('hint.emptySubject'), true);
     return;
   }
 
-  for (const paragraph of toParagraphs(state.prompt)) {
+  for (const paragraph of toParagraphs(page.prompt)) {
     el.promptOut.appendChild(make('p', null, paragraph));
   }
-  el.charCount.textContent = t('prompt.chars', { n: state.prompt.length.toLocaleString('en-US') });
+  el.charCount.textContent = t('prompt.chars', { n: page.prompt.length.toLocaleString('en-US') });
   el.copyBtn.disabled = false;
   setCopyState('');
+}
+
+function renderAll() {
+  renderMedia();
+  renderModes();
+  renderActionField();
+  renderRegister();
+  renderControls();
+  renderRefs();
+  renderRatioChip();
+  renderPrompt();
 }
 
 function setCopyState(message, isHint) {
   el.copyState.textContent = message;
   el.copyState.classList.toggle('hint', Boolean(isHint));
-}
-
-function selectMode(modeId) {
-  state.modeId = modeId;
-  if (!state.selectionsByMode[modeId]) {
-    state.selectionsByMode[modeId] = defaultSelections(getMode(state.presets, modeId));
-  }
-  renderModes();
-  renderControls();
-  renderRatioChip();
-  renderPrompt();
 }
 
 /* ---------- copy chain ---------- */
@@ -275,53 +404,77 @@ function showEnhanceError(message) {
   el.enhanceError.hidden = !message;
 }
 
+/** Any change to the inputs makes an enhanced panel a lie, so it goes away. */
+function invalidateEnhanced() {
+  page.enhanced = null;
+  clear(el.enhancedOut);
+  el.enhancedCount.textContent = '';
+  el.enhancedPanel.hidden = true;
+}
+
 function setEnhanceBusy(busy) {
   el.enhanceBtn.disabled = busy;
   el.cancelEnhanceBtn.hidden = !busy;
   el.enhanceState.textContent = busy ? t('enhance.asking', { model: ENHANCE_MODEL }) : '';
 }
 
+function enhanceMessage(result) {
+  const named = ENHANCE_ERROR_KEYS[result.code];
+  return named ? t(named) : result.message;
+}
+
 async function runEnhance() {
   showEnhanceError('');
-  if (!state.prompt) {
+  if (!page.prompt) {
     showEnhanceError(t('enhance.needSubject'));
     return;
   }
-  const apiKey = el.apiKey.value.trim() || state.sessionKey;
+  const apiKey = el.apiKey.value.trim() || page.sessionKey;
   if (!apiKey) {
     showEnhanceError(t('enhance.needKey'));
     return;
   }
 
-  state.sessionKey = apiKey;
+  page.sessionKey = apiKey;
   if (el.rememberKey.checked) writeStoredKey(apiKey);
 
   const controller = new AbortController();
-  state.controller = controller;
+  page.controller = controller;
   setEnhanceBusy(true);
 
-  const result = await requestEnhance(
-    {
-      presets: state.presets,
-      mode: currentMode(),
-      selections: currentSelections(),
-      prompt: state.prompt,
-      subject: el.subject.value.trim(),
-      apiKey,
-    },
-    { controller }
-  );
+  const current = mode();
+  const generation = generationId(page.state);
+  const args = {
+    presets: page.state.presets,
+    mode: current,
+    selections: held().selections,
+    parts: page.parts,
+    prompt: page.prompt,
+    subject: el.subject.value.trim(),
+    action: el.action.value.trim() || current.defaultAction || '',
+    apiKey,
+    generation,
+  };
 
-  state.controller = null;
+  const result =
+    current.mediaType === 'video'
+      ? await enhanceVideo(args, { controller })
+      : await requestEnhance(args, { controller });
+
+  page.controller = null;
   setEnhanceBusy(false);
 
+  // the visitor moved on while that was in flight: the answer is about a
+  // question nobody is asking any more
+  if (generation !== generationId(page.state)) return;
+
   if (!result.ok) {
-    if (result.code !== 'cancelled') showEnhanceError(result.message);
+    if (result.code !== 'cancelled') showEnhanceError(enhanceMessage(result));
     else el.enhanceState.textContent = t('enhance.cancelled');
     return;
   }
 
-  state.enhanced = result.text;
+  page.enhanced = result.text;
   clear(el.enhancedOut);
   for (const paragraph of toParagraphs(result.text)) {
     el.enhancedOut.appendChild(make('p', null, paragraph));
@@ -340,12 +493,12 @@ function wireEnhance() {
   if (stored) {
     el.apiKey.value = stored;
     el.rememberKey.checked = true;
-    state.sessionKey = stored;
+    page.sessionKey = stored;
   }
 
   el.enhanceBtn.addEventListener('click', runEnhance);
   el.cancelEnhanceBtn.addEventListener('click', () => {
-    if (state.controller) state.controller.abort();
+    if (page.controller) page.controller.abort();
   });
   el.rememberKey.addEventListener('change', () => {
     const value = el.apiKey.value.trim();
@@ -355,28 +508,25 @@ function wireEnhance() {
   el.clearKeyBtn.addEventListener('click', () => {
     el.apiKey.value = '';
     el.rememberKey.checked = false;
-    state.sessionKey = '';
+    page.sessionKey = '';
     writeStoredKey('');
     showEnhanceError('');
     el.enhanceState.textContent = t('enhance.keyCleared');
   });
   el.copyEnhancedBtn.addEventListener('click', () => {
-    if (state.enhanced) copyText(state.enhanced, el.enhancedCopyState);
+    if (page.enhanced) copyText(page.enhanced, el.enhancedCopyState);
   });
 }
 
 /* ---------- language ---------- */
 
 function setLanguage(lang) {
-  state.lang = lang;
+  page.lang = lang;
   t = makeT(lang);
   applyStatic(lang);
   // the button shows the language you would switch TO
   el.langBtn.textContent = lang === 'yue' ? 'EN' : '粵';
-  renderModes();
-  renderControls();
-  renderRatioChip();
-  renderPrompt();
+  renderAll();
 }
 
 /* ---------- boot ---------- */
@@ -384,18 +534,16 @@ function setLanguage(lang) {
 async function init() {
   const response = await fetch('./presets.json');
   if (!response.ok) throw new Error(`presets.json failed to load (HTTP ${response.status})`);
-  state.presets = await response.json();
-
-  const first = state.presets.modes[0];
-  state.modeId = first.id;
-  state.selectionsByMode[first.id] = defaultSelections(first);
+  const presets = await response.json();
+  page.state = createState(presets);
 
   el.subject.addEventListener('input', renderPrompt);
+  el.action.addEventListener('input', renderPrompt);
   el.copyBtn.addEventListener('click', () => {
-    if (state.prompt) copyText(state.prompt, el.copyState);
+    if (page.prompt) copyText(page.prompt, el.copyState);
   });
   el.langBtn.addEventListener('click', () => {
-    const next = state.lang === 'yue' ? 'en' : 'yue';
+    const next = page.lang === 'yue' ? 'en' : 'yue';
     storeLang(next);
     setLanguage(next);
   });
