@@ -6,7 +6,7 @@ Movement: Environmental motion only — what the wind, water, and light do acros
 
 Last Frame: The frame closes on the same composition it opened, the environmental motion mid-breath, negative space intact. No on-screen text, no captions, no signage typography, no rendered text in the frame.
 
-World Plate: low golden-hour light raking long shadows across the surfaces, light haze at 15% density, readable to 30 meters, the deeper planes softening.
+World Plate: Low golden-hour light raking long shadows across the surfaces, light haze at 15% density, readable to 30 meters, the deeper planes softening.
 
 Sound Bed: Diegetic only — wind moving through the space, distant traffic far below the frame, no music, no score, no lyrics.
 

@@ -1486,22 +1486,22 @@
             {
               "id": "dawn",
               "label": "Pre-dawn blue",
-              "clause": "pre-dawn blue hour, the sky barely lifting, practicals still burning"
+              "clause": "Pre-dawn blue hour, the sky barely lifting, practicals still burning"
             },
             {
               "id": "golden",
               "label": "Golden hour",
-              "clause": "low golden-hour light raking long shadows across the surfaces"
+              "clause": "Low golden-hour light raking long shadows across the surfaces"
             },
             {
               "id": "overcast",
               "label": "Overcast midday",
-              "clause": "flat overcast midday, one enormous soft source overhead, muted contrast"
+              "clause": "Flat overcast midday, one enormous soft source overhead, muted contrast"
             },
             {
               "id": "night",
               "label": "Night practicals",
-              "clause": "night driven by practical sources — sodium lamps, lit windows, signs — the dark still holding detail"
+              "clause": "Night driven by practical sources — sodium lamps, lit windows, signs — the dark still holding detail"
             }
           ],
           "default": "golden"

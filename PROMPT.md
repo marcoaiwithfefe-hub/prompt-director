@@ -715,10 +715,10 @@ Registry schema version 2. Every mode below, in emission order.
   - static «Locked-off static» emits «locked-off static frame, zero operator drift, frame edges rock-steady»
   - push «Slow push-in» emits «an extremely slow push-in, barely perceptible across the runtime»
 - timeofday «Time» default golden
-  - dawn «Pre-dawn blue» emits «pre-dawn blue hour, the sky barely lifting, practicals still burning»
-  - golden «Golden hour» emits «low golden-hour light raking long shadows across the surfaces»
-  - overcast «Overcast midday» emits «flat overcast midday, one enormous soft source overhead, muted contrast»
-  - night «Night practicals» emits «night driven by practical sources — sodium lamps, lit windows, signs — the dark still holding detail»
+  - dawn «Pre-dawn blue» emits «Pre-dawn blue hour, the sky barely lifting, practicals still burning»
+  - golden «Golden hour» emits «Low golden-hour light raking long shadows across the surfaces»
+  - overcast «Overcast midday» emits «Flat overcast midday, one enormous soft source overhead, muted contrast»
+  - night «Night practicals» emits «Night driven by practical sources — sodium lamps, lit windows, signs — the dark still holding detail»
 - atmosphere «Air» default light
   - clear «Clear air» emits «clean clear air, full clarity through every plane»
   - light «Light haze» emits «light haze at 15% density, readable to 30 meters, the deeper planes softening»
