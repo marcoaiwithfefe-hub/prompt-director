@@ -54,11 +54,12 @@ export const PREVIEW_ALIASES = {
 };
 
 /**
- * Controls whose options a still picture cannot tell apart — clip length and
- * the sound bed. Every option in these groups shows the mode's own picture, so
- * none of them ever waits on a fired file of its own.
+ * Controls whose options a still picture cannot tell apart — clip length, the
+ * sound bed, and camera energy (motion). Every option in these groups shows
+ * the mode's own picture, so none of them ever waits on a fired file of its
+ * own.
  */
-export const NON_VISUAL_CONTROLS = new Set(['runtime', 'sound']);
+export const NON_VISUAL_CONTROLS = new Set(['runtime', 'sound', 'energy']);
 
 export function optionKey(modeId, controlId, optionId) {
   return `${modeId}--${controlId}--${optionId}`;
