@@ -34,10 +34,10 @@ Face Lock, Outfit Styling and Character Sheet are **reference builders**. Their 
 
 | Mode | Job | Camera energy | Register |
 |------|-----|---------------|----------|
-| **Product Ad** | Product looks premium in motion | Tripod-mounted, slow push-in | Clean spherical, saturated editorial, intentional speculars on the product |
+| **Product Ad** | Product looks premium in motion | Tripod push-in, slow orbit, locked-off, or pedestal rise | Clean spherical, saturated editorial, intentional speculars on the product |
 | **UGC** | Fake phone-shot testimonial, person talks to camera | Handheld arm's-length or propped-phone static | Smartphone capture, natural light, anti-plastic skin |
-| **Narrative** | A story moment, character doing something | Handheld with operator breath | Vintage anamorphic, color-negative film, teal-amber |
-| **Atmospheric** | Location and mood only, no people | Locked-off static or extremely slow push-in | Vintage anamorphic, palette-driven grade |
+| **Narrative** | A story moment, character doing something | Handheld breath, follow, reverse or side track, dolly-in, or arc | Vintage anamorphic, color-negative film, teal-amber |
+| **Atmospheric** | Location and mood only, no people | Locked-off, slow push-in, lateral drift, crane rise, or aerial pull-back | Vintage anamorphic, palette-driven grade |
 
 Product Ad and UGC are conversion material: they exist to sell something. Narrative and Atmospheric are content material: story beats and b-roll.
 
@@ -232,7 +232,7 @@ Scene & Mood: A premium product moment — a frosted glass serum bottle with a b
 
 Subject Lock: The product anchors the frame — true materials, finish, and proportions reading clean, its resting contact with the surface planted and stable. The product's shape, materials, label, and finish stay identical throughout the runtime.
 
-Movement: The bottle turns a slow quarter rotation across the runtime, the cap catching the key as it comes around. Micro-motion stays honest — light shifting across the surfaces as the camera eases in; nothing else in the frame moves. One uninterrupted shot, no internal cuts, the camera never breaks the take.
+Movement: The bottle turns a slow quarter rotation across the runtime, the cap catching the key as it comes around. Micro-motion stays honest — light shifting across the surfaces; nothing else in the frame moves. The camera eases physically forward toward the product in a straight line, a barely-perceptible controlled push, height and lens direction locked, finishing in a tighter composition on the product. One uninterrupted shot, no internal cuts, the camera never breaks the take.
 
 Last Frame: The product holds the final frame slightly off-center at its most flattering angle, highlight lines settled, surface and backdrop quiet. No on-screen text, no captions, no signage typography, no rendered text in the frame.
 

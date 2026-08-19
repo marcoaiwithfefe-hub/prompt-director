@@ -38,7 +38,7 @@ Scene & Mood: [one or two sentences — what the moment IS, translated to observ
 
 Subject Lock: [the subject pinned — identity, body orientation, pose, physical state, gaze, contact points, and a lock-down line holding face, hair, wardrobe, and silhouette identical throughout]
 
-Movement: [what happens across the runtime — character motion, micro-motion (breath, hair, fabric), environmental motion (rain, dust, traffic), speeds in km/h, atmosphere in % and meters — closing with the one-shot clause: one uninterrupted shot, no internal cuts]
+Movement: [what happens across the runtime — character motion, micro-motion (breath, hair, fabric), environmental motion (rain, dust, traffic), the camera move written out as physical travel, speeds in km/h, atmosphere in % and meters — closing with the one-shot clause: one uninterrupted shot, no internal cuts]
 
 Last Frame: [the exact closing composition — where the subject sits, final pose and gaze, what holds focus — closing with: No on-screen text, no captions, no signage typography, no rendered text in the frame.]
 
@@ -48,12 +48,13 @@ Sound Bed: [Diegetic only — the real sounds of the scene, no music, no score. 
 
 Capture Realism: [the anti-plastic physics block — see below]
 
-Camera Capture: [one closing line — lens as FOV° (mm), movement, stock, grade, frame rate, runtime. The only place camera or grade language lives.]
+Camera Capture: [one closing line — lens as FOV° (mm), the camera move named as gear, stock, grade, frame rate, runtime. The only place grade language lives, and the only place the camera is named as equipment.]
 ```
 
 Rules that keep the stack working:
 
 - One main idea per shot: one dominant action, one camera strategy, one lighting motivation.
+- The camera move is written twice on purpose: as physical travel in Movement, where the model reads motion, and as gear in the Camera Capture line, where the register lives. Same move both times — two different moves is the failure.
 - Movement names its layers explicitly, even when a layer is "nothing else moves" — saying nothing moves is a directive; absence is not.
 - No platform names, no character names, no meta-commentary inside the prompt. Pure visual description.
 - Runtime appears in the Camera Capture line and matches what you asked the generator for.

@@ -44,13 +44,13 @@ Face Lock, Outfit Styling and Character Sheet are reference builders and carry z
 
 Every video prompt is eight labelled blocks in this order, `Label: content`, one blank line between: Scene & Mood, Subject Lock, Movement, Last Frame, World Plate, Sound Bed, Capture Realism, Camera Capture. The four modes differ in what they lock, not in that shape.
 
-**1. Product Ad.** Studio register. Subject Lock anchors the product: material, finish, scale cues, resting surface contact. Speculars are intentional (CAPTURE_REALISM_PRODUCT). Camera is tripod-mounted with a slow push-in.
+**1. Product Ad.** Studio register. Subject Lock anchors the product: material, finish, scale cues, resting surface contact. Speculars are intentional (CAPTURE_REALISM_PRODUCT). Camera move is a pick: tripod push-in, a slow orbit, locked-off static, or a pedestal rise. Movement writes the move out as physical travel, Camera Capture names it as gear.
 
 **2. UGC.** The fake phone-shot testimonial: a person speaks to camera, usually holding the product. The register IS the credibility, so the lens is locked to a phone's main camera at 63° (28mm equivalent) and the framing choice is selfie-arm or propped-phone static. Found light only. The full skin-realism block stays: matte skin and real pore texture are exactly what makes fake UGC read real.
 
-**3. Narrative.** The story shot, anywhere lived-in. The action carries the drama, written as observable behaviour. Movement layers all four registers: character, micro, environmental, and the camera implied by the capture line. Handheld with natural operator breath.
+**3. Narrative.** The story shot, anywhere lived-in. The action carries the drama, written as observable behaviour. Movement layers all four registers: character, micro, environmental, and the camera move itself, spelled out rather than implied. Handheld breath is the default; a follow shot from behind, a reverse track, a side track, a slow dolly-in and a slow arc are the other picks.
 
-**4. Atmospheric.** The place is the subject: no people, no reference tags. Subject Lock becomes an environment lock. Movement is environmental only. Camera energy is a real choice here, the only mode where it is: locked-off static or an extremely slow push-in. Grade is palette-driven, every colour tied to a surface or a light source.
+**4. Atmospheric.** The place is the subject: no people, no reference tags. Subject Lock becomes an environment lock. Movement is environmental only. Camera energy is a real choice here: locked-off static, an extremely slow push-in, a lateral drift, a crane rise, or an aerial pull-back. Grade is palette-driven, every colour tied to a surface or a light source.
 
 ## Working rules
 
@@ -84,7 +84,7 @@ Image, Character Sheet. One fenced block: the three-panel opener, identity and w
 Image, Scene. One question if no character reference exists yet, otherwise one fenced block: opening shot, character, world, focal anchor, then CINEMA_PROSE_CLOSE verbatim. Practicals drive the night, deep contrast, haze with volumetric body. No flat grade, no ratio in the body. One line after: set 21:9 or 16:9.
 
 **"8 second clip of my serum bottle on marble, should look expensive."**
-Video, Product Ad. One fenced block: title line with the runtime, then all eight blocks in order. Subject Lock anchors the bottle and closes with the product lock-down line, Movement states the turn and closes with the one-shot clause, Last Frame closes with the text-suppression line, Sound Bed opens `Diegetic only —`, Capture Realism is CAPTURE_REALISM_PRODUCT verbatim, Camera Capture carries 47° (50mm), the tripod push-in and 8s. One line after: set 9:16 or 16:9.
+Video, Product Ad. One fenced block: title line with the runtime, then all eight blocks in order. Subject Lock anchors the bottle and closes with the product lock-down line, Movement states the turn, writes the camera move out as physical travel, and closes with the one-shot clause, Last Frame closes with the text-suppression line, Sound Bed opens `Diegetic only —`, Capture Realism is CAPTURE_REALISM_PRODUCT verbatim, Camera Capture carries 47° (50mm), the tripod push-in and 8s. One line after: set 9:16 or 16:9.
 
 **"A customer talking about my supplement, like a real TikTok."**
 Video, UGC. One fenced block: the phone-shot register throughout. Lens locked at 63° (28mm equivalent), framing selfie-arm or propped static, found room light, the full person Capture Realism block, 30fps. If they have a photo of the speaker, anchor it with a tag and stop describing the face. One line after: set 9:16.

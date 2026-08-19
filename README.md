@@ -62,10 +62,10 @@ Face Lock, Outfit Styling and Character Sheet are **reference builders**: their 
 
 | Video mode | Job | Camera energy |
 |------|-----|---------------|
-| Product Ad | The product looks premium in motion | Tripod-mounted, slow push-in |
+| Product Ad | The product looks premium in motion | Tripod push-in, slow orbit, locked-off, or pedestal rise |
 | UGC | Fake phone-shot testimonial, person talks to camera | Handheld arm's length, or a propped phone |
-| Narrative | A story moment, a character doing something | Handheld with operator breath |
-| Atmospheric | Location and mood only, no people | Locked-off static, or an extremely slow push-in |
+| Narrative | A story moment, a character doing something | Handheld breath, follow, reverse or side track, dolly-in, or arc |
+| Atmospheric | Location and mood only, no people | Locked-off, slow push-in, lateral drift, crane rise, or aerial pull-back |
 
 A video prompt is not one sentence, it is eight labelled blocks: Scene & Mood, Subject Lock, Movement, Last Frame, World Plate, Sound Bed, Capture Realism, Camera Capture. Speeds go in km/h, atmosphere in % and metres, lenses in degrees of field of view, and the sound is diegetic only.
 
@@ -75,7 +75,7 @@ Read the full thing:
 - [`grammar/constraints.md`](grammar/constraints.md) the ten universal rules, reading reference images, the flat grade, the lens table
 - [`grammar/cinema-stack.md`](grammar/cinema-stack.md) fighting the AI render aesthetic, the cinema prose close, night registers
 - [`grammar/video-blocks.md`](grammar/video-blocks.md) the block grammar every video mode shares, the FOV ladder, Capture Realism
-- [`grammar/video-modes.md`](grammar/video-modes.md) the four video modes and the camera line each one locks
+- [`grammar/video-modes.md`](grammar/video-modes.md) the four video modes and the camera moves each one offers
 - [`grammar/presets.json`](grammar/presets.json) the machine registry every door reads from
 
 ## Repo layout

@@ -10,7 +10,7 @@ Words this repo uses in a specific way. If a discussion starts drifting, it is u
 
 **Preset** — one selectable option inside a mode, for example "Golden hour" under Scene's Light control, or "Ghost mannequin" under Character Sheet's Neckline control. A preset is a label a human picks; a clause is what it emits.
 
-**Clause** — the exact sentence or paragraph a preset writes into the prompt. Clauses are stored in `presets.json` and copied verbatim. Assembly never rewords a clause, and neither should you: the wording is the product.
+**Clause** — the exact sentence or paragraph a preset writes into the prompt. Clauses are stored in `presets.json` and copied verbatim. Assembly never rewords a clause, and neither should you: the wording is the product. A preset can hold more than one such text: the camera groups on the three cinema video modes carry a `clause` for the gear half of the Camera Capture line and a `movement` for the same move written out as physical travel in Movement. A template part names which one it wants; `clause` is what it gets when it does not.
 
 **Block** — two meanings, kept apart on purpose. A SHARED block is a long locked paragraph reused across modes: `FLAT_GRADE`, `CINEMA_STACK`, `CAPTURE_REALISM_PERSON`, `VIDEO_ONER` and the rest. A VIDEO block is one of the eight labelled sections a video prompt is made of, in fixed order: Scene & Mood, Subject Lock, Movement, Last Frame, World Plate, Sound Bed, Capture Realism, Camera Capture. A video block's content is often built partly from shared blocks. Character modes close on the flat grade, finished frames close on the cinema family, and mixing the two families is the failure this repo's tests exist to catch.
 
