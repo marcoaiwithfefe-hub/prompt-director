@@ -588,7 +588,14 @@ def check_enhanced_invalidation(page, presets, name):
 
 def check_copy(page, name):
     page.click("#copyBtn")
-    page.wait_for_timeout(120)
+    try:
+        # copyText reports only after the clipboard promise settles; a fixed
+        # sleep loses that race headless. Poll, but stay under the 4s auto-clear.
+        page.wait_for_function(
+            "document.getElementById('copyState').textContent !== ''", timeout=3000
+        )
+    except Exception:
+        pass
     state = page.inner_text("#copyState")
     check(f"{name}: copy reports back", state != "", state)
 
