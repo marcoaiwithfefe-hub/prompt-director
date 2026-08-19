@@ -24,11 +24,14 @@ import {
   storeLang,
 } from './i18n.js';
 import {
+  appendMotionThumb,
   appendThumb,
   initPreviews,
   inlinePreviews,
   modePreviewFile,
+  optionMotion,
   optionPreviewFile,
+  tagMotion,
   tagPreview,
 } from './previews.js';
 import {
@@ -214,7 +217,10 @@ function renderControls() {
       button.type = 'button';
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', String(selections[controlId] === option.id));
-      tagPreview(button, optionPreviewFile(current.id, controlId, option.id), label);
+      // a camera move has no picture to point at, so it points at a drawing of itself
+      const motion = optionMotion(current.id, controlId, option.id);
+      if (motion) tagMotion(button, motion, label);
+      else tagPreview(button, optionPreviewFile(current.id, controlId, option.id), label);
       if (selections[controlId] === option.id) selectedLabel = label;
       if (group.locked) {
         button.disabled = true;
@@ -234,7 +240,9 @@ function renderControls() {
     }
     // no hover on a touch screen, so the selected option shows its picture here
     if (inlinePreviews()) {
-      appendThumb(field, optionPreviewFile(current.id, controlId, selections[controlId]), selectedLabel);
+      const motion = optionMotion(current.id, controlId, selections[controlId]);
+      if (motion) appendMotionThumb(field, motion, selectedLabel);
+      else appendThumb(field, optionPreviewFile(current.id, controlId, selections[controlId]), selectedLabel);
     }
     el.controlGroups.appendChild(field);
   }

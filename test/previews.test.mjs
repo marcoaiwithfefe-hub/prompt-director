@@ -3,16 +3,29 @@
 // are dropped in later, so this suite guards the contract the filenames carry:
 // modes are {modeId}.webp, options are {modeId}--{controlId}--{optionId}.webp,
 // and each mode's default option borrows the mode's own picture.
+//
+// Camera moves carry a second contract. They have no file at all: every one of
+// them names an animation, every animation is drawn by the stylesheet and has a
+// mark for a visitor who turned motion off, and the stylesheet is actually
+// linked. Each of those can fail without a broken image to show for it, so each
+// one is asserted here.
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
+  ARROW_PATHS,
+  MOTION_CONTROLS,
+  MOTION_MOVES,
+  MOTION_PREVIEWS,
+  MOTION_SCENES,
+  MOTION_STEPS,
   NON_VISUAL_CONTROLS,
   NO_PREVIEW_CONTROLS,
   PREVIEW_ALIASES,
   PREVIEW_DIR,
   modePreviewFile,
   optionKey,
+  optionMotion,
   optionPreviewFile,
   previewUrl,
 } from '../docs/previews.js';
@@ -154,10 +167,101 @@ export async function run() {
   suite.equal('pictures live under docs/previews/', PREVIEW_DIR, './previews/');
   suite.equal('urls join without a double slash', previewUrl('scene.webp'), './previews/scene.webp');
 
+  // ---- the camera moves ----
+
+  const motionCombos = all.filter((combo) => MOTION_CONTROLS.has(combo.controlId));
+  const bareCombos = all.filter(
+    (combo) => NO_PREVIEW_CONTROLS.has(combo.controlId) && !MOTION_CONTROLS.has(combo.controlId)
+  );
+  suite.equal('the grammar carries fifteen camera moves', motionCombos.length, 15);
+  suite.check('sound is the only control left rendering bare', bareCombos.length > 0, 'nothing bare');
+  for (const controlId of MOTION_CONTROLS) {
+    suite.check(`${controlId} still names no picture file`, NO_PREVIEW_CONTROLS.has(controlId));
+  }
+
+  const scenes = new Set(Object.values(MOTION_SCENES));
+  for (const { modeId, controlId, optionId } of motionCombos) {
+    const tag = `${modeId}/${controlId}/${optionId}`;
+    const motion = optionMotion(modeId, controlId, optionId);
+    suite.check(`${tag} draws a move`, Boolean(motion), 'no motion preview for this chip');
+    if (!motion) continue;
+    suite.check(`${tag} names an animation that exists`, motion.move in MOTION_MOVES, motion.move);
+    suite.check(`${tag} names a scene`, scenes.has(motion.scene), motion.scene);
+    suite.equal(`${tag} still shows no picture`, optionPreviewFile(modeId, controlId, optionId), null);
+    const again = optionMotion(modeId, controlId, optionId);
+    suite.equal(`${tag} resolution is stable`, `${again.move}/${again.scene}`, `${motion.move}/${motion.scene}`);
+  }
+
+  for (const { modeId, controlId, optionId } of bareCombos) {
+    const tag = `${modeId}/${controlId}/${optionId}`;
+    suite.equal(`${tag} draws no move either`, optionMotion(modeId, controlId, optionId), null);
+  }
+
+  suite.equal('one motion entry per camera move, no more', Object.keys(MOTION_PREVIEWS).length, motionCombos.length);
+  for (const key of Object.keys(MOTION_PREVIEWS)) {
+    suite.check(`motion key ${key} points at a real option`, realCombos.has(key), 'no such option in the grammar');
+    suite.check(`motion key ${key} sits on a camera control`, MOTION_CONTROLS.has(key.split('--')[1]), key);
+  }
+
+  // an animation nobody uses is dead weight; a move nobody drew is a blank card
+  const usedMoves = new Set(Object.values(MOTION_PREVIEWS));
+  for (const move of Object.keys(MOTION_MOVES)) {
+    suite.check(`animation ${move} is reachable from a chip`, usedMoves.has(move), 'defined but unused');
+    suite.check(`animation ${move} has a mark for motion-off`, Boolean(ARROW_PATHS[MOTION_MOVES[move]]), MOTION_MOVES[move]);
+  }
+
+  // every mode with camera chips names the scene they are drawn on, and no other
+  const motionModes = new Set(motionCombos.map((combo) => combo.modeId));
+  for (const modeId of motionModes) {
+    suite.check(`${modeId} names the scene its moves are drawn on`, Boolean(MOTION_SCENES[modeId]), 'no scene');
+  }
+  for (const modeId of Object.keys(MOTION_SCENES)) {
+    suite.check(`scene entry ${modeId} belongs to a mode with camera chips`, motionModes.has(modeId), 'stale entry');
+  }
+
+  // the drawing is nothing without the stylesheet, and the stylesheet is
+  // nothing unless the page loads it
+  const motionCss = readFileSync(join(paths.docs, 'motion-previews.css'), 'utf8');
+  for (const move of Object.keys(MOTION_MOVES)) {
+    suite.check(`.mp-${move} is animated in motion-previews.css`, motionCss.includes(`.mp-${move} `), 'no rule');
+  }
+  suite.check(
+    'motion-previews.css is linked from index.html',
+    readFileSync(paths.indexHtml, 'utf8').includes('href="./motion-previews.css"'),
+    'the scenes would render still'
+  );
+  // the stylesheet steps by the same geometry previews.js draws, or a
+  // travelling move stutters once a cycle and nothing else goes wrong
+  const seamless = {
+    q: [MOTION_STEPS.lineRatio, Number((1 / MOTION_STEPS.lineRatio).toFixed(4))],
+    r: [MOTION_STEPS.rayDegrees, -MOTION_STEPS.rayDegrees],
+    tx: [MOTION_STEPS.barRepeat, -MOTION_STEPS.barRepeat],
+  };
+  for (const [name, allowed] of Object.entries(seamless)) {
+    const used = [...motionCss.matchAll(new RegExp(`--mp-${name}:(-?[0-9.]+)`, 'g'))].map((hit) =>
+      Number(hit[1])
+    );
+    suite.check(`some move travels on --mp-${name}`, used.length > 0, 'nothing uses it');
+    for (const value of used) {
+      suite.check(
+        `--mp-${name}:${value} is one seamless step`,
+        allowed.includes(value),
+        `expected ${allowed.join(' or ')}`
+      );
+    }
+  }
+
+  suite.check(
+    'the scenes stay off the network',
+    !motionCss.includes('url(') && !motionCss.includes('@import'),
+    'a preview that fetches something can arrive broken'
+  );
+
   // the module is UI plumbing, not a translation layer
   const source = readFileSync(join(paths.docs, 'previews.js'), 'utf8');
   suite.check('previews.js carries no CJK', !CJK.test(source));
   suite.check('previews.js sets no style attribute', !source.includes("setAttribute('style'"), 'CSP blocks it');
+  suite.check('motion-previews.css carries no CJK', !CJK.test(motionCss));
 
   return suite.finish();
 }

@@ -130,9 +130,23 @@ def check_enhance_wiring(page, name):
 
 PREVIEW_GLOB = "**/previews/*.webp"
 MISSING_PREVIEW = "**/previews/detail--backdrop--moody.webp"
-# mirrors NO_PREVIEW_CONTROLS in docs/previews.js: sound and camera-move
-# chips render bare
+# mirrors docs/previews.js: neither set names a picture file, but a camera move
+# draws itself, so only sound is left rendering bare
 NO_PREVIEW_CONTROLS = {"sound", "camera", "energy"}
+MOTION_CONTROLS = {"camera", "energy"}
+
+
+def motion_group(mode):
+    """The camera-move control on a mode, if it has one."""
+    for control in mode.get("controls", {}):
+        if control in MOTION_CONTROLS:
+            return control
+    return None
+
+
+def row_for(page, mode, control):
+    """The chip row a control renders into, by its place in the mode."""
+    return page.locator("#controlGroups .presetrow").nth(list(mode["controls"]).index(control))
 
 
 def stub_picture(width, height, body, border, thickness=4):
@@ -177,6 +191,51 @@ def hover_fresh(page, target):
     page.mouse.move(760, 120)
     page.wait_for_timeout(40)
     target.hover()
+
+
+def hover_settled(page, target):
+    """A camera card opens on the spot, with no file to wait for, so a scroll
+    event landing one frame later would close it again. Scroll first, let it
+    land, then point."""
+    target.scroll_into_view_if_needed()
+    page.wait_for_timeout(250)
+    hover_fresh(page, target)
+
+
+def scene_movement(page):
+    """How many layers in the open card are somewhere else half a cycle later.
+
+    A rule that matched nothing, or a custom property spelled wrong, still
+    leaves a running animation whose every keyframe is the identity transform.
+    That reads as a card that opened correctly and a move that does nothing, so
+    the assertion has to be about the pixels moving, not about an animation
+    existing."""
+    return page.evaluate("""() => {
+      const inCard = (a) => a.effect && a.effect.target && a.effect.target.closest
+        && a.effect.target.closest('.previewscene');
+      const running = document.getAnimations().filter(inCard);
+      if (!running.length) return 0;
+      const targets = [...new Set(running.map((a) => a.effect.target))];
+      const read = () => targets.map((node) => {
+        const style = getComputedStyle(node);
+        return `${style.transform}|${style.opacity}`;
+      });
+      for (const a of running) { a.pause(); a.currentTime = 0; }
+      const start = read();
+      for (const a of running) {
+        a.currentTime = (a.effect.getComputedTiming().duration || 3000) / 2;
+      }
+      const half = read();
+      for (const a of running) a.play();
+      return start.filter((value, index) => value !== half[index]).length;
+    }""")
+
+
+def freeze_motion(page, ms=1200):
+    """Park every animation at the same point so a screenshot is repeatable."""
+    page.evaluate(
+        "(ms) => { for (const a of document.getAnimations()) { a.pause(); a.currentTime = ms; } }", ms)
+    page.wait_for_timeout(60)
 
 
 def settle_fonts(page):
@@ -316,6 +375,117 @@ def check_previews(page, presets, name):
     check(f"{name}: pointing away closes the card", page.locator(".previewpop.is-open").count() == 0)
 
 
+def shoot_scene(page, filename, tag):
+    """The card alone: here the drawing is the subject of the shot, not the page."""
+    page.locator(".previewpop").screenshot(path=str(SHOTS / filename))
+    check(f"{tag}: the card is still open in the screenshot",
+          page.locator(".previewpop.is-open").count() == 1)
+
+
+def check_motion_previews(page, presets, name):
+    """Camera-move chips draw their own scene: no file, no probe, no <img>.
+
+    The failure this guards against is silent. A move whose class name never
+    matched a rule still renders a card, still names the chip, and still holds
+    perfectly still: a picture of a move, which is the one thing this feature
+    exists to not be. So every chip is hovered and its card is asked whether
+    anything in it is actually running."""
+    reopen(page)
+    modes = [mode for mode in presets["modes"] if motion_group(mode)]
+    check(f"{name}: three modes carry camera moves", len(modes) == 3, str(len(modes)))
+
+    for mode in modes:
+        mode_id = mode["id"]
+        control = motion_group(mode)
+        select_mode(page, mode)
+        row = row_for(page, mode, control)
+        chips = row.locator("button")
+        total = chips.count()
+        tagged = row.locator("[data-motion]").count()
+        check(f"{name}/{mode_id}: every camera chip carries a move", tagged == total, f"{tagged} of {total}")
+
+        for index in range(total):
+            chip = chips.nth(index)
+            label = chip.inner_text()
+            tag = f"{name}/{mode_id}/{label}"
+            hover_settled(page, chip)
+            page.wait_for_selector(".previewpop.is-open", timeout=4000)
+            svg = page.locator(".previewpop svg.mp")
+            check(f"{tag}: the card draws a scene", svg.count() == 1, str(svg.count()))
+            check(f"{tag}: the picture slot is put away", page.locator(".previewpop img").is_hidden())
+            check(f"{tag}: the scene is named after the chip",
+                  svg.get_attribute("aria-label") == label, svg.get_attribute("aria-label"))
+            check(f"{tag}: the card runs this chip's move",
+                  f'mp-{chip.get_attribute("data-motion")} ' in f'{svg.get_attribute("class")} ',
+                  svg.get_attribute("class"))
+            check(f"{tag}: something in the scene is actually moving", scene_movement(page) >= 1,
+                  "the card holds a still picture of a move")
+
+        # a sound chip beside them is still bare
+        sound = row_for(page, mode, "sound").locator("button").first
+        hover_settled(page, sound)
+        page.wait_for_timeout(400)
+        check(f"{name}/{mode_id}: a sound chip still opens nothing",
+              page.locator(".previewpop.is-open").count() == 0)
+
+    # the two slots swap both ways: a picture chip after a move chip
+    narrative = next(mode for mode in presets["modes"] if mode["id"] == "video-narrative")
+    select_mode(page, narrative)
+    hover_settled(page, row_for(page, narrative, "camera").locator("button").first)
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    hover_settled(page, row_for(page, narrative, "lens").locator("button").first)
+    page.wait_for_selector(".previewpop.is-open", timeout=4000)
+    check(f"{name}: a picture chip after a move chip shows the picture again",
+          page.locator(".previewpop img").is_visible()
+          and page.locator(".previewpop .previewscene").is_hidden())
+
+    # one card per mode, parked mid-move so the shot is the same every run
+    for mode_id, option in [("video-narrative", "dollyin"), ("video-product-ad", "orbit"),
+                            ("video-atmospheric", "pullback")]:
+        mode = next(entry for entry in presets["modes"] if entry["id"] == mode_id)
+        select_mode(page, mode)
+        hover_settled(page, page.locator(f'[data-motion="{option}"]'))
+        page.wait_for_selector(".previewpop.is-open", timeout=4000)
+        freeze_motion(page)
+        shoot_scene(page, f"motion-card-{mode_id}.png", f"{name}/{mode_id} card")
+
+
+def check_reduced_motion(browser, url):
+    """A visitor who turned motion off gets the scene standing still, and a mark
+    pointing where the move would have gone."""
+    name = "reduced-motion"
+    context = browser.new_context(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")
+    problems = []
+    try:
+        page = context.new_page()
+        page.on("pageerror", lambda error: problems.append(f"pageerror: {error}"))
+        page.goto(url, wait_until="domcontentloaded")
+        page.wait_for_selector('body[data-ready="true"]', timeout=10000)
+        page.fill("#subject", SUBJECT)
+        settle_fonts(page)
+        page.click('.segment[data-media="video"]')
+        page.wait_for_timeout(60)
+        page.click('.mode[data-mode="video-narrative"]')
+        page.wait_for_timeout(80)
+        check(f"{name}: the browser reports the preference",
+              page.evaluate("() => matchMedia('(prefers-reduced-motion: reduce)').matches"))
+
+        hover_settled(page, page.locator('[data-motion="dollyin"]'))
+        page.wait_for_selector(".previewpop.is-open", timeout=4000)
+        check(f"{name}: the card still opens", page.locator(".previewpop svg.mp").count() == 1)
+        check(f"{name}: nothing in it is animating",
+              page.evaluate("() => document.getAnimations().filter(a => a.effect && a.effect.target"
+                            " && a.effect.target.closest && a.effect.target.closest('.previewscene')"
+                            ").length") == 0)
+        check(f"{name}: the direction mark is showing",
+              page.locator(".previewpop .mp-arrow").is_visible())
+        shoot_scene(page, "motion-card-reduced-motion.png", f"{name}/card")
+        page.close()
+    finally:
+        context.close()
+    check(f"{name}: no page errors", not problems, "; ".join(problems))
+
+
 def check_phone_previews(browser, url, presets):
     """A coarse pointer cannot hover, so the selected option shows inline."""
     name = "touch"
@@ -366,6 +536,26 @@ def check_phone_previews(browser, url, presets):
             check(f"{name}/{mode_id}: thumbnail sits under its chip row",
                   page.locator("#controlGroups .field").first.locator(".previewthumb").count() == 1)
 
+        control = motion_group(mode)
+        drawn = page.locator("#controlGroups .motionthumb")
+        page.wait_for_function(
+            f"() => document.querySelectorAll('#controlGroups .motionthumb').length === {1 if control else 0}",
+            timeout=5000)
+        check(f"{name}/{mode_id}: a drawn move for every camera group and no more",
+              drawn.count() == (1 if control else 0), str(drawn.count()))
+        if control:
+            row = row_for(page, mode, control)
+            picked = row.locator('button[aria-checked="true"]')
+            check(f"{name}/{mode_id}: the drawing is named after the selected chip",
+                  drawn.first.get_attribute("aria-label") == picked.inner_text(),
+                  drawn.first.get_attribute("aria-label"))
+            check(f"{name}/{mode_id}: the drawing runs the selected chip's move",
+                  f'mp-{picked.get_attribute("data-motion")} ' in f'{drawn.first.get_attribute("class")} ',
+                  drawn.first.get_attribute("class"))
+            check(f"{name}/{mode_id}: the drawing sits under its own chip row",
+                  page.locator("#controlGroups .field").nth(
+                      list(mode["controls"]).index(control)).locator(".motionthumb").count() == 1)
+
         page.click('.segment[data-media="image"]')
         page.wait_for_timeout(60)
         page.click('.mode[data-mode="scene"]')
@@ -377,6 +567,23 @@ def check_phone_previews(browser, url, presets):
             timeout=5000)
         check(f"{name}: picking an option swaps the thumbnail",
               "scene--lighting--golden.webp" in page.locator(".previewthumb").first.get_attribute("src"))
+
+        # picking another move redraws the thumbnail, same as picking a picture
+        narrative = next(mode for mode in presets["modes"] if mode["id"] == "video-narrative")
+        select_mode(page, narrative)
+        page.wait_for_selector("#controlGroups .motionthumb", timeout=5000)
+        before = page.locator(".motionthumb").first.get_attribute("class")
+        page.click('[data-motion="arc"]')
+        page.wait_for_function(
+            "() => { const s = document.querySelector('.motionthumb');"
+            " return s && s.classList.contains('mp-arc'); }", timeout=5000)
+        check(f"{name}: picking another move redraws the thumbnail",
+              "mp-arc" not in (before or ""), before)
+        thumb_field = page.locator("#controlGroups .field").nth(
+            list(narrative["controls"]).index("camera"))
+        thumb_field.scroll_into_view_if_needed()
+        freeze_motion(page)
+        thumb_field.screenshot(path=str(SHOTS / "motion-thumb-phone.png"))
 
         # last thing this page does: a full-page shot drops Chromium's touch
         # emulation for good, and every check above needs a coarse pointer
@@ -719,6 +926,7 @@ def run():
                 check_enhanced_invalidation(page, presets, name)
                 if name == "desktop":
                     check_previews(page, presets, name)
+                    check_motion_previews(page, presets, name)
 
                 # empty it again and copy locks back up
                 page.fill("#subject", "   ")
@@ -732,6 +940,7 @@ def run():
 
                 page.close()
 
+            check_reduced_motion(browser, url)
             check_phone_previews(browser, url, presets)
             browser.close()
     finally:

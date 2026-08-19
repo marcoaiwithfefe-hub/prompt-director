@@ -1,0 +1,168 @@
+/* Camera-move previews. A picture of a move is a picture of nothing, so each
+   camera chip draws the scene from docs/previews.js and this file moves the
+   layers the way that move moves them.
+
+   Same tokens as the rest of the page: the greys carry the world, the one
+   accent carries the subject. Everything turns and scales about 110 62, the
+   vanishing point, because that is where a lens looks. */
+
+.mp{display:block}
+.mp g{transform-box:view-box;transform-origin:110px 62px}
+.mp-frame{fill:var(--surface2)}
+.mp-sky{fill:var(--surface2)}
+.mp-fill{fill:var(--bg)}
+.mp-haze{fill:var(--bg);opacity:.88}
+.mp-haze.is-soft{opacity:.5}
+.mp-horizon{stroke:var(--muted);stroke-width:1;opacity:.5}
+.mp-rays line{stroke:var(--muted);stroke-width:1;opacity:.3}
+.mp-lines line{stroke:var(--muted);stroke-width:1;opacity:.45}
+.mp-far rect{fill:var(--muted);opacity:.2}
+.mp-subject{fill:var(--accent)}
+.mp-life{fill:var(--accent);opacity:.45}
+.mp-scene-environment .mp-life{fill:var(--muted);opacity:.55}
+.mp-arrow{display:none;fill:none;stroke:var(--accent);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* the two slots the scene renders into: hover card, and the phone's chip row */
+.previewscene{display:block;line-height:0}
+.motionthumb{margin-top:9px;border:1px solid var(--line);border-radius:var(--radius-s)}
+
+/* ---------- the five ways a layer can move ---------- */
+
+/* out and back, for a move that has an end: a push, a rise, a pull-back */
+@keyframes mp-move{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(var(--mp-x,0),var(--mp-y,0)) scale(var(--mp-s,1))}
+}
+/* the subject presenting a narrower face as the camera comes round it */
+@keyframes mp-turn{
+  0%,100%{transform:scaleX(1)}
+  50%{transform:scaleX(var(--mp-sx,1))}
+}
+/* one ratio step of the ground line set: travel that never turns back */
+@keyframes mp-zoom{
+  from{transform:scale(1)}
+  to{transform:scale(var(--mp-q,1))}
+}
+/* one angle step of the ray set */
+@keyframes mp-sweep{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(var(--mp-r,0deg))}
+}
+/* one repeat of the backdrop */
+@keyframes mp-slide{
+  from{transform:translateX(0)}
+  to{transform:translateX(var(--mp-tx,0))}
+}
+/* an operator's body, which is never quite still and never travels */
+@keyframes mp-hand{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  18%{transform:translate(1.7px,-1.1px) rotate(.4deg)}
+  36%{transform:translate(-1.3px,1.3px) rotate(-.32deg)}
+  57%{transform:translate(1.9px,.9px) rotate(.22deg)}
+  78%{transform:translate(-1.6px,-.7px) rotate(-.45deg)}
+}
+/* the one moving thing in a locked frame */
+@keyframes mp-breath{
+  0%{transform:translateX(-26px);opacity:0}
+  20%{opacity:.5}
+  80%{opacity:.5}
+  100%{transform:translateX(34px);opacity:0}
+}
+
+/* ---------- the moves ---------- */
+
+/* A move with an end runs out and back over three seconds. A move that travels
+   runs one way forever, on the step that lands the layer where its neighbour
+   was: 1.45 for the line set, 15 degrees for the rays, 132px for the backdrop.
+   Nothing in the second group ever reverses, because no camera on a track ever
+   does. */
+
+/* NARRATIVE — a person */
+
+/* Handheld. An operator's body: never quite still, never going anywhere. */
+.mp-handheld .mp-shake{animation:mp-hand 3s ease-in-out infinite}
+
+/* Follow behind. The subject is held, the ground runs under the camera. The
+   backdrop holds too: walk twenty metres and the far side of the street does
+   not grow. */
+.mp-follow .mp-lines{--mp-q:1.45;animation:mp-zoom 3s linear infinite}
+.mp-follow .mp-subject{--mp-y:-1.4px;animation:mp-move 1.4s ease-in-out infinite}
+
+/* Reverse track. Same walk, camera ahead of it: the ground drains back toward
+   the horizon instead of running out of it. */
+.mp-reverse .mp-lines{--mp-q:.6897;animation:mp-zoom 3.4s linear infinite}
+.mp-reverse .mp-subject{--mp-y:-1.4px;animation:mp-move 1.4s ease-in-out infinite}
+
+/* Side track. Everything slides the same way, near ground about twice as far
+   as the distance in the same time. That difference in speed is the whole tell,
+   so the two durations are a ratio, not two taste calls: one turn of the ray
+   set carries the bottom of the frame 16 units, and the backdrop is set to
+   cover well under half of that in the same three seconds. */
+.mp-side .mp-rays{--mp-r:15deg;animation:mp-sweep 3s linear infinite}
+.mp-side .mp-far{--mp-tx:-132px;animation:mp-slide 44s linear infinite}
+.mp-side .mp-subject{--mp-y:-1.4px;animation:mp-move 1.4s ease-in-out infinite}
+
+/* Dolly in. The whole frame closes on the subject, near ground fastest, the
+   backdrop almost holding still: that spread is what makes it a move toward
+   the subject rather than a zoom. */
+.mp-dollyin .mp-shake{--mp-s:1.06;animation:mp-move 3s ease-in-out infinite}
+.mp-dollyin .mp-subject{--mp-s:1.1;animation:mp-move 3s ease-in-out infinite}
+.mp-dollyin .mp-lines{--mp-s:1.1;animation:mp-move 3s ease-in-out infinite}
+.mp-dollyin .mp-far{--mp-s:.99;animation:mp-move 3s ease-in-out infinite}
+
+/* Arc. The subject is the pivot, so the ground in front of it and the backdrop
+   behind it swing opposite ways, and the backdrop swings a little harder than
+   the ground rather than a lot softer. A side track slides both the same way,
+   near faster than far. Those two contrasts are the difference between the
+   chips. */
+.mp-arc .mp-rays{--mp-r:15deg;animation:mp-sweep 3.5s linear infinite}
+.mp-arc .mp-far{--mp-tx:132px;animation:mp-slide 24s linear infinite}
+.mp-arc .mp-subject{--mp-sx:.92;animation:mp-turn 3.5s ease-in-out infinite}
+
+/* PRODUCT AD — a bottle on a surface */
+
+/* Tripod push-in. A dolly with the brakes on: same shape, a third of the trip. */
+.mp-tripod .mp-shake{--mp-s:1.035;animation:mp-move 3s ease-in-out infinite}
+.mp-tripod .mp-subject{--mp-s:1.05;animation:mp-move 3s ease-in-out infinite}
+.mp-tripod .mp-lines{--mp-s:1.05;animation:mp-move 3s ease-in-out infinite}
+.mp-tripod .mp-far{--mp-s:.995;animation:mp-move 3s ease-in-out infinite}
+
+/* Orbit. An arc that goes all the way round, so everything swings harder and
+   the product turns further out of square. */
+.mp-orbit .mp-rays{--mp-r:15deg;animation:mp-sweep 2.6s linear infinite}
+.mp-orbit .mp-far{--mp-tx:132px;animation:mp-slide 18s linear infinite}
+.mp-orbit .mp-subject{--mp-sx:.86;animation:mp-turn 2.6s ease-in-out infinite}
+
+/* Locked off. Nothing moves but the light on the product, or the air outside.
+   A still frame with nothing alive in it just looks broken. */
+.mp-lockoff .mp-life{animation:mp-breath 5s linear infinite}
+
+/* Pedestal rise. The camera goes up, so the world goes down past it. */
+.mp-pedestal .mp-shake{--mp-y:14px;animation:mp-move 3s ease-in-out infinite}
+
+/* ATMOSPHERIC — a location, no one in it */
+
+/* Push in. A dolly with no subject to reach: the place itself comes closer. */
+.mp-push .mp-shake{--mp-s:1.05;animation:mp-move 3s ease-in-out infinite}
+.mp-push .mp-lines{--mp-s:1.07;animation:mp-move 3s ease-in-out infinite}
+.mp-push .mp-far{--mp-s:.99;animation:mp-move 3s ease-in-out infinite}
+
+/* Lateral drift. A side track with nobody to keep up with, so it runs slow. */
+.mp-drift .mp-rays{--mp-r:15deg;animation:mp-sweep 5s linear infinite}
+.mp-drift .mp-far{--mp-tx:-132px;animation:mp-slide 72s linear infinite}
+
+/* Crane rise. Up, and widening as it goes: the pedestal's move plus altitude. */
+.mp-crane .mp-shake{--mp-y:9px;--mp-s:.94;animation:mp-move 3s ease-in-out infinite}
+
+/* Aerial pull-back. Everything shrinks, near things fastest, and the edges of
+   the frame fill with backdrop that was never in it. */
+.mp-pullback .mp-shake{--mp-s:.82;animation:mp-move 3s ease-in-out infinite}
+.mp-pullback .mp-subject{--mp-s:.92;animation:mp-move 3s ease-in-out infinite}
+.mp-pullback .mp-lines{--mp-s:.94;animation:mp-move 3s ease-in-out infinite}
+.mp-pullback .mp-far{--mp-s:1.05;animation:mp-move 3s ease-in-out infinite}
+
+/* Motion off: the scene holds its opening pose and a mark names the direction. */
+@media (prefers-reduced-motion:reduce){
+  .mp *{animation:none !important}
+  .mp-arrow{display:block}
+}
