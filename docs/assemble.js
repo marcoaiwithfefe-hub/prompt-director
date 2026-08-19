@@ -181,7 +181,11 @@ function walkTemplate(presets, mode, template, selections, context) {
         break;
       }
       case 'control':
-        segments.push(segment('tool', 'control', resolveOption(mode, part.control, selections).clause));
+        // a control part may name which of its option's texts it wants; the
+        // camera groups carry a `movement` prose line beside their gear clause
+        segments.push(
+          segment('tool', 'control', resolveOption(mode, part.control, selections)[part.field ?? 'clause'])
+        );
         break;
       case 'block': {
         const block = presets.sharedBlocks[part.block];

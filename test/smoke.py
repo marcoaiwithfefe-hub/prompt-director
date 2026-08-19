@@ -130,8 +130,9 @@ def check_enhance_wiring(page, name):
 
 PREVIEW_GLOB = "**/previews/*.webp"
 MISSING_PREVIEW = "**/previews/detail--backdrop--moody.webp"
-# mirrors NO_PREVIEW_CONTROLS in docs/previews.js: sound chips render bare
-NO_PREVIEW_CONTROLS = {"sound"}
+# mirrors NO_PREVIEW_CONTROLS in docs/previews.js: sound and camera-move
+# chips render bare
+NO_PREVIEW_CONTROLS = {"sound", "camera", "energy"}
 
 
 def stub_picture(width, height, body, border, thickness=4):

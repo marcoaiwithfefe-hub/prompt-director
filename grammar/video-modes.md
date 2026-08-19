@@ -1,13 +1,13 @@
 # The Four Video Modes
 
-Every video job is one of four modes. Same discipline as the image side: pick the mode first, because each one locks its own camera energy, grade, and realism register. The shared block grammar lives in `video-blocks.md`. All four target Seedance-class video generators.
+Every video job is one of four modes. Same discipline as the image side: pick the mode first, because each one sets its own camera register, grade, and realism register. Three of the four then let you pick the move inside that register; UGC does not, because the phone is the point. The shared block grammar lives in `video-blocks.md`. All four target Seedance-class video generators.
 
 | Mode | Job | Camera energy | Register |
 |------|-----|---------------|----------|
-| **Product Ad** | Product looks premium in motion | Tripod-mounted, slow push-in | Clean spherical, saturated editorial, intentional speculars on the product |
+| **Product Ad** | Product looks premium in motion | Tripod push-in, slow orbit, locked-off, or pedestal rise | Clean spherical, saturated editorial, intentional speculars on the product |
 | **UGC** | Fake phone-shot testimonial, person talks to camera | Handheld arm's-length or propped-phone static | Smartphone capture, natural light, anti-plastic skin |
-| **Narrative** | A story moment, character doing something | Handheld with operator breath | Vintage anamorphic, color-negative film, teal-amber |
-| **Atmospheric** | Location and mood only, no people | Locked-off static or extremely slow push-in | Vintage anamorphic, palette-driven grade |
+| **Narrative** | A story moment, character doing something | Handheld breath, follow, reverse or side track, dolly-in, or arc | Vintage anamorphic, color-negative film, teal-amber |
+| **Atmospheric** | Location and mood only, no people | Locked-off, slow push-in, lateral drift, crane rise, or aerial pull-back | Vintage anamorphic, palette-driven grade |
 
 Product Ad and UGC are **conversion material**: they exist to sell something. Narrative and Atmospheric are **content material**: story beats and b-roll. The realism engine (Capture Realism) ships on all four; only Product Ad relaxes the specular kill, because chrome, glass, and liquid are supposed to shine.
 
@@ -21,11 +21,12 @@ The studio register. The product is the only subject; everything else serves it.
 - Default action when none is given: a slow presentation turn or a single reveal gesture.
 - Surface choice: studio seamless (color stated) or a real context surface (marble counter, wood table — stated plainly).
 - Speculars are INTENTIONAL here: highlight bloom on reflective materials, controlled and named per surface. Atmosphere and contrast-curve discipline still apply.
+- Camera move is a pick, not a lock: tripod push-in, a slow orbit at a fixed radius, locked-off static, or a pedestal rise. The gear half of the pick closes the Camera Capture line; the move itself is written out in Movement, in physical terms the model can render.
 
 Camera Capture line:
 
 ```
-Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) clean spherical character at a wide aperture — natural round bokeh, even sharpness — mild diffusion bloom, tripod-mounted with a slow push-in, saturated editorial grade, fine grain, warm-retained blacks, intentional highlight bloom on the product's reflective surfaces, 24fps 180° shutter, [runtime].
+Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) clean spherical character at a wide aperture — natural round bokeh, even sharpness — mild diffusion bloom, [tripod-mounted with a slow push-in / slow orbit at a consistent radius / locked-off tripod / slow pedestal rise], saturated editorial grade, fine grain, warm-retained blacks, intentional highlight bloom on the product's reflective surfaces, 24fps 180° shutter, [runtime].
 ```
 
 ## Mode: UGC
@@ -53,12 +54,13 @@ The story shot. Real-world dramatic: streets, kitchens, cars, shops, interiors. 
 
 - Subject Lock anchors the character; the action carries the drama, written as observable behavior (write-the-visible rules apply hardest here).
 - Default action when none is given: walks a few steps and pauses, gaze shifting off-frame.
-- Movement layers all four registers: character, micro (breath, hair, fabric), environmental (rain, traffic, wind in % and meters), camera implied by the capture line.
+- Movement layers all four registers: character, micro (breath, hair, fabric), environmental (rain, traffic, wind in % and meters), and the camera move itself, spelled out rather than implied.
+- Camera move is a pick, not a lock: handheld breath in place, a follow shot from behind, a reverse track, a side track, a slow dolly-in, or a slow arc. Handheld breath is the default because a story shot usually wants an operator, not a rig.
 
 Camera Capture line:
 
 ```
-Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) vintage 2x anamorphic character at a wide aperture — oval bokeh, soft frame-edge falloff — light diffusion bloom softening highlights, handheld with natural operator breath, color-negative daylight film rendition with fine 35mm grain, teal-amber grade, shallow depth of field, 24fps 180° shutter, [runtime].
+Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) vintage 2x anamorphic character at a wide aperture — oval bokeh, soft frame-edge falloff — light diffusion bloom softening highlights, [handheld with natural operator breath / handheld follow shot from behind / reverse tracking shot / side tracking shot / slow dolly-in / slow arcing move], color-negative daylight film rendition with fine 35mm grain, teal-amber grade, shallow depth of field, 24fps 180° shutter, [runtime].
 ```
 
 ## Mode: Atmospheric
@@ -67,13 +69,13 @@ The place is the subject. B-roll plates, establishing mood, weather, empty envir
 
 - No people, no reference tags. Subject Lock becomes an environment lock: the one dominant element (the street, the shoreline, the room) pinned with its state.
 - Movement is environmental only: what the wind, water, light, or traffic does across the runtime.
-- Camera energy is a real choice here, the only mode where it is: locked-off static, or an extremely slow push-in.
+- Camera energy is a real choice here: locked-off static, an extremely slow push-in, a lateral drift, a crane rise, or an aerial pull-back. Static stays the default, because a plate usually earns its mood by holding still.
 - Grade is palette-driven: name the two or three dominant colors and tie each to a surface or light source, never a bare color list.
 
 Camera Capture line:
 
 ```
-Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) vintage 2x anamorphic character at a wide aperture — oval bokeh, soft edge falloff — light diffusion bloom softening highlights, [locked-off static frame / extremely slow push-in], color-negative film rendition with fine grain, [palette grade], atmospheric haze, weathered material detail, 24fps 180° shutter, [runtime]. The environment is the subject.
+Camera Capture: wide-latitude cinema capture, [FOV°] ([mm]) vintage 2x anamorphic character at a wide aperture — oval bokeh, soft edge falloff — light diffusion bloom softening highlights, [locked-off static frame / extremely slow push-in / lateral drift / crane rise / aerial pull-back], color-negative film rendition with fine grain, [palette grade], atmospheric haze, weathered material detail, 24fps 180° shutter, [runtime]. The environment is the subject.
 ```
 
 ---

@@ -493,9 +493,15 @@ Registry schema version 2. Every mode below, in emission order.
   - room «Studio room tone» emits «quiet studio room tone, the soft presence of a treated space»
   - handling «Product handling» emits «the small precise sounds of the product being handled — glass set on stone, a cap turning, fabric brushing»
   - retail «Soft retail ambience» emits «soft retail ambience, distant murmur and footsteps on a polished floor»
-- camera «Camera» default tripod LOCKED
-  - why «The studio register locks the camera: tripod-mounted with a slow push-in.»
+- camera «Camera» default tripod
   - tripod «Tripod push-in» emits «tripod-mounted with a slow push-in»
+    - movement «The camera eases physically forward toward the product in a straight line, a barely-perceptible controlled push, height and lens direction locked, finishing in a tighter composition on the product.»
+  - orbit «Slow orbit» emits «a slow orbit circling the product at a consistent radius»
+    - movement «The camera circles the product at a consistent radius, a smooth controlled orbit, the product centered while the backdrop rotates behind it, completing a clean arc with stable framing.»
+  - static «Locked-off static» emits «locked-off tripod, zero operator drift, frame edges rock-steady»
+    - movement «The camera holds one fixed position for the full runtime, the same angle, height and composition, only the product and light moving.»
+  - pedestal «Pedestal rise» emits «a slow pedestal rise up the product»
+    - movement «The camera travels vertically upward in a straight line past the product, a smooth constant lift, lens level and direction held, finishing with the higher framing clearly readable.»
 
 #### blocks
 
@@ -510,7 +516,9 @@ Registry schema version 2. Every mode below, in emission order.
 
 ##### movement «Movement»
   - action
-  - text « Micro-motion stays honest — light shifting across the surfaces as the camera eases in; nothing else in the frame moves. »
+  - text « Micro-motion stays honest — light shifting across the surfaces; nothing else in the frame moves. »
+  - control camera field movement
+  - text « »
   - block VIDEO_ONER
 
 ##### last-frame «Last Frame»
@@ -643,9 +651,19 @@ Registry schema version 2. Every mode below, in emission order.
   - interior «Interior ambient» emits «close interior ambience — room tone, small object sounds, fabric moving»
   - street «Street ambient» emits «street ambience — footsteps on pavement, passing traffic, air moving between buildings»
   - weather «Weather ambient» emits «weather carrying the scene — wind pressing, rain ticking on surfaces, distant thunder rolling»
-- camera «Camera» default handheld LOCKED
-  - why «The narrative register locks the camera: handheld with a lived-in operator presence.»
+- camera «Camera» default handheld
   - handheld «Handheld breath» emits «handheld with natural operator breath»
+    - movement «The camera holds at operator height with natural body sway, subtle micro-adjustments keeping the subject readable, no travel.»
+  - follow «Follow behind» emits «handheld follow shot from behind at shoulder height»
+    - movement «The camera follows behind the subject along their route at shoulder height, matching their pace, the back and shoulder leading the frame while the route ahead stays readable.»
+  - reverse «Reverse track» emits «reverse tracking shot moving backward in front of the subject»
+    - movement «The camera moves backward in front of the walking subject, matching their forward pace, face and body framing held stable as the background recedes behind them.»
+  - side «Side track» emits «side tracking shot moving parallel to the subject»
+    - movement «The camera tracks parallel beside the subject along their direction of travel, matching their motion, holding them in three-quarter profile at a stable distance with clear horizontal motion.»
+  - dollyin «Dolly in» emits «a slow dolly-in closing toward the subject»
+    - movement «The camera moves physically forward in a straight line toward the subject, a smooth controlled push, height and lens direction held while the distance closes, finishing in a tighter composition.»
+  - arc «Arc around» emits «a slow arcing move curving around the subject»
+    - movement «The camera moves on a shallow curved path around the subject, a smooth measured curve, distance and height held while the angle changes, finishing from a new side angle.»
 
 #### blocks
 
@@ -661,6 +679,8 @@ Registry schema version 2. Every mode below, in emission order.
 ##### movement «Movement»
   - action
   - text « Micro-motion layers underneath — breath, hair, fabric responding. The environment keeps its own honest motion around the action. »
+  - control camera field movement
+  - text « »
   - block VIDEO_ONER
 
 ##### last-frame «Last Frame»
@@ -713,7 +733,15 @@ Registry schema version 2. Every mode below, in emission order.
   - 29 «Compressed 29° (85mm)» emits «29° (75–85mm) portrait compression»
 - energy «Camera» default static
   - static «Locked-off static» emits «locked-off static frame, zero operator drift, frame edges rock-steady»
+    - movement «The camera holds one fixed position, frame edges rock-steady, only the environment moving.»
   - push «Slow push-in» emits «an extremely slow push-in, barely perceptible across the runtime»
+    - movement «The camera pushes forward extremely slowly, barely perceptible across the runtime, the composition tightening by degrees.»
+  - drift «Lateral drift» emits «a slow lateral drift on a straight horizontal path»
+    - movement «The camera slides slowly sideways on a straight horizontal path at constant speed, lens facing the same direction while foreground, midground and background shift in parallax.»
+  - crane «Crane rise» emits «a slow crane rise through open space»
+    - movement «The camera travels smoothly upward through open space, a slow controlled vertical lift, the location staying readable as the frame rises, finishing with the wider scale visible.»
+  - pullback «Aerial pullback» emits «a slow aerial pull-back away from the scene»
+    - movement «The camera glides smoothly backward and away, a controlled retreat, the framed subject staying readable as more of the landscape enters, finishing on a wider composition.»
 - timeofday «Time» default golden
   - dawn «Pre-dawn blue» emits «Pre-dawn blue hour, the sky barely lifting, practicals still burning»
   - golden «Golden hour» emits «Low golden-hour light raking long shadows across the surfaces»
@@ -741,6 +769,8 @@ Registry schema version 2. Every mode below, in emission order.
 
 ##### movement «Movement»
   - action
+  - text « »
+  - control energy field movement
   - text « »
   - block VIDEO_ONER
 

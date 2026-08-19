@@ -70,12 +70,19 @@ function optionOf(mode, controlId, selections) {
   return group.options.find((candidate) => candidate.id === selections[controlId]);
 }
 
-/** Which block each control writes into, straight from the registry. */
+/**
+ * Every control part a video mode carries: which control, which of its texts,
+ * and the block it writes into. A camera group writes twice — its gear clause
+ * into Camera Capture, its movement prose into Movement — so this is a list
+ * rather than one block per control.
+ */
 function controlHomes(mode) {
-  const homes = {};
+  const homes = [];
   for (const block of mode.blocks) {
     for (const part of block.template) {
-      if (part.type === 'control') homes[part.control] = block.id;
+      if (part.type === 'control') {
+        homes.push({ control: part.control, field: part.field || 'clause', block: block.id });
+      }
     }
   }
   return homes;
@@ -105,7 +112,7 @@ function expectedToolSegments(mode, block, selections, refs) {
   const out = [];
   for (const part of block.template) {
     if (part.type === 'text') out.push(part.value);
-    if (part.type === 'control') out.push(optionOf(mode, part.control, selections).clause);
+    if (part.type === 'control') out.push(optionOf(mode, part.control, selections)[part.field || 'clause']);
     if (part.type === 'block') out.push(presets.sharedBlocks[part.block]);
     if (part.type === 'action' && !refs.actionTyped) out.push(mode.defaultAction);
     if (part.type === 'action' && refs.actionTyped) out.push('.');
@@ -165,15 +172,14 @@ export async function run() {
 
           // chips land in their own block, exactly once, and nowhere else
           let misplaced = '';
-          for (const controlId of Object.keys(selections)) {
-            const clause = optionOf(mode, controlId, selections).clause;
-            const home = homes[controlId];
-            if (countOf(byId[home], clause) !== 1) misplaced = `${controlId} not once in ${home}`;
+          for (const { control, field, block: home } of homes) {
+            const text = optionOf(mode, control, selections)[field];
+            if (countOf(byId[home], text) !== 1) misplaced = `${control} ${field} not once in ${home}`;
             for (const [blockId, content] of Object.entries(byId)) {
-              if (blockId !== home && content.includes(clause)) misplaced = `${controlId} leaked into ${blockId}`;
+              if (blockId !== home && content.includes(text)) misplaced = `${control} ${field} leaked into ${blockId}`;
             }
           }
-          suite.check(`${tag} places every chip clause in its own block, once`, !misplaced, misplaced);
+          suite.check(`${tag} places every chip text in its own block, once`, !misplaced, misplaced);
 
           // the runtime the visitor picked is the runtime the camera line carries
           const runtime = optionOf(mode, 'runtime', selections).clause;

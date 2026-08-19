@@ -47,7 +47,7 @@ function renderTemplate(lines, template, indent = '  ') {
         lines.push(`${indent}- action`);
         break;
       case 'control':
-        lines.push(`${indent}- control ${part.control}`);
+        lines.push(`${indent}- control ${part.control}${part.field ? ` field ${part.field}` : ''}`);
         break;
       case 'block':
         lines.push(`${indent}- block ${part.block}`);
@@ -73,6 +73,7 @@ function renderChips(lines, mode) {
     if (group.why) lines.push(`  - why ${quote(group.why)}`);
     for (const option of group.options) {
       lines.push(`  - ${option.id} ${quote(option.label)} emits ${quote(option.clause)}`);
+      if (option.movement) lines.push(`    - movement ${quote(option.movement)}`);
     }
   }
 }

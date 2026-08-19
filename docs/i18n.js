@@ -218,8 +218,12 @@ export const MODE_CONTROLS_YUE = {
     },
     camera: {
       label: '運鏡',
-      options: { tripod: '腳架慢推' },
-      why: '影樓風格鎖死運鏡：腳架架住，慢慢推埋去。',
+      options: {
+        tripod: '腳架慢推',
+        orbit: '圍住轉圈',
+        static: '完全定鏡',
+        pedestal: '垂直升鏡',
+      },
     },
   },
   'video-ugc': {
@@ -253,8 +257,14 @@ export const MODE_CONTROLS_YUE = {
     },
     camera: {
       label: '運鏡',
-      options: { handheld: '手持呼吸感' },
-      why: '劇情風格鎖死運鏡：手持，有個人揸住機咁嘅呼吸感。',
+      options: {
+        handheld: '手持呼吸感',
+        follow: '背後跟拍',
+        reverse: '倒退跟拍',
+        side: '平行側跟',
+        dollyin: '慢推埋去',
+        arc: '弧形環繞',
+      },
     },
   },
   'video-atmospheric': {
@@ -263,7 +273,16 @@ export const MODE_CONTROLS_YUE = {
       label: '鏡頭',
       options: { 107: '超廣 107° (16mm)', 84: '廣角 84° (24mm)', 29: '壓縮 29° (85mm)' },
     },
-    energy: { label: '運鏡', options: { static: '定鏡', push: '極慢推鏡' } },
+    energy: {
+      label: '運鏡',
+      options: {
+        static: '定鏡',
+        push: '極慢推鏡',
+        drift: '慢慢橫移',
+        crane: '吊臂升鏡',
+        pullback: '航拍拉遠',
+      },
+    },
     timeofday: {
       label: '時間',
       options: { dawn: '天光前藍調', golden: '黃金時段', overcast: '陰天中午', night: '夜晚燈光' },

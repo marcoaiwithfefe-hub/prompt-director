@@ -723,12 +723,29 @@
             {
               "id": "tripod",
               "label": "Tripod push-in",
-              "clause": "tripod-mounted with a slow push-in"
+              "clause": "tripod-mounted with a slow push-in",
+              "movement": "The camera eases physically forward toward the product in a straight line, a barely-perceptible controlled push, height and lens direction locked, finishing in a tighter composition on the product."
+            },
+            {
+              "id": "orbit",
+              "label": "Slow orbit",
+              "clause": "a slow orbit circling the product at a consistent radius",
+              "movement": "The camera circles the product at a consistent radius, a smooth controlled orbit, the product centered while the backdrop rotates behind it, completing a clean arc with stable framing."
+            },
+            {
+              "id": "static",
+              "label": "Locked-off static",
+              "clause": "locked-off tripod, zero operator drift, frame edges rock-steady",
+              "movement": "The camera holds one fixed position for the full runtime, the same angle, height and composition, only the product and light moving."
+            },
+            {
+              "id": "pedestal",
+              "label": "Pedestal rise",
+              "clause": "a slow pedestal rise up the product",
+              "movement": "The camera travels vertically upward in a straight line past the product, a smooth constant lift, lens level and direction held, finishing with the higher framing clearly readable."
             }
           ],
-          "default": "tripod",
-          "locked": true,
-          "why": "The studio register locks the camera: tripod-mounted with a slow push-in."
+          "default": "tripod"
         }
       },
       "blocks": [
@@ -772,7 +789,16 @@
             },
             {
               "type": "text",
-              "value": " Micro-motion stays honest — light shifting across the surfaces as the camera eases in; nothing else in the frame moves. "
+              "value": " Micro-motion stays honest — light shifting across the surfaces; nothing else in the frame moves. "
+            },
+            {
+              "type": "control",
+              "control": "camera",
+              "field": "movement"
+            },
+            {
+              "type": "text",
+              "value": " "
             },
             {
               "type": "block",
@@ -1246,12 +1272,41 @@
             {
               "id": "handheld",
               "label": "Handheld breath",
-              "clause": "handheld with natural operator breath"
+              "clause": "handheld with natural operator breath",
+              "movement": "The camera holds at operator height with natural body sway, subtle micro-adjustments keeping the subject readable, no travel."
+            },
+            {
+              "id": "follow",
+              "label": "Follow behind",
+              "clause": "handheld follow shot from behind at shoulder height",
+              "movement": "The camera follows behind the subject along their route at shoulder height, matching their pace, the back and shoulder leading the frame while the route ahead stays readable."
+            },
+            {
+              "id": "reverse",
+              "label": "Reverse track",
+              "clause": "reverse tracking shot moving backward in front of the subject",
+              "movement": "The camera moves backward in front of the walking subject, matching their forward pace, face and body framing held stable as the background recedes behind them."
+            },
+            {
+              "id": "side",
+              "label": "Side track",
+              "clause": "side tracking shot moving parallel to the subject",
+              "movement": "The camera tracks parallel beside the subject along their direction of travel, matching their motion, holding them in three-quarter profile at a stable distance with clear horizontal motion."
+            },
+            {
+              "id": "dollyin",
+              "label": "Dolly in",
+              "clause": "a slow dolly-in closing toward the subject",
+              "movement": "The camera moves physically forward in a straight line toward the subject, a smooth controlled push, height and lens direction held while the distance closes, finishing in a tighter composition."
+            },
+            {
+              "id": "arc",
+              "label": "Arc around",
+              "clause": "a slow arcing move curving around the subject",
+              "movement": "The camera moves on a shallow curved path around the subject, a smooth measured curve, distance and height held while the angle changes, finishing from a new side angle."
             }
           ],
-          "default": "handheld",
-          "locked": true,
-          "why": "The narrative register locks the camera: handheld with a lived-in operator presence."
+          "default": "handheld"
         }
       },
       "blocks": [
@@ -1296,6 +1351,15 @@
             {
               "type": "text",
               "value": " Micro-motion layers underneath — breath, hair, fabric responding. The environment keeps its own honest motion around the action. "
+            },
+            {
+              "type": "control",
+              "control": "camera",
+              "field": "movement"
+            },
+            {
+              "type": "text",
+              "value": " "
             },
             {
               "type": "block",
@@ -1470,12 +1534,32 @@
             {
               "id": "static",
               "label": "Locked-off static",
-              "clause": "locked-off static frame, zero operator drift, frame edges rock-steady"
+              "clause": "locked-off static frame, zero operator drift, frame edges rock-steady",
+              "movement": "The camera holds one fixed position, frame edges rock-steady, only the environment moving."
             },
             {
               "id": "push",
               "label": "Slow push-in",
-              "clause": "an extremely slow push-in, barely perceptible across the runtime"
+              "clause": "an extremely slow push-in, barely perceptible across the runtime",
+              "movement": "The camera pushes forward extremely slowly, barely perceptible across the runtime, the composition tightening by degrees."
+            },
+            {
+              "id": "drift",
+              "label": "Lateral drift",
+              "clause": "a slow lateral drift on a straight horizontal path",
+              "movement": "The camera slides slowly sideways on a straight horizontal path at constant speed, lens facing the same direction while foreground, midground and background shift in parallax."
+            },
+            {
+              "id": "crane",
+              "label": "Crane rise",
+              "clause": "a slow crane rise through open space",
+              "movement": "The camera travels smoothly upward through open space, a slow controlled vertical lift, the location staying readable as the frame rises, finishing with the wider scale visible."
+            },
+            {
+              "id": "pullback",
+              "label": "Aerial pullback",
+              "clause": "a slow aerial pull-back away from the scene",
+              "movement": "The camera glides smoothly backward and away, a controlled retreat, the framed subject staying readable as more of the landscape enters, finishing on a wider composition."
             }
           ],
           "default": "static"
@@ -1587,6 +1671,15 @@
           "template": [
             {
               "type": "action"
+            },
+            {
+              "type": "text",
+              "value": " "
+            },
+            {
+              "type": "control",
+              "control": "energy",
+              "field": "movement"
             },
             {
               "type": "text",

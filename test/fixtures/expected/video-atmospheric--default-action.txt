@@ -2,7 +2,7 @@ Scene & Mood: The place is the subject — a wet rooftop above a harbour, empty 
 
 Subject Lock: The environment locks as the single subject — its dominant element pinned in state, structure and scale readable. The environment's structure, weather, and light stay consistent throughout the runtime.
 
-Movement: Environmental motion only — what the wind, water, and light do across the runtime; nothing is staged. One uninterrupted shot, no internal cuts, the camera never breaks the take.
+Movement: Environmental motion only — what the wind, water, and light do across the runtime; nothing is staged. The camera holds one fixed position, frame edges rock-steady, only the environment moving. One uninterrupted shot, no internal cuts, the camera never breaks the take.
 
 Last Frame: The frame closes on the same composition it opened, the environmental motion mid-breath, negative space intact. No on-screen text, no captions, no signage typography, no rendered text in the frame.
 
