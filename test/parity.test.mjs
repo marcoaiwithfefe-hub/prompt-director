@@ -112,13 +112,15 @@ export async function run() {
         }
       }
 
-      // reference sentences, at the block they attach to
+      // reference sentences, at the block they attach to (image modes have no
+      // blocks, so their sentences file at the prompt's end)
       for (const ref of mode.refs || []) {
         suite.check(`${name}/${mode.id} names ${ref.id}`, chunk.includes(`- ${ref.id} tag ${ref.tag}`));
         for (const piece of ref.segments) {
+          const anchor = piece.block ?? 'prompt';
           suite.check(
-            `${name}/${mode.id} files ${ref.id} at ${piece.block}`,
-            chunk.includes(`- at end of ${piece.block} «${piece.text}»`)
+            `${name}/${mode.id} files ${ref.id} at ${anchor}`,
+            chunk.includes(`- at end of ${anchor} «${piece.text}»`)
           );
         }
       }

@@ -220,11 +220,12 @@ export function assembleParts(presets, modeId, state = {}) {
 
   if (!isVideoMode(mode)) {
     const template = imageTemplate(mode, state.register);
-    return {
-      modeId: mode.id,
-      mediaType: 'image',
-      segments: walkTemplate(presets, mode, template, selections, context),
-    };
+    const segments = walkTemplate(presets, mode, template, selections, context);
+    // image modes have no blocks, so ref sentences append at the prompt's end
+    for (const ref of activeRefs(mode, state.refs)) {
+      for (const piece of ref.segments) segments.push(segment('tool', 'ref', piece.text));
+    }
+    return { modeId: mode.id, mediaType: 'image', segments };
   }
 
   const refs = activeRefs(mode, state.refs);

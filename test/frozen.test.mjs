@@ -16,8 +16,10 @@ import { createSuite, paths, runAsMain } from './harness.mjs';
 const presets = JSON.parse(readFileSync(paths.grammarPresets, 'utf8'));
 const frozen = JSON.parse(readFileSync(join(paths.fixtures, 'presets-v1.json'), 'utf8'));
 
-/** The only fields v2 was allowed to add to a v1 mode. */
-const NEW_AXIS_FIELDS = ['mediaType', 'targetModel'];
+/** The only fields later versions were allowed to add to a v1 mode: the v2
+ * media axis, then the reference checkboxes (default-off, so a live prompt
+ * without refs still assembles byte-identically). */
+const NEW_AXIS_FIELDS = ['mediaType', 'targetModel', 'refs'];
 
 function withoutNewFields(mode) {
   const copy = { ...mode };
@@ -36,7 +38,7 @@ export async function run() {
     suite.check(`${before.id} still exists`, Boolean(after));
     if (!after) continue;
 
-    for (const field of NEW_AXIS_FIELDS) {
+    for (const field of ['mediaType', 'targetModel']) {
       suite.check(`${before.id} gained ${field}`, after[field] !== undefined);
     }
     suite.equal(
@@ -44,10 +46,10 @@ export async function run() {
       JSON.stringify(withoutNewFields(after)),
       JSON.stringify(before)
     );
-    suite.equal(
-      `${before.id} gained nothing but the two axis fields`,
-      Object.keys(after).filter((field) => !Object.keys(before).includes(field)).sort().join(','),
-      [...NEW_AXIS_FIELDS].sort().join(',')
+    const gained = Object.keys(after).filter((field) => !Object.keys(before).includes(field));
+    suite.check(
+      `${before.id} gained nothing outside the allowed axis fields`,
+      gained.every((field) => NEW_AXIS_FIELDS.includes(field))
     );
   }
 

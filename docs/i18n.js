@@ -296,6 +296,13 @@ export const MODE_CONTROLS_YUE = {
 };
 
 export const REF_LABELS_YUE = {
+  'outfit-styling': { person_ref: '我有角色嘅相' },
+  'char-sheet': { person_ref: '我有角色嘅相' },
+  'scene': { person_ref: '我有角色嘅相' },
+  'detail': { person_ref: '我有角色嘅相' },
+  'product-shot': { product_ref: '我有產品相' },
+  'ad-916': { product_ref: '我有產品相' },
+  'poster': { product_ref: '我有產品相' },
   'video-product-ad': { product_ref: '我有產品相' },
   'video-ugc': { person_ref: '我有講嘢嗰個人嘅相', product_ref: '我有產品相' },
   'video-narrative': { person_ref: '我有角色嘅相' },

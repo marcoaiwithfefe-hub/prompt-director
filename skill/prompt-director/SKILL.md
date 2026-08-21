@@ -142,6 +142,10 @@ Registry schema version 2. Every mode below, in emission order.
   - paragraph break
   - block FLAT_GRADE
 
+#### references
+- person_ref tag @person_ref file person_ref «I have a photo of the character»
+  - at end of prompt « Identity carries from @person_ref; the prompt only describes what the reference can't show.»
+
 ### Character Sheet
 
 - id char-sheet
@@ -170,6 +174,10 @@ Registry schema version 2. Every mode below, in emission order.
   - block FLAT_GRADE
   - text « »
   - block FLAT_GRADE_SHEET_SUFFIX
+
+#### references
+- person_ref tag @person_ref file person_ref «I have a photo of the character»
+  - at end of prompt « Identity carries from @person_ref across every panel; the prompt only describes what the reference can't show.»
 
 ### Scene
 
@@ -205,6 +213,10 @@ Registry schema version 2. Every mode below, in emission order.
   - paragraph break
   - block CINEMA_PROSE_CLOSE
 
+#### references
+- person_ref tag @person_ref file person_ref «I have a photo of the character»
+  - at end of prompt « The character carries identically from @person_ref; the prompt spends its words on the scene, not the face.»
+
 ### Detail
 
 - id detail
@@ -232,6 +244,10 @@ Registry schema version 2. Every mode below, in emission order.
   - block DETAIL_FIDELITY
   - paragraph break
   - block CINEMA_STACK
+
+#### references
+- person_ref tag @person_ref file person_ref «I have a photo of the character»
+  - at end of prompt « Skin, tone, and identity markers carry from @person_ref; the prompt only frames the close-up.»
 
 ### Product Shot
 
@@ -264,6 +280,10 @@ Registry schema version 2. Every mode below, in emission order.
   - text «. »
   - block PHONE_STILL_REGISTER
 
+#### references
+- product_ref tag @product_ref file product_ref «I have a product photo»
+  - at end of prompt « Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is.»
+
 ### 9:16 Ad
 
 - id ad-916
@@ -285,6 +305,10 @@ Registry schema version 2. Every mode below, in emission order.
   - text « anchored in the lower two-thirds of the frame. The upper third stays clean, even, uncluttered background, free of detail, reserved for a headline added later. »
   - block PHONE_STILL_REGISTER
 
+#### references
+- product_ref tag @product_ref file product_ref «I have a product photo»
+  - at end of prompt « Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is.»
+
 ### Poster
 
 - id poster
@@ -305,6 +329,10 @@ Registry schema version 2. Every mode below, in emission order.
   - text « anchored on the right third of the frame, »
   - control lighting
   - text «. The remaining field holds clean deep negative space, even and empty, reserved for type added later. Two or three colors only, each tied to a surface or a light source. No rendered text, no typography. Fine natural film grain, photographed not generated.»
+
+#### references
+- product_ref tag @product_ref file product_ref «I have a product photo»
+  - at end of prompt « Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is.»
 
 ### Product Ad
 

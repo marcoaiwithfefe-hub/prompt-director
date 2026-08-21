@@ -121,7 +121,20 @@
         }
       ],
       "mediaType": "image",
-      "targetModel": "banana-image"
+      "targetModel": "banana-image",
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the character",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "text": " Identity carries from @person_ref; the prompt only describes what the reference can't show."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "char-sheet",
@@ -197,7 +210,20 @@
         }
       ],
       "mediaType": "image",
-      "targetModel": "banana-image"
+      "targetModel": "banana-image",
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the character",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "text": " Identity carries from @person_ref across every panel; the prompt only describes what the reference can't show."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "scene",
@@ -309,7 +335,20 @@
         }
       ],
       "mediaType": "image",
-      "targetModel": "banana-image"
+      "targetModel": "banana-image",
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the character",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "text": " The character carries identically from @person_ref; the prompt spends its words on the scene, not the face."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "detail",
@@ -391,7 +430,20 @@
         }
       ],
       "mediaType": "image",
-      "targetModel": "banana-image"
+      "targetModel": "banana-image",
+      "refs": [
+        {
+          "id": "person_ref",
+          "tag": "@person_ref",
+          "label": "I have a photo of the character",
+          "filename": "person_ref",
+          "segments": [
+            {
+              "text": " Skin, tone, and identity markers carry from @person_ref; the prompt only frames the close-up."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "product-shot",
@@ -491,7 +543,20 @@
             }
           ]
         }
-      }
+      },
+      "refs": [
+        {
+          "id": "product_ref",
+          "tag": "@product_ref",
+          "label": "I have a product photo",
+          "filename": "product_ref",
+          "segments": [
+            {
+              "text": " Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "ad-916",
@@ -554,7 +619,20 @@
             }
           ]
         }
-      }
+      },
+      "refs": [
+        {
+          "id": "product_ref",
+          "tag": "@product_ref",
+          "label": "I have a product photo",
+          "filename": "product_ref",
+          "segments": [
+            {
+              "text": " Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is."
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "poster",
@@ -605,6 +683,19 @@
         {
           "type": "text",
           "value": ". The remaining field holds clean deep negative space, even and empty, reserved for type added later. Two or three colors only, each tied to a surface or a light source. No rendered text, no typography. Fine natural film grain, photographed not generated."
+        }
+      ],
+      "refs": [
+        {
+          "id": "product_ref",
+          "tag": "@product_ref",
+          "label": "I have a product photo",
+          "filename": "product_ref",
+          "segments": [
+            {
+              "text": " Identity, label, and livery carry from @product_ref; the prompt stages the product, the reference carries what it is."
+            }
+          ]
         }
       ]
     },

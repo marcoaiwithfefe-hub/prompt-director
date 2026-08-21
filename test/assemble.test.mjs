@@ -163,6 +163,34 @@ export async function run() {
     ) * SUBJECTS.length;
   suite.check('matrix ran every combination', combos === expected, `${combos} of ${expected}`);
 
+  // Reference checkboxes on the image side: off leaves the prompt clean, on
+  // appends the ref sentence at the prompt's end, per register.
+  const REF_SUBJECT = SUBJECTS[0];
+  for (const mode of IMAGE_MODES) {
+    for (const register of registersOf(mode)) {
+      const tag = register ? `${mode.id}/${register}` : mode.id;
+      const off = assemble(presets, mode.id, null, REF_SUBJECT, { register });
+      suite.check(`${tag} carries no ref tag when off`, !off.includes('_ref'));
+      for (const ref of mode.refs || []) {
+        const on = assemble(presets, mode.id, null, REF_SUBJECT, { register, refs: [ref.id] });
+        for (const piece of ref.segments) {
+          suite.check(`${tag} ends on ${ref.id} sentence`, on.endsWith(piece.text));
+        }
+        suite.check(`${tag} ${ref.id} only appends`, on.startsWith(off));
+        const seams = seamFailures(on);
+        suite.check(`${tag} ${ref.id} has clean seams`, seams.length === 0, seams.join(', '));
+      }
+    }
+  }
+  suite.check(
+    'ref-capable image modes exist',
+    IMAGE_MODES.filter((mode) => (mode.refs || []).length).length === 7
+  );
+  suite.check(
+    'face-lock builds the reference, takes none',
+    !IMAGE_MODES.find((mode) => mode.id === 'face-lock').refs
+  );
+
   // Sentence case, derived from each mode's own template rather than a hardcoded
   // list: a mode that opens on the subject capitalizes it, a mode that drops it
   // mid-sentence leaves it alone. Rewriting a template moves this test with it.

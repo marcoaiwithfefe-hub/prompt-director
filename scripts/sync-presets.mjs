@@ -85,7 +85,7 @@ function renderRefs(lines, mode) {
   for (const ref of mode.refs) {
     lines.push(`- ${ref.id} tag ${ref.tag} file ${ref.filename} ${quote(ref.label)}`);
     for (const piece of ref.segments) {
-      lines.push(`  - at end of ${piece.block} ${quote(piece.text)}`);
+      lines.push(`  - at end of ${piece.block ?? 'prompt'} ${quote(piece.text)}`);
     }
   }
 }
